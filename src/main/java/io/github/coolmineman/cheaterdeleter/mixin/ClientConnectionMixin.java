@@ -1,13 +1,12 @@
 package io.github.coolmineman.cheaterdeleter.mixin;
 
-import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
-import io.github.coolmineman.cheaterdeleter.events.PacketEvent;
+import io.github.coolmineman.cheaterdeleter.events.PacketCallback;
 import io.netty.channel.ChannelHandlerContext;
 import net.minecraft.network.ClientConnection;
 import net.minecraft.network.Packet;
@@ -23,7 +22,7 @@ public class ClientConnectionMixin {
     @Inject(method = "channelRead0", at = @At("HEAD"), cancellable = true)
     protected void channelRead0(ChannelHandlerContext channelHandlerContext, Packet packet, CallbackInfo cb) {
         if (packetListener instanceof ServerPlayNetworkHandler) {
-            ActionResult result = PacketEvent.EVENT.invoker().onPacket(((ServerPlayNetworkHandler)packetListener).player, packet);
+            ActionResult result = PacketCallback.EVENT.invoker().onPacket(((ServerPlayNetworkHandler)packetListener).player, packet);
             if (result == ActionResult.FAIL) {
                 cb.cancel();
             }

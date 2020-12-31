@@ -6,10 +6,10 @@ import net.minecraft.network.packet.c2s.play.PlayerMoveC2SPacket;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.util.ActionResult;
 
-public interface MovementPacketEvent {
-    Event<MovementPacketEvent> EVENT = EventFactory.createArrayBacked(MovementPacketEvent.class,
+public interface MovementPacketCallback {
+    Event<MovementPacketCallback> EVENT = EventFactory.createArrayBacked(MovementPacketCallback.class,
         listeners -> (player, packet) -> {
-            for (MovementPacketEvent listener : listeners) {
+            for (MovementPacketCallback listener : listeners) {
                 ActionResult result = listener.onMovementPacket(player, packet);
 
                 if(result != ActionResult.PASS) {
@@ -21,8 +21,8 @@ public interface MovementPacketEvent {
     });
 
     public static void init() {
-        PacketEvent.EVENT.register((player, packet) -> {
-            return packet instanceof PlayerMoveC2SPacket ? MovementPacketEvent.EVENT.invoker().onMovementPacket(player, (PlayerMoveC2SPacket)packet) : ActionResult.PASS;
+        PacketCallback.EVENT.register((player, packet) -> {
+            return packet instanceof PlayerMoveC2SPacket ? MovementPacketCallback.EVENT.invoker().onMovementPacket(player, (PlayerMoveC2SPacket)packet) : ActionResult.PASS;
         });
     }
 

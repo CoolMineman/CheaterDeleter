@@ -7,10 +7,10 @@ import net.minecraft.network.listener.ServerPlayPacketListener;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.util.ActionResult;
 
-public interface PacketEvent {
-    Event<PacketEvent> EVENT = EventFactory.createArrayBacked(PacketEvent.class,
+public interface PacketCallback {
+    Event<PacketCallback> EVENT = EventFactory.createArrayBacked(PacketCallback.class,
         listeners -> (player, packet) -> {
-            for (PacketEvent listener : listeners) {
+            for (PacketCallback listener : listeners) {
                 ActionResult result = listener.onPacket(player, packet);
 
                 if(result != ActionResult.PASS) {
