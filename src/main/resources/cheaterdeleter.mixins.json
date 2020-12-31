@@ -1,9 +1,10 @@
 {
   "required": true,
   "minVersion": "0.8",
-  "package": "net.fabricmc.example.mixin",
+  "package": "io.github.coolmineman.cheaterdeleter.mixin",
   "compatibilityLevel": "JAVA_8",
   "mixins": [
+    "ClientConnectionMixin"
   ],
   "client": [
     "ExampleMixin"
