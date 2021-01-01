@@ -1,4 +1,12 @@
-# Fabric Example Mod
+# CheaterDeleter
+
+## Currently Detected Hacks
+
+* Timer/Extra Movement Packets
+* Glide
+* Fly While Not on an Entity
+* VClip
+* Step (Even "legit" in some clients)
 
 ## Setup
 

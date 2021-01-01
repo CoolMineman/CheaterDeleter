@@ -2,7 +2,7 @@ package io.github.coolmineman.cheaterdeleter.checks;
 
 import java.util.concurrent.atomic.AtomicInteger;
 
-import io.github.coolmineman.cheaterdeleter.PlayerDataManager;
+import io.github.coolmineman.cheaterdeleter.util.PlayerDataManager;
 import io.github.coolmineman.cheaterdeleter.duck.PlayerMoveC2SPacketView;
 import io.github.coolmineman.cheaterdeleter.events.MovementPacketCallback;
 import io.github.coolmineman.cheaterdeleter.events.PlayerEndTickCallback;

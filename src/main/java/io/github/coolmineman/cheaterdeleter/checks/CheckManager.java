@@ -11,6 +11,7 @@ public class CheckManager {
         registerCheck(new TimerCheck());
         registerCheck(new VerticalCheck());
         registerCheck(new GlideCheck());
+        registerCheck(new OnGroundVerticalCheck());
     }
 
     public static void registerCheck(Check check) {

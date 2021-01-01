@@ -22,9 +22,9 @@ public interface MovementPacketCallback {
     });
 
     public static void init() {
-        PacketCallback.EVENT.register((player, packet) -> {
-            return packet instanceof PlayerMoveC2SPacket ? MovementPacketCallback.EVENT.invoker().onMovementPacket(player, (PlayerMoveC2SPacketView)packet) : ActionResult.PASS;
-        });
+        PacketCallback.EVENT.register((player, packet) -> 
+            packet instanceof PlayerMoveC2SPacket ? MovementPacketCallback.EVENT.invoker().onMovementPacket(player, (PlayerMoveC2SPacketView)packet) : ActionResult.PASS
+        );
     }
 
     ActionResult onMovementPacket(ServerPlayerEntity player, PlayerMoveC2SPacketView packet);

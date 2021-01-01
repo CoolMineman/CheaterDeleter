@@ -1,4 +1,4 @@
-package io.github.coolmineman.cheaterdeleter;
+package io.github.coolmineman.cheaterdeleter.util;
 
 import java.util.function.Supplier;
 
