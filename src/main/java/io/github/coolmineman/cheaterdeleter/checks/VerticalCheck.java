@@ -1,7 +1,7 @@
 package io.github.coolmineman.cheaterdeleter.checks;
 
 import io.github.coolmineman.cheaterdeleter.PlayerDataManager;
-import io.github.coolmineman.cheaterdeleter.duck.IPlayerMoveC2SPacket;
+import io.github.coolmineman.cheaterdeleter.duck.PlayerMoveC2SPacketView;
 import io.github.coolmineman.cheaterdeleter.events.MovementPacketCallback;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.util.ActionResult;
@@ -12,7 +12,7 @@ public class VerticalCheck extends Check implements MovementPacketCallback {
     }
 
     @Override
-    public ActionResult onMovementPacket(ServerPlayerEntity player, IPlayerMoveC2SPacket packet) {
+    public ActionResult onMovementPacket(ServerPlayerEntity player, PlayerMoveC2SPacketView packet) {
         VerticalCheckData verticalCheckData = PlayerDataManager.getOrCreate(player, VerticalCheckData.class, VerticalCheckData::new);
         if (player.isCreative() || player.isSwimming() || player.isTouchingWater() || player.isClimbing()) { //TODO Fix exiting lava edge case need isTouchingLiquid
             verticalCheckData.isActive = false;

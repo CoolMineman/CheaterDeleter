@@ -1,6 +1,6 @@
 package io.github.coolmineman.cheaterdeleter.events;
 
-import io.github.coolmineman.cheaterdeleter.duck.IPlayerMoveC2SPacket;
+import io.github.coolmineman.cheaterdeleter.duck.PlayerMoveC2SPacketView;
 import net.fabricmc.fabric.api.event.Event;
 import net.fabricmc.fabric.api.event.EventFactory;
 import net.minecraft.network.packet.c2s.play.PlayerMoveC2SPacket;
@@ -23,9 +23,9 @@ public interface MovementPacketCallback {
 
     public static void init() {
         PacketCallback.EVENT.register((player, packet) -> {
-            return packet instanceof PlayerMoveC2SPacket ? MovementPacketCallback.EVENT.invoker().onMovementPacket(player, (IPlayerMoveC2SPacket)packet) : ActionResult.PASS;
+            return packet instanceof PlayerMoveC2SPacket ? MovementPacketCallback.EVENT.invoker().onMovementPacket(player, (PlayerMoveC2SPacketView)packet) : ActionResult.PASS;
         });
     }
 
-    ActionResult onMovementPacket(ServerPlayerEntity player, IPlayerMoveC2SPacket packet);
+    ActionResult onMovementPacket(ServerPlayerEntity player, PlayerMoveC2SPacketView packet);
 }

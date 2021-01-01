@@ -3,7 +3,7 @@ package io.github.coolmineman.cheaterdeleter.checks;
 import java.util.concurrent.atomic.AtomicInteger;
 
 import io.github.coolmineman.cheaterdeleter.PlayerDataManager;
-import io.github.coolmineman.cheaterdeleter.duck.IPlayerMoveC2SPacket;
+import io.github.coolmineman.cheaterdeleter.duck.PlayerMoveC2SPacketView;
 import io.github.coolmineman.cheaterdeleter.events.MovementPacketCallback;
 import io.github.coolmineman.cheaterdeleter.events.PlayerEndTickCallback;
 import net.minecraft.server.network.ServerPlayerEntity;
@@ -25,7 +25,7 @@ public class TimerCheck extends Check implements MovementPacketCallback, PlayerE
     }
 
     @Override
-    public ActionResult onMovementPacket(ServerPlayerEntity player, IPlayerMoveC2SPacket packet) {
+    public ActionResult onMovementPacket(ServerPlayerEntity player, PlayerMoveC2SPacketView packet) {
         PlayerTimerInfo info = PlayerDataManager.getOrCreate(player, PlayerTimerInfo.class, PlayerTimerInfo::new);
         info.movementPackets.addAndGet(1);
         return ActionResult.PASS;

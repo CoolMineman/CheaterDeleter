@@ -3,11 +3,11 @@ package io.github.coolmineman.cheaterdeleter.mixin;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 
-import io.github.coolmineman.cheaterdeleter.duck.IPlayerMoveC2SPacket;
+import io.github.coolmineman.cheaterdeleter.duck.PlayerMoveC2SPacketView;
 import net.minecraft.network.packet.c2s.play.PlayerMoveC2SPacket;
 
 @Mixin(PlayerMoveC2SPacket.class)
-public class PlayerMoveC2SPacketMixin implements IPlayerMoveC2SPacket {
+public class PlayerMoveC2SPacketMixin implements PlayerMoveC2SPacketView {
     @Shadow
     protected double x;
     @Shadow

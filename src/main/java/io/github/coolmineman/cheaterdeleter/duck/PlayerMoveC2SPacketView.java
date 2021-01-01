@@ -1,6 +1,6 @@
 package io.github.coolmineman.cheaterdeleter.duck;
 
-public interface IPlayerMoveC2SPacket {
+public interface PlayerMoveC2SPacketView {
     double getX();
     double getY();
     double getZ();
