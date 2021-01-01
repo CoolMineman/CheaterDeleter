@@ -26,11 +26,7 @@ public class TimerCheck extends Check implements MovementPacketCallback, PlayerE
 
     @Override
     public ActionResult onMovementPacket(ServerPlayerEntity player, PlayerMoveC2SPacket packet) {
-        PlayerTimerInfo info = PlayerDataManager.get(player, PlayerTimerInfo.class);
-        if (info == null) {
-            info = new PlayerTimerInfo();
-            PlayerDataManager.put(player, PlayerTimerInfo.class, info);
-        }
+        PlayerTimerInfo info = PlayerDataManager.getOrCreate(player, PlayerTimerInfo.class, PlayerTimerInfo::new);
         info.movementPackets.addAndGet(1);
         return ActionResult.PASS;
     }

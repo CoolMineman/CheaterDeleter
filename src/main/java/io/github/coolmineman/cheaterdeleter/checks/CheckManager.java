@@ -9,6 +9,7 @@ public class CheckManager {
 
     public static void init() {
         registerCheck(new TimerCheck());
+        registerCheck(new VerticalCheck());
     }
 
     public static void registerCheck(Check check) {

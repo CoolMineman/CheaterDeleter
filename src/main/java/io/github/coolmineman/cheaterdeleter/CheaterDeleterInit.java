@@ -12,9 +12,9 @@ public class CheaterDeleterInit implements ModInitializer {
 
 	@Override
 	public void onInitialize() {
-		LOGGER.info("Initializing Events:");
+		LOGGER.info("Initializing Events");
 		EventManager.init();
-		LOGGER.info("Initializing Checks:");
+		LOGGER.info("Initializing Checks...");
 		long checkInitStart = System.currentTimeMillis();
 		CheckManager.init();
 		LOGGER.info("Loaded {} checks in {}ms", CheckManager.getCheckCount(), System.currentTimeMillis() - checkInitStart);
