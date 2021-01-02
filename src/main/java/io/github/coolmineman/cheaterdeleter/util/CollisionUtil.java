@@ -36,16 +36,12 @@ public class CollisionUtil {
         return steppable.booleanValue();
     };
 
-    public static boolean isNearby(ServerPlayerEntity player, Predicate<BlockState> predicate) {
-        return isTouching(player.getBoundingBox().expand(2.0, 4.0, 2.0), player.world, predicate);
+    public static boolean isNearby(ServerPlayerEntity player, double expandHorizontal, double expandVertical, BiPredicate<World, BlockPos> predicate) {
+        return isTouching(player.getBoundingBox().expand(expandHorizontal, expandVertical, expandHorizontal), player.world, predicate);
     }
 
-    public static boolean isNearby(ServerPlayerEntity player, BiPredicate<World, BlockPos> predicate) {
-        return isTouching(player.getBoundingBox().expand(2.0, 4.0, 2.0), player.world, predicate);
-    }
-
-    public static boolean isTouching(ServerPlayerEntity player, double posx, double posy, double posz, BiPredicate<World, BlockPos> predicate) {
-        return isTouching(player.getDimensions(EntityPose.STANDING).method_30231(posx, posy, posz).expand(0.4), player.world, predicate); // method_30231 -> withPos
+    public static boolean isNearby(ServerPlayerEntity player, double posx, double posy, double posz, double expandHorizontal, double expandVertical, BiPredicate<World, BlockPos> predicate) {
+        return isTouching(player.getDimensions(EntityPose.STANDING).method_30231(posx, posy, posz).expand(expandHorizontal, expandVertical, expandHorizontal), player.world, predicate); // method_30231 -> withPos
     }
 
     public static boolean isTouching(Box box, World world, Predicate<BlockState> predicate) {

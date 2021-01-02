@@ -15,13 +15,12 @@ public class OnGroundVerticalCheck extends Check implements MovementPacketCallba
 
     @Override
     public ActionResult onMovementPacket(ServerPlayerEntity player, PlayerMoveC2SPacketView packet) {
-        // System.out.println(System.currentTimeMillis() - TrackerManager.get(PlayerHitGroundData.class, player).lastHitGround.get());
         if (packet.isChangePosition() &&
             packet.isOnGround() &&
             player.isOnGround() &&
             System.currentTimeMillis() - TrackerManager.get(PlayerHitGroundData.class, player).lastInAir.get() > 500 &&
-            !CollisionUtil.isNearby(player, CollisionUtil.NON_SOLID_COLLISION) &&
-            !CollisionUtil.isTouching(player, packet.getX(), packet.getY(), packet.getZ(), CollisionUtil.STEPABLE)
+            !CollisionUtil.isNearby(player, 2.0, 4.0, CollisionUtil.NON_SOLID_COLLISION) &&
+            !CollisionUtil.isNearby(player, packet.getX(), packet.getY(), packet.getZ(), 0.2, 0.5, CollisionUtil.STEPABLE)
         ) {
             double ydelta = packet.getY() - player.getY();
             if (ydelta > 0.3)
