@@ -1,10 +1,10 @@
 package io.github.coolmineman.cheaterdeleter.events;
 
+import io.github.coolmineman.cheaterdeleter.objects.CDPlayer;
 import net.fabricmc.fabric.api.event.Event;
 import net.fabricmc.fabric.api.event.EventFactory;
 import net.minecraft.network.Packet;
 import net.minecraft.network.listener.ServerPlayPacketListener;
-import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.util.ActionResult;
 
 public interface PacketCallback {
@@ -21,5 +21,5 @@ public interface PacketCallback {
         return ActionResult.PASS;
     });
 
-    ActionResult onPacket(ServerPlayerEntity player, Packet<ServerPlayPacketListener> packet);
+    ActionResult onPacket(CDPlayer player, Packet<ServerPlayPacketListener> packet);
 }

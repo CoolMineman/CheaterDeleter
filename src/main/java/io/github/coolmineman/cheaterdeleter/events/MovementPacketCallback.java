@@ -1,10 +1,10 @@
 package io.github.coolmineman.cheaterdeleter.events;
 
 import io.github.coolmineman.cheaterdeleter.duck.PlayerMoveC2SPacketView;
+import io.github.coolmineman.cheaterdeleter.objects.CDPlayer;
 import net.fabricmc.fabric.api.event.Event;
 import net.fabricmc.fabric.api.event.EventFactory;
 import net.minecraft.network.packet.c2s.play.PlayerMoveC2SPacket;
-import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.util.ActionResult;
 
 public interface MovementPacketCallback {
@@ -27,5 +27,5 @@ public interface MovementPacketCallback {
         );
     }
 
-    ActionResult onMovementPacket(ServerPlayerEntity player, PlayerMoveC2SPacketView packet);
+    ActionResult onMovementPacket(CDPlayer player, PlayerMoveC2SPacketView packet);
 }

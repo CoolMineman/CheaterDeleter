@@ -2,11 +2,10 @@ package io.github.coolmineman.cheaterdeleter.checks;
 
 import java.util.concurrent.atomic.AtomicInteger;
 
-import io.github.coolmineman.cheaterdeleter.util.PlayerDataManager;
 import io.github.coolmineman.cheaterdeleter.duck.PlayerMoveC2SPacketView;
 import io.github.coolmineman.cheaterdeleter.events.MovementPacketCallback;
 import io.github.coolmineman.cheaterdeleter.events.PlayerEndTickCallback;
-import net.minecraft.server.network.ServerPlayerEntity;
+import io.github.coolmineman.cheaterdeleter.objects.CDPlayer;
 import net.minecraft.util.ActionResult;
 
 public class TimerCheck extends Check implements MovementPacketCallback, PlayerEndTickCallback {
@@ -25,15 +24,15 @@ public class TimerCheck extends Check implements MovementPacketCallback, PlayerE
     }
 
     @Override
-    public ActionResult onMovementPacket(ServerPlayerEntity player, PlayerMoveC2SPacketView packet) {
-        PlayerTimerInfo info = PlayerDataManager.getOrCreate(player, PlayerTimerInfo.class, PlayerTimerInfo::new);
+    public ActionResult onMovementPacket(CDPlayer player, PlayerMoveC2SPacketView packet) {
+        PlayerTimerInfo info = player.getOrCreateData(PlayerTimerInfo.class, PlayerTimerInfo::new);
         info.movementPackets.addAndGet(1);
         return ActionResult.PASS;
     }
 
     @Override
-    public void onPlayerEndTick(ServerPlayerEntity player) {
-        PlayerTimerInfo info = PlayerDataManager.get(player, PlayerTimerInfo.class);
+    public void onPlayerEndTick(CDPlayer player) {
+        PlayerTimerInfo info = player.getData(PlayerTimerInfo.class);
         if (info != null) {
             long timediff = System.currentTimeMillis() - info.time;
             if (timediff > 1000 * CHECK_PERIOD) {

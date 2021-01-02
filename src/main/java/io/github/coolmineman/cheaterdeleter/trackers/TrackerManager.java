@@ -2,8 +2,8 @@ package io.github.coolmineman.cheaterdeleter.trackers;
 
 import java.util.HashMap;
 
+import io.github.coolmineman.cheaterdeleter.objects.CDPlayer;
 import io.github.coolmineman.cheaterdeleter.trackers.data.Data;
-import net.minecraft.server.network.ServerPlayerEntity;
 
 public class TrackerManager {
     private TrackerManager() { }
@@ -12,13 +12,14 @@ public class TrackerManager {
 
     public static void init() {
         registerTracker(new PlayerHitGroundTracker());
+        registerTracker(new PlayerLastPositionTracker());
     }
 
     public static void registerTracker(Tracker<?> tracker) {
         TRACKERS.put(tracker.getClazz(), tracker);
     }
 
-    public static <T> T get(Class<T> clazz, ServerPlayerEntity player) {
+    public static <T> T get(Class<T> clazz, CDPlayer player) {
         return clazz.cast(TRACKERS.get(clazz).get(player));
     }
 

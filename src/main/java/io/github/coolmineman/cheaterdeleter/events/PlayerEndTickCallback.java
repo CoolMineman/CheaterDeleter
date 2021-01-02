@@ -1,5 +1,6 @@
 package io.github.coolmineman.cheaterdeleter.events;
 
+import io.github.coolmineman.cheaterdeleter.objects.CDPlayer;
 import net.fabricmc.fabric.api.event.Event;
 import net.fabricmc.fabric.api.event.EventFactory;
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerTickEvents;
@@ -16,10 +17,10 @@ public interface PlayerEndTickCallback {
     public static void init() {
         ServerTickEvents.END_SERVER_TICK.register(server -> {
             for (ServerPlayerEntity player : server.getPlayerManager().getPlayerList()) {
-                PlayerEndTickCallback.EVENT.invoker().onPlayerEndTick(player);
+                PlayerEndTickCallback.EVENT.invoker().onPlayerEndTick(CDPlayer.of(player));
             }
         });
     }
 
-    void onPlayerEndTick(ServerPlayerEntity player);
+    void onPlayerEndTick(CDPlayer player);
 }

@@ -6,7 +6,13 @@
 * Glide
 * Fly While Not on an Entity
 * VClip
+* HClip
+* Phase
 * Step (Even "legit" in some clients)
+
+## Supported Mods
+
+* [https://github.com/emilyalexandra/step-height-entity-attribute](https://github.com/emilyalexandra/step-height-entity-attribute)
 
 ## Setup
 

@@ -9,23 +9,23 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
-import io.github.coolmineman.cheaterdeleter.duck.DataStorage;
 import io.github.coolmineman.cheaterdeleter.events.PlayerDamageListener;
+import io.github.coolmineman.cheaterdeleter.objects.CDPlayer;
 import net.minecraft.entity.damage.DamageSource;
 import net.minecraft.server.network.ServerPlayerEntity;
 
 @Mixin(ServerPlayerEntity.class)
-public class ServerPlayerEntityMixin implements DataStorage {
+public class ServerPlayerEntityMixin implements CDPlayer.Provider {
     @Unique
-    HashMap<Class<?>, Object> storedData = new HashMap<>();
+    CDPlayer cdPlayer = createNewCDPlayer((ServerPlayerEntity)(Object)this);
 
     @Override
-    public Map<Class<?>, Object> getStoredData() {
-        return storedData;
+    public CDPlayer getCDPlayer() {
+        return cdPlayer;
     }
 
     @Inject(method = "damage", at = @At("HEAD"))
     void onDamage(DamageSource source, float amount, CallbackInfoReturnable<Boolean> cb) {
-        PlayerDamageListener.EVENT.invoker().onPlayerDamage((ServerPlayerEntity)(Object)this, source, amount);
+        PlayerDamageListener.EVENT.invoker().onPlayerDamage(cdPlayer, source, amount);
     }
 }

@@ -1,11 +1,10 @@
 package io.github.coolmineman.cheaterdeleter.checks;
 
-import io.github.coolmineman.cheaterdeleter.util.PlayerDataManager;
 import io.github.coolmineman.cheaterdeleter.duck.PlayerMoveC2SPacketView;
 import io.github.coolmineman.cheaterdeleter.events.MovementPacketCallback;
 import io.github.coolmineman.cheaterdeleter.events.PlayerDamageListener;
+import io.github.coolmineman.cheaterdeleter.objects.CDPlayer;
 import net.minecraft.entity.damage.DamageSource;
-import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.util.ActionResult;
 
 public class VerticalCheck extends Check implements MovementPacketCallback, PlayerDamageListener {
@@ -16,9 +15,9 @@ public class VerticalCheck extends Check implements MovementPacketCallback, Play
     }
 
     @Override
-    public ActionResult onMovementPacket(ServerPlayerEntity player, PlayerMoveC2SPacketView packet) {
-        VerticalCheckData verticalCheckData = PlayerDataManager.getOrCreate(player, VerticalCheckData.class, VerticalCheckData::new);
-        if (player.isCreative() || player.isSwimming() || player.isTouchingWater() || player.isClimbing()) { //TODO Fix exiting lava edge case need isTouchingLiquid and disable when using an elytra and replace w/ elytra specific one
+    public ActionResult onMovementPacket(CDPlayer player, PlayerMoveC2SPacketView packet) {
+        VerticalCheckData verticalCheckData = player.getOrCreateData(VerticalCheckData.class, VerticalCheckData::new);
+        if (player.mcPlayer.isCreative() || player.mcPlayer.isSwimming() || player.mcPlayer.isTouchingWater() || player.mcPlayer.isClimbing()) { //TODO Fix exiting lava edge case need isTouchingLiquid and disable when using an elytra and replace w/ elytra specific one
             verticalCheckData.isActive = false;
             return ActionResult.PASS;
         }
@@ -48,8 +47,8 @@ public class VerticalCheck extends Check implements MovementPacketCallback, Play
     }
 
 	@Override
-	public void onPlayerDamage(ServerPlayerEntity player, DamageSource source, float amount) {
-		VerticalCheckData verticalCheckData = PlayerDataManager.get(player, VerticalCheckData.class);
+	public void onPlayerDamage(CDPlayer player, DamageSource source, float amount) {
+		VerticalCheckData verticalCheckData = player.getData(VerticalCheckData.class);
 		if (verticalCheckData != null) {
             verticalCheckData.maxY += 0.5;
         }

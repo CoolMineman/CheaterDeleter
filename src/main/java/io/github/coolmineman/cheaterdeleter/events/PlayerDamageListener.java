@@ -1,9 +1,9 @@
 package io.github.coolmineman.cheaterdeleter.events;
 
+import io.github.coolmineman.cheaterdeleter.objects.CDPlayer;
 import net.fabricmc.fabric.api.event.Event;
 import net.fabricmc.fabric.api.event.EventFactory;
 import net.minecraft.entity.damage.DamageSource;
-import net.minecraft.server.network.ServerPlayerEntity;
 
 public interface PlayerDamageListener {
     Event<PlayerDamageListener> EVENT = EventFactory.createArrayBacked(PlayerDamageListener.class,
@@ -13,5 +13,5 @@ public interface PlayerDamageListener {
             }
     });
 
-    void onPlayerDamage(ServerPlayerEntity player, DamageSource source, float amount);
+    void onPlayerDamage(CDPlayer player, DamageSource source, float amount);
 }
