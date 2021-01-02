@@ -27,14 +27,16 @@ public class CollisionUtil {
         return false;
     };
 
-    public static final BiPredicate<World, BlockPos> STEPABLE = (world, pos) -> {
-        VoxelShape shape = world.getBlockState(pos).getCollisionShape(world, pos);
-        MutableBoolean steppable = new MutableBoolean(false);
-        shape.forEachBox((minX, minY, minZ, maxX, maxY, maxZ) -> {
-            if (maxY < 0.51) steppable.setTrue();
-        });
-        return steppable.booleanValue();
-    };
+    public static BiPredicate<World, BlockPos> steppablePredicate(float stepheight) {
+        return (world, pos) -> {
+            VoxelShape shape = world.getBlockState(pos).getCollisionShape(world, pos);
+            MutableBoolean steppable = new MutableBoolean(false);
+            shape.forEachBox((minX, minY, minZ, maxX, maxY, maxZ) -> {
+                if (maxY <= stepheight) steppable.setTrue();
+            });
+            return steppable.booleanValue();
+        };
+    }
 
     public static boolean isNearby(ServerPlayerEntity player, double expandHorizontal, double expandVertical, BiPredicate<World, BlockPos> predicate) {
         return isTouching(player.getBoundingBox().expand(expandHorizontal, expandVertical, expandHorizontal), player.world, predicate);

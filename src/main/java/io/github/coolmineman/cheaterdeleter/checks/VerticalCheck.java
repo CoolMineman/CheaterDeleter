@@ -4,8 +4,6 @@ import io.github.coolmineman.cheaterdeleter.util.PlayerDataManager;
 import io.github.coolmineman.cheaterdeleter.duck.PlayerMoveC2SPacketView;
 import io.github.coolmineman.cheaterdeleter.events.MovementPacketCallback;
 import io.github.coolmineman.cheaterdeleter.events.PlayerDamageListener;
-import io.github.coolmineman.cheaterdeleter.trackers.TrackerManager;
-import io.github.coolmineman.cheaterdeleter.trackers.data.PlayerHitGroundData;
 import net.minecraft.entity.damage.DamageSource;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.util.ActionResult;
