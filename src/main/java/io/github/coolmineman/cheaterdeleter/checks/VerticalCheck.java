@@ -4,6 +4,7 @@ import io.github.coolmineman.cheaterdeleter.duck.PlayerMoveC2SPacketView;
 import io.github.coolmineman.cheaterdeleter.events.MovementPacketCallback;
 import io.github.coolmineman.cheaterdeleter.events.PlayerDamageListener;
 import io.github.coolmineman.cheaterdeleter.objects.CDPlayer;
+import io.github.coolmineman.cheaterdeleter.util.CollisionUtil;
 import net.minecraft.entity.damage.DamageSource;
 import net.minecraft.util.ActionResult;
 
@@ -14,15 +15,17 @@ public class VerticalCheck extends Check implements MovementPacketCallback, Play
         PlayerDamageListener.EVENT.register(this);
     }
 
+    //TODO: Account for jump boost etc
+    //TODO: Smarter Bounce Handling
     @Override
     public ActionResult onMovementPacket(CDPlayer player, PlayerMoveC2SPacketView packet) {
         VerticalCheckData verticalCheckData = player.getOrCreateData(VerticalCheckData.class, VerticalCheckData::new);
-        if (player.mcPlayer.isCreative() || player.mcPlayer.isSwimming() || player.mcPlayer.isTouchingWater() || player.mcPlayer.isClimbing()) { //TODO Fix exiting lava edge case need isTouchingLiquid and disable when using an elytra and replace w/ elytra specific one
+        if (player.mcPlayer.isCreative() || player.mcPlayer.isSwimming() || player.mcPlayer.isClimbing() || player.isFallFlying() || CollisionUtil.isNearby(player, 2.0, 4.0, CollisionUtil.NON_SOLID_COLLISION)) {
             verticalCheckData.isActive = false;
             return ActionResult.PASS;
         }
         if (player.isOnGround() && !packet.isOnGround() && player.getVelocity().getY() < 0.45) {
-            verticalCheckData.maxY = player.getY() + 1.45; //TODO Slime/Bed Bouncing
+            verticalCheckData.maxY = player.getY() + 1.45;
             verticalCheckData.isActive = true;
         } else if (packet.isOnGround()) {
             if (verticalCheckData != null && verticalCheckData.isActive) {
@@ -30,7 +33,7 @@ public class VerticalCheck extends Check implements MovementPacketCallback, Play
             }
         } else { //Packet off ground
             if (verticalCheckData.isActive && packet.isChangePosition() && packet.getY() > verticalCheckData.maxY) {
-                flag(player, "Failed Vertical Movement Check " + (verticalCheckData.maxY - packet.getY()));
+                flag(player, FlagSeverity.MAJOR, "Failed Vertical Movement Check " + (verticalCheckData.maxY - packet.getY()));
             }
             if (!verticalCheckData.isActive && player.getVelocity().getY() < 0.45) {
                 verticalCheckData.maxY = player.getY() + 1.45;

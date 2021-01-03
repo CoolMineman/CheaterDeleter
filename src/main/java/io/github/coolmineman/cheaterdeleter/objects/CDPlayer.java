@@ -1,6 +1,8 @@
 package io.github.coolmineman.cheaterdeleter.objects;
 
 import java.util.HashMap;
+import java.util.Locale;
+import java.util.UUID;
 import java.util.function.Supplier;
 
 import org.jetbrains.annotations.Nullable;
@@ -68,8 +70,24 @@ public final class CDPlayer {
         }
     }
 
+    /**
+     * True if flying with an Elytra or similar
+     */
+    public boolean isFallFlying() {
+        return mcPlayer.isFallFlying();
+    }
+
     public ServerPlayNetworkHandler getNetworkHandler() {
         return mcPlayer.networkHandler;
+    }
+
+    public UUID getUuid() {
+        return mcPlayer.getUuid();
+    }
+
+    @Override
+    public String toString() {
+        return String.format(Locale.ROOT, "Player['%s'/%s, l='%s', x=%.2f, y=%.2f, z=%.2f]", this.mcPlayer.getName().asString(), this.getUuid().toString(), this.getWorld() == null ? "~NULL~" : this.getWorld().toString(), this.getX(), this.getY(), this.getZ());
     }
 
     public static CDPlayer of(ServerPlayerEntity mcPlayer) {

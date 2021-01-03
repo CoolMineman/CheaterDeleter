@@ -24,8 +24,8 @@ public class OnGroundVerticalCheck extends Check implements MovementPacketCallba
             ((stepHeight > 1f) || !CollisionUtil.isNearby(player, packet.getX(), packet.getY(), packet.getZ(), 0.2, 0.5, CollisionUtil.steppablePredicate(stepHeight)))
         ) {
             double ydelta = packet.getY() - player.getY();
-            if (ydelta > (stepHeight < 1f ? 0.3 : stepHeight)) flag(player, "Player Moved Vertically While onGround " + ydelta);
-            if (ydelta < -0.9) flag(player, "Player Moved Vertically While onGround " + ydelta);
+            if (ydelta > (stepHeight < 1f ? 0.3 : stepHeight)) flag(player, FlagSeverity.MAJOR, "Player Moved Vertically While onGround " + ydelta);
+            if (ydelta < -0.9) flag(player, FlagSeverity.MAJOR, "Player Moved Vertically While onGround " + ydelta);
         }
         return ActionResult.PASS;
     }

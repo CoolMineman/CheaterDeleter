@@ -20,7 +20,7 @@ public class GlideCheck extends Check implements MovementPacketCallback, PlayerD
     @Override
     public ActionResult onMovementPacket(CDPlayer player, PlayerMoveC2SPacketView packet) {
         GlideCheckData data = player.getOrCreateData(GlideCheckData.class, GlideCheckData::new);
-        if (!packet.isOnGround() && packet.isChangePosition()) {
+        if (!packet.isOnGround() && packet.isChangePosition() && !player.isFallFlying()) {
             if (data.isActive) {
                 //TODO Make violations double based not boolean
                 double velocity = player.getVelocity().getY();
@@ -33,7 +33,7 @@ public class GlideCheck extends Check implements MovementPacketCallback, PlayerD
                     }
                     int violations = data.violations.get();
                     if (violations >= 4) {
-                        flag(player, "Failed Glide Check");
+                        flag(player, Check.FlagSeverity.MINOR, "Failed Glide Check");
                         data.violations.set(0);
                     }
                     if (violations < 0) data.violations.getAndAdd(-1 * violations);

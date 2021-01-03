@@ -4,11 +4,12 @@
 
 * Timer/Extra Movement Packets
 * Glide
-* Fly While Not on an Entity
+* Fly While Not On An Entity
 * VClip
 * HClip
 * Phase
-* Step (Even "legit" in some clients)
+* Step (Even "legit" In Some Clients)
+* Packet Limiter Stops Some Lag Exploits
 
 ## Supported Mods
 

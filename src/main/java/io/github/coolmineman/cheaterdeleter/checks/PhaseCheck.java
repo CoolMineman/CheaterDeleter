@@ -94,11 +94,11 @@ public class PhaseCheck extends Check implements MovementPacketCallback {
     }
 
     private void assertOrFlag(boolean condition, CDPlayer player) {
-        if (!condition) flag(player, "Failed Phase Check1");
+        if (!condition) flag(player, FlagSeverity.MAJOR, "Failed Phase Check1");
     }
 
     private void assertOrFlag2(boolean condition, CDPlayer player) {
-        if (!condition) flag(player, "Failed Phase Check2");
+        if (!condition) flag(player, FlagSeverity.MAJOR, "Failed Phase Check2");
     }
     
 }

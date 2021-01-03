@@ -39,7 +39,8 @@ public class TimerCheck extends Check implements MovementPacketCallback, PlayerE
                 int movementPackets = info.movementPackets.getAndSet(0);
                 info.time = System.currentTimeMillis();
                 if (movementPackets > MAX_PACKETS) {
-                    flag(player, "Failed Timer Check");
+                    flag(player, FlagSeverity.MINOR, "Failed Timer Check");
+                    //TODO: Freeze Player
                 }
             }
         }

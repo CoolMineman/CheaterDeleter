@@ -1,11 +1,24 @@
 package io.github.coolmineman.cheaterdeleter.checks;
 
+import io.github.coolmineman.cheaterdeleter.CheaterDeleterInit;
+import io.github.coolmineman.cheaterdeleter.checks.config.GlobalConfig;
 import io.github.coolmineman.cheaterdeleter.objects.CDPlayer;
-import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.text.LiteralText;
 
 public class Check {
-    public void flag(CDPlayer player, String message) {
-        player.mcPlayer.sendMessage(new LiteralText("Flagged: " + message), true);
+    public void flag(CDPlayer player, Check.FlagSeverity severity, String message) {
+        if (GlobalConfig.debugMode) {
+            player.mcPlayer.sendMessage(new LiteralText("Flagged: " + message), true);
+        }
+        if (severity == FlagSeverity.MAJOR) {
+            CheaterDeleterInit.GLOBAL_LOGGER.warn("{} Was Flagged: {}", player, message);
+        } else {
+            CheaterDeleterInit.GLOBAL_LOGGER.info("{} Was Flagged: {}", player, message);
+        }
+    }
+
+    public enum FlagSeverity {
+        MINOR, //Fixable/Likely False Positive
+        MAJOR //Admins Should Investigate
     }
 }
