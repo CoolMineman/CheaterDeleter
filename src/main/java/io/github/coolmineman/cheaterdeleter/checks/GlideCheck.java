@@ -6,8 +6,6 @@ import io.github.coolmineman.cheaterdeleter.duck.PlayerMoveC2SPacketView;
 import io.github.coolmineman.cheaterdeleter.events.MovementPacketCallback;
 import io.github.coolmineman.cheaterdeleter.events.PlayerDamageListener;
 import io.github.coolmineman.cheaterdeleter.objects.CDPlayer;
-import io.github.coolmineman.cheaterdeleter.trackers.TrackerManager;
-import io.github.coolmineman.cheaterdeleter.trackers.data.PlayerLastPositionData;
 import net.minecraft.entity.damage.DamageSource;
 import net.minecraft.util.ActionResult;
 
@@ -22,10 +20,10 @@ public class GlideCheck extends Check implements MovementPacketCallback, PlayerD
         GlideCheckData data = player.getOrCreateData(GlideCheckData.class, GlideCheckData::new);
         if (!packet.isOnGround() && packet.isChangePosition() && !player.isFallFlying()) {
             if (data.isActive) {
-                //TODO Make violations double based not boolean
+                //Violations should probably be double based not boolean based but this works for now
                 double velocity = player.getVelocity().getY();
                 if (velocity < -1) {
-                    boolean failedCheck = TrackerManager.get(PlayerLastPositionData.class, player).lastY - packet.getY() < 0.9;
+                    boolean failedCheck = player.getY() - packet.getY() < 0.75;
                     if (failedCheck) {
                         data.violations.incrementAndGet();
                     } else {

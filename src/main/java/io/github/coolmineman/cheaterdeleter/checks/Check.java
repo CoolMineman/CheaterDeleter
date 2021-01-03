@@ -17,6 +17,10 @@ public class Check {
         }
     }
 
+    public void assertOrFlag(boolean condition, CDPlayer player, Check.FlagSeverity severity, String message) {
+        if (!condition) flag(player, severity, message);
+    }
+
     public enum FlagSeverity {
         MINOR, //Fixable/Likely False Positive
         MAJOR //Admins Should Investigate

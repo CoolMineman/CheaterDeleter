@@ -9,6 +9,7 @@ public class CheckManager {
 
     public static void init() {
         registerCheck(new PacketLimiterCheck());
+        registerCheck(new VerifyOnGroundCheck());
         registerCheck(new TimerCheck());
         registerCheck(new VerticalCheck());
         registerCheck(new GlideCheck());

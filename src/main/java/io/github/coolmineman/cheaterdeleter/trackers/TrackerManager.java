@@ -12,7 +12,6 @@ public class TrackerManager {
 
     public static void init() {
         registerTracker(new PlayerHitGroundTracker());
-        registerTracker(new PlayerLastPositionTracker());
         registerTracker(new PlayerLastTeleportTracker());
     }
 

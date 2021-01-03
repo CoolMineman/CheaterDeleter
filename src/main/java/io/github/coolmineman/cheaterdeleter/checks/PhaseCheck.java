@@ -26,7 +26,7 @@ public class PhaseCheck extends Check implements MovementPacketCallback {
         if (packet.isChangePosition()) {
             World world = player.getWorld();
             Box box = CollisionUtil.getBoxForPosition(player, packet.getX(), packet.getY(), packet.getZ()).expand(-0.1);
-            assertOrFlag(!CollisionUtil.isTouching(box, world, CollisionUtil.touchingNonSteppablePredicate(player.getStepHeight(), box, player.getY(), packet.getY())), player);
+            assertOrFlag(!CollisionUtil.isTouching(box, world, CollisionUtil.touchingNonSteppablePredicate(player.getStepHeight(), box, player.getY(), packet.getY())), player, FlagSeverity.MAJOR, "Failed Phase Check1");
             if (System.currentTimeMillis() - TrackerManager.get(PlayerLastTeleportData.class, player).lastTeleport < 1000) return ActionResult.PASS; 
             double currentX = player.getX();
             double currentY = player.getY();
@@ -42,7 +42,7 @@ public class PhaseCheck extends Check implements MovementPacketCallback {
             boolean hitTargetZ = false;
             while (!(hitTargetX && hitTargetY && hitTargetZ)) {
                 box = CollisionUtil.getBoxForPosition(player, currentX, currentY, currentZ).expand(-0.1);
-                assertOrFlag2(!CollisionUtil.isTouching(box, world, CollisionUtil.touchingNonSteppablePredicate(player.getStepHeight(), box, player.getY(), packet.getY())), player);
+                assertOrFlag(!CollisionUtil.isTouching(box, world, CollisionUtil.touchingNonSteppablePredicate(player.getStepHeight(), box, player.getY(), packet.getY())), player, FlagSeverity.MAJOR, "Failed Phase Check2");
                 if (!hitTargetX) {
                     if (targetXPositive) {
                         if (currentX + INTERP < targetX) {
@@ -92,13 +92,4 @@ public class PhaseCheck extends Check implements MovementPacketCallback {
         }
         return ActionResult.PASS;
     }
-
-    private void assertOrFlag(boolean condition, CDPlayer player) {
-        if (!condition) flag(player, FlagSeverity.MAJOR, "Failed Phase Check1");
-    }
-
-    private void assertOrFlag2(boolean condition, CDPlayer player) {
-        if (!condition) flag(player, FlagSeverity.MAJOR, "Failed Phase Check2");
-    }
-    
 }

@@ -60,11 +60,27 @@ public class CollisionUtil {
         };
     }
 
+    public static BiPredicate<World, BlockPos> touchingTopPredicate(Box box) {
+        return (world, pos) -> {
+            VoxelShape shape = world.getBlockState(pos).getCollisionShape(world, pos).offset(pos.getX(), pos.getY(), pos.getZ());
+            return intersectsTop(shape, box);
+        };
+    }
+
     public static BiPredicate<World, BlockPos> touchingPredicate(Box box) {
         return (world, pos) -> {
             VoxelShape shape = world.getBlockState(pos).getCollisionShape(world, pos).offset(pos.getX(), pos.getY(), pos.getZ());
             return intersects(shape, box);
         };
+    }
+
+    public static boolean intersectsTop(VoxelShape shape, Box box) {
+        if (shape.isEmpty()) return false;
+        MutableBoolean result = new MutableBoolean(false);
+        shape.forEachBox((minX, minY, minZ, maxX, maxY, maxZ) -> {
+            if (maxY <= box.minY && box.maxY >= maxY) result.setTrue();
+        });
+        return result.booleanValue();
     }
 
     public static boolean intersects(VoxelShape shape, Box box) {

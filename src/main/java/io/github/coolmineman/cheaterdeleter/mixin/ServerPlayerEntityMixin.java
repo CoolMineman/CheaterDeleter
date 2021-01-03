@@ -1,8 +1,5 @@
 package io.github.coolmineman.cheaterdeleter.mixin;
 
-import java.util.HashMap;
-import java.util.Map;
-
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
