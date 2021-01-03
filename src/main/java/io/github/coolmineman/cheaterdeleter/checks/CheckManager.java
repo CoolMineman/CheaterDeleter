@@ -8,6 +8,7 @@ public class CheckManager {
     private static final ArrayList<Check> CHECKS = new ArrayList<>();
 
     public static void init() {
+        registerCheck(new PacketLimiterCheck());
         registerCheck(new TimerCheck());
         registerCheck(new VerticalCheck());
         registerCheck(new GlideCheck());

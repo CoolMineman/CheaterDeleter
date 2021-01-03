@@ -6,5 +6,6 @@ public class EventManager {
     public static void init() {
         MovementPacketCallback.init();
         PlayerEndTickCallback.init();
+        OutgoingTeleportListener.init();
     }
 }

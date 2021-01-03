@@ -3,12 +3,14 @@ package io.github.coolmineman.cheaterdeleter.checks;
 import io.github.coolmineman.cheaterdeleter.duck.PlayerMoveC2SPacketView;
 import io.github.coolmineman.cheaterdeleter.events.MovementPacketCallback;
 import io.github.coolmineman.cheaterdeleter.objects.CDPlayer;
+import io.github.coolmineman.cheaterdeleter.trackers.TrackerManager;
+import io.github.coolmineman.cheaterdeleter.trackers.data.PlayerLastTeleportData;
 import io.github.coolmineman.cheaterdeleter.util.CollisionUtil;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.math.Box;
 import net.minecraft.world.World;
 
-//TODO Teleports
+//TODO Teleports Request Confirms
 //TODO Moving Blocks (Give Phase Bypass for that block)
 //TODO setBlock event (related to above)
 
@@ -25,6 +27,7 @@ public class PhaseCheck extends Check implements MovementPacketCallback {
             World world = player.getWorld();
             Box box = CollisionUtil.getBoxForPosition(player, packet.getX(), packet.getY(), packet.getZ()).expand(-0.1);
             assertOrFlag(!CollisionUtil.isTouching(box, world, CollisionUtil.touchingNonSteppablePredicate(player.getStepHeight(), box, player.getY(), packet.getY())), player);
+            if (System.currentTimeMillis() - TrackerManager.get(PlayerLastTeleportData.class, player).lastTeleport < 1000) return ActionResult.PASS; 
             double currentX = player.getX();
             double currentY = player.getY();
             double currentZ = player.getZ();

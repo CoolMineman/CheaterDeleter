@@ -13,13 +13,14 @@ public class TrackerManager {
     public static void init() {
         registerTracker(new PlayerHitGroundTracker());
         registerTracker(new PlayerLastPositionTracker());
+        registerTracker(new PlayerLastTeleportTracker());
     }
 
     public static void registerTracker(Tracker<?> tracker) {
         TRACKERS.put(tracker.getClazz(), tracker);
     }
 
-    public static <T> T get(Class<T> clazz, CDPlayer player) {
+    public static <T extends Data> T get(Class<T> clazz, CDPlayer player) {
         return clazz.cast(TRACKERS.get(clazz).get(player));
     }
 

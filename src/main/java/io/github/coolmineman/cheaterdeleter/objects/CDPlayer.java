@@ -7,6 +7,7 @@ import org.jetbrains.annotations.Nullable;
 
 import io.github.coolmineman.cheaterdeleter.compat.CompatManager;
 import io.github.coolmineman.cheaterdeleter.compat.StepHeightEntityAttributeCompat;
+import net.minecraft.server.network.ServerPlayNetworkHandler;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
@@ -65,6 +66,10 @@ public final class CDPlayer {
         } else {
             return compat.getStepHeightAddition(mcPlayer) + 0.6f;
         }
+    }
+
+    public ServerPlayNetworkHandler getNetworkHandler() {
+        return mcPlayer.networkHandler;
     }
 
     public static CDPlayer of(ServerPlayerEntity mcPlayer) {

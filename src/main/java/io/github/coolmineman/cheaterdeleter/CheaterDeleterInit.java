@@ -10,6 +10,7 @@ import io.github.coolmineman.cheaterdeleter.trackers.TrackerManager;
 import net.fabricmc.api.ModInitializer;
 
 public class CheaterDeleterInit implements ModInitializer {
+	private static final Logger GLOBAL_LOGGER = LogManager.getLogger("CheaterDeleter");
 	private static final Logger LOGGER = LogManager.getLogger("CheaterDeleter-Init");
 	private static final String EQUALS_LINE = "========================================";
 

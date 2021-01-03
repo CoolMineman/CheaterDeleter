@@ -6,7 +6,8 @@
   "mixins": [
     "ClientConnectionMixin",
     "ServerPlayerEntityMixin",
-    "PlayerMoveC2SPacketMixin"
+    "PlayerMoveC2SPacketMixin",
+    "PlayerPositionLookS2CPacketMixin"
   ],
   "client": [
   ],
