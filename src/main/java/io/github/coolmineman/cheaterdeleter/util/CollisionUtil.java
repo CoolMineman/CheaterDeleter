@@ -78,9 +78,20 @@ public class CollisionUtil {
         if (shape.isEmpty()) return false;
         MutableBoolean result = new MutableBoolean(false);
         shape.forEachBox((minX, minY, minZ, maxX, maxY, maxZ) -> {
-            if (maxY <= box.minY && box.maxY >= maxY) result.setTrue();
+            if (maxY <= box.maxY && maxY >= box.minY) result.setTrue();
         });
         return result.booleanValue();
+    }
+
+    public static double getHighestTopIntersection(VoxelShape shape, Box box, double failureValue) {
+        if (shape.isEmpty()) return failureValue;
+        MutableDouble result = new MutableDouble(failureValue);
+        shape.forEachBox((minX, minY, minZ, maxX, maxY, maxZ) -> {
+            if (maxY <= box.maxY && maxY >= box.minY) {
+                result.setValue(maxY);
+            }
+        });
+        return result.getValue();
     }
 
     public static boolean intersects(VoxelShape shape, Box box) {
@@ -93,17 +104,13 @@ public class CollisionUtil {
         });
         return result.booleanValue();
     }
-    
-    public static Box getBoxForPosition(CDPlayer player, double posx, double posy, double posz) {
-        return player.mcPlayer.getDimensions(player.mcPlayer.getPose()).method_30231(posx, posy, posz); // method_30231 -> withPos
-    }
 
     public static boolean isNearby(CDPlayer player, double expandHorizontal, double expandVertical, BiPredicate<World, BlockPos> predicate) {
         return isTouching(player.mcPlayer.getBoundingBox().expand(expandHorizontal, expandVertical, expandHorizontal), player.getWorld(), predicate);
     }
 
     public static boolean isNearby(CDPlayer player, double posx, double posy, double posz, double expandHorizontal, double expandVertical, BiPredicate<World, BlockPos> predicate) {
-        return isTouching(getBoxForPosition(player, posx, posy, posz).expand(expandHorizontal, expandVertical, expandHorizontal), player.getWorld(), predicate);
+        return isTouching(BoxUtil.getBoxForPosition(player, posx, posy, posz).expand(expandHorizontal, expandVertical, expandHorizontal), player.getWorld(), predicate);
     }
 
     public static boolean isTouching(Box box, World world, BiPredicate<World, BlockPos> predicate) {

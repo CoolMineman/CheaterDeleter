@@ -6,6 +6,7 @@ import io.github.coolmineman.cheaterdeleter.duck.PlayerMoveC2SPacketView;
 import io.github.coolmineman.cheaterdeleter.events.MovementPacketCallback;
 import io.github.coolmineman.cheaterdeleter.events.PlayerDamageListener;
 import io.github.coolmineman.cheaterdeleter.objects.CDPlayer;
+import io.github.coolmineman.cheaterdeleter.util.PunishUtil;
 import net.minecraft.entity.damage.DamageSource;
 import net.minecraft.util.ActionResult;
 
@@ -31,7 +32,7 @@ public class GlideCheck extends Check implements MovementPacketCallback, PlayerD
                     }
                     int violations = data.violations.get();
                     if (violations >= 4) {
-                        flag(player, Check.FlagSeverity.MINOR, "Failed Glide Check");
+                        if (flag(player, Check.FlagSeverity.MAJOR, "Failed Glide Check " + (player.getY() - packet.getY()))) PunishUtil.groundPlayer(player);
                         data.violations.set(0);
                     }
                     if (violations < 0) data.violations.getAndAdd(-1 * violations);
@@ -40,6 +41,11 @@ public class GlideCheck extends Check implements MovementPacketCallback, PlayerD
             data.isActive = true;
         }
         return ActionResult.PASS;
+    }
+
+    @Override
+    public long getFlagCoolDownMs() {
+        return 0;
     }
 
     //Should avoid edge cases good enough for now

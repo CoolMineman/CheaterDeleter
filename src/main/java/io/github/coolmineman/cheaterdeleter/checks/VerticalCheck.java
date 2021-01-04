@@ -5,6 +5,7 @@ import io.github.coolmineman.cheaterdeleter.events.MovementPacketCallback;
 import io.github.coolmineman.cheaterdeleter.events.PlayerDamageListener;
 import io.github.coolmineman.cheaterdeleter.objects.CDPlayer;
 import io.github.coolmineman.cheaterdeleter.util.CollisionUtil;
+import io.github.coolmineman.cheaterdeleter.util.PunishUtil;
 import net.minecraft.entity.damage.DamageSource;
 import net.minecraft.util.ActionResult;
 
@@ -33,7 +34,7 @@ public class VerticalCheck extends Check implements MovementPacketCallback, Play
             }
         } else { //Packet off ground
             if (verticalCheckData.isActive && packet.isChangePosition() && packet.getY() > verticalCheckData.maxY) {
-                flag(player, FlagSeverity.MAJOR, "Failed Vertical Movement Check " + (verticalCheckData.maxY - packet.getY()));
+                if (flag(player, FlagSeverity.MINOR, "Failed Vertical Movement Check " + (verticalCheckData.maxY - packet.getY()))) PunishUtil.groundPlayer(player);
             }
             if (!verticalCheckData.isActive && player.getVelocity().getY() < 0.45) {
                 verticalCheckData.maxY = player.getY() + 1.45;
@@ -55,6 +56,5 @@ public class VerticalCheck extends Check implements MovementPacketCallback, Play
 		if (verticalCheckData != null) {
             verticalCheckData.maxY += 0.5;
         }
-	}
-    
+    }
 }

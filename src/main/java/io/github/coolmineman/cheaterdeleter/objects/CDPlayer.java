@@ -7,10 +7,19 @@ import java.util.function.Supplier;
 
 import org.jetbrains.annotations.Nullable;
 
+import io.github.coolmineman.cheaterdeleter.checks.Check;
+import io.github.coolmineman.cheaterdeleter.checks.config.GlobalConfig;
 import io.github.coolmineman.cheaterdeleter.compat.CompatManager;
 import io.github.coolmineman.cheaterdeleter.compat.StepHeightEntityAttributeCompat;
+import io.github.coolmineman.cheaterdeleter.util.BoxUtil;
+import it.unimi.dsi.fastutil.objects.Object2LongOpenHashMap;
+import net.minecraft.network.MessageType;
 import net.minecraft.server.network.ServerPlayNetworkHandler;
 import net.minecraft.server.network.ServerPlayerEntity;
+import net.minecraft.text.LiteralText;
+import net.minecraft.text.Text;
+import net.minecraft.util.Util;
+import net.minecraft.util.math.Box;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
 
@@ -18,6 +27,22 @@ public final class CDPlayer {
     public final ServerPlayerEntity mcPlayer;
 
     private HashMap<Class<?>, Object> storedData = new HashMap<>();
+    private Object2LongOpenHashMap<Check> lastFlagsMap = new Object2LongOpenHashMap<>();
+
+    private double flags = 0.0;
+    private long lastFlag = 0;
+
+    private double lastGoodX;
+    private double lastGoodY;
+    private double lastGoodZ;
+
+    //Use CDPlayer.of
+    private CDPlayer(ServerPlayerEntity mcPlayer) {
+        this.mcPlayer = mcPlayer;
+        this.lastGoodX = mcPlayer.getX();
+        this.lastGoodY = mcPlayer.getY();
+        this.lastGoodZ = mcPlayer.getZ();
+    }
 
     public <T> void putData(Class<T> clazz, T data) {
         storedData.put(clazz, data);
@@ -37,6 +62,65 @@ public final class CDPlayer {
         return result;
     }
 
+    public void flag(int amount) {
+        if (flags > 0) {
+            long timeDelta = System.currentTimeMillis() - lastFlag;
+            while (timeDelta > 1000) { //Runs once per second
+                timeDelta -= 1000;
+                //Max of 16 minor flags or 4 major per 1 min 
+                flags -= 1.0 / (16.0 * 5.0 * 60.0);
+                if (flags < 0) {
+                    flags = 0;
+                }
+            }
+        }
+        flags += amount;
+        lastFlag = System.currentTimeMillis();
+        if (flags > 16) {
+            kick(new LiteralText("Flagged Too Much by AC"));
+        }
+    }
+
+    public void minorFlag() {
+        flag(1);
+    }
+
+    public void majorFlag() {
+        flag(4);
+    }
+
+    /**
+     * Call on failed Check
+     * @return punish if true
+     */
+    public boolean flag(Check check, Check.FlagSeverity severity) {
+        if (check.getFlagCoolDownMs() > System.currentTimeMillis() - lastFlagsMap.getLong(check)) {
+            return false;
+        }
+        lastFlagsMap.put(check, System.currentTimeMillis());
+        switch (severity) {
+            case MAJOR:
+                majorFlag();
+            break;
+            case MINOR:
+                minorFlag();
+            break;
+        }
+        return true;
+    }
+
+    public void rollback() {
+        teleport(lastGoodX, lastGoodY, lastGoodZ);
+    }
+
+    public void tickRollback(double x, double y, double z, boolean bypassFlagsCheck) {
+        if (System.currentTimeMillis() - lastFlag > 5000 || bypassFlagsCheck) {
+            lastGoodX = x;
+            lastGoodY = y;
+            lastGoodZ = z;
+        }
+    }
+
     public double getX() {
         return mcPlayer.getX();
     }
@@ -49,6 +133,14 @@ public final class CDPlayer {
         return mcPlayer.getZ();
     }
 
+    public float getYaw() {
+        return mcPlayer.yaw;
+    }
+
+    public float getPitch() {
+        return mcPlayer.pitch;
+    }
+
     public Vec3d getVelocity() {
         return mcPlayer.getVelocity();
     }
@@ -59,6 +151,21 @@ public final class CDPlayer {
 
     public World getWorld() {
         return mcPlayer.world;
+    }
+
+    public void teleport(double x, double y, double z) {
+        teleport(x, y, z, getYaw(), getPitch());
+    }
+
+    public void teleport(double x, double y, double z, float yaw, float pitch) {
+        mcPlayer.networkHandler.requestTeleport(x, y, z, yaw, pitch);
+    }
+
+    /**
+     * Gets Box For Current Position, Not Cached Use A Local Variable For Calls
+     */
+    public Box getBox() {
+        return BoxUtil.getBoxForPosition(this, this.getX(), this.getY(), this.getZ());
     }
 
     public float getStepHeight() {
@@ -81,6 +188,15 @@ public final class CDPlayer {
         return mcPlayer.networkHandler;
     }
 
+    public void kick(Text text) {
+        if (GlobalConfig.debugMode) {
+            mcPlayer.sendMessage(new LiteralText("Kicked: ").append(text), MessageType.SYSTEM, Util.NIL_UUID);
+            flags = 0;
+        } else {
+            mcPlayer.networkHandler.disconnect(text);
+        }
+    }
+
     public UUID getUuid() {
         return mcPlayer.getUuid();
     }
@@ -92,11 +208,6 @@ public final class CDPlayer {
 
     public static CDPlayer of(ServerPlayerEntity mcPlayer) {
         return ((CDPlayer.Provider)mcPlayer).getCDPlayer();
-    }
-
-    //Use CDPlayer.of
-    private CDPlayer(ServerPlayerEntity mcPlayer) {
-        this.mcPlayer = mcPlayer;
     }
 
     public static interface Provider {

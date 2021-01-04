@@ -6,7 +6,11 @@ import io.github.coolmineman.cheaterdeleter.objects.CDPlayer;
 import net.minecraft.text.LiteralText;
 
 public class Check {
-    public void flag(CDPlayer player, Check.FlagSeverity severity, String message) {
+    public long getFlagCoolDownMs() {
+        return 1000;
+    }
+
+    public boolean flag(CDPlayer player, Check.FlagSeverity severity, String message) {
         if (GlobalConfig.debugMode) {
             player.mcPlayer.sendMessage(new LiteralText("Flagged: " + message), true);
         }
@@ -15,6 +19,7 @@ public class Check {
         } else {
             CheaterDeleterInit.GLOBAL_LOGGER.info("{} Was Flagged: {}", player, message);
         }
+        return player.flag(this, severity);
     }
 
     public void assertOrFlag(boolean condition, CDPlayer player, Check.FlagSeverity severity, String message) {

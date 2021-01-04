@@ -5,6 +5,7 @@ import io.github.coolmineman.cheaterdeleter.events.MovementPacketCallback;
 import io.github.coolmineman.cheaterdeleter.objects.CDPlayer;
 import io.github.coolmineman.cheaterdeleter.trackers.TrackerManager;
 import io.github.coolmineman.cheaterdeleter.trackers.data.PlayerLastTeleportData;
+import io.github.coolmineman.cheaterdeleter.util.BoxUtil;
 import io.github.coolmineman.cheaterdeleter.util.CollisionUtil;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.math.Box;
@@ -25,7 +26,7 @@ public class PhaseCheck extends Check implements MovementPacketCallback {
     public ActionResult onMovementPacket(CDPlayer player, PlayerMoveC2SPacketView packet) {
         if (packet.isChangePosition()) {
             World world = player.getWorld();
-            Box box = CollisionUtil.getBoxForPosition(player, packet.getX(), packet.getY(), packet.getZ()).expand(-0.1);
+            Box box = BoxUtil.getBoxForPosition(player, packet.getX(), packet.getY(), packet.getZ()).expand(-0.1);
             assertOrFlag(!CollisionUtil.isTouching(box, world, CollisionUtil.touchingNonSteppablePredicate(player.getStepHeight(), box, player.getY(), packet.getY())), player, FlagSeverity.MAJOR, "Failed Phase Check1");
             if (System.currentTimeMillis() - TrackerManager.get(PlayerLastTeleportData.class, player).lastTeleport < 1000) return ActionResult.PASS; 
             double currentX = player.getX();
@@ -41,7 +42,7 @@ public class PhaseCheck extends Check implements MovementPacketCallback {
             boolean targetZPositive = targetZ > player.getZ();
             boolean hitTargetZ = false;
             while (!(hitTargetX && hitTargetY && hitTargetZ)) {
-                box = CollisionUtil.getBoxForPosition(player, currentX, currentY, currentZ).expand(-0.1);
+                box = BoxUtil.getBoxForPosition(player, currentX, currentY, currentZ).expand(-0.1);
                 assertOrFlag(!CollisionUtil.isTouching(box, world, CollisionUtil.touchingNonSteppablePredicate(player.getStepHeight(), box, player.getY(), packet.getY())), player, FlagSeverity.MAJOR, "Failed Phase Check2");
                 if (!hitTargetX) {
                     if (targetXPositive) {
@@ -91,5 +92,11 @@ public class PhaseCheck extends Check implements MovementPacketCallback {
             }
         }
         return ActionResult.PASS;
+    }
+
+    @Override
+    public boolean flag(CDPlayer player, FlagSeverity severity, String message) {
+        if (super.flag(player, severity, message)) player.rollback();
+        return false;
     }
 }

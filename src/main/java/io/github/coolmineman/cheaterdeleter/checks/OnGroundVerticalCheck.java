@@ -13,6 +13,7 @@ public class OnGroundVerticalCheck extends Check implements MovementPacketCallba
         MovementPacketCallback.EVENT.register(this);
     }
 
+    // TODO: Boats and Shulker
     @Override
     public ActionResult onMovementPacket(CDPlayer player, PlayerMoveC2SPacketView packet) {
         float stepHeight = player.getStepHeight();
@@ -24,10 +25,14 @@ public class OnGroundVerticalCheck extends Check implements MovementPacketCallba
             ((stepHeight > 1f) || !CollisionUtil.isNearby(player, packet.getX(), packet.getY(), packet.getZ(), 0.2, 0.5, CollisionUtil.steppablePredicate(stepHeight)))
         ) {
             double ydelta = packet.getY() - player.getY();
-            if (ydelta > (stepHeight < 1f ? 0.3 : stepHeight)) flag(player, FlagSeverity.MAJOR, "Player Moved Vertically While onGround " + ydelta);
-            if (ydelta < -0.9) flag(player, FlagSeverity.MAJOR, "Player Moved Vertically While onGround " + ydelta);
+            if (ydelta > (stepHeight < 1f ? 0.3 : stepHeight)) flagRollback(player, FlagSeverity.MAJOR, "Player Moved Vertically While onGround " + ydelta);
+            if (ydelta < -0.9) flagRollback(player, FlagSeverity.MAJOR, "Player Moved Vertically While onGround " + ydelta);
         }
         return ActionResult.PASS;
+    }
+
+    public void flagRollback(CDPlayer player, FlagSeverity severity, String message) {
+        if (super.flag(player, severity, message)) player.rollback();        
     }
     
 }
