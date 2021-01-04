@@ -12,7 +12,6 @@ public interface OutgoingTeleportListener {
             for (OutgoingTeleportListener listener : listeners) {
                 listener.onOutgoingTeleport(player, packet);
             }
-            player.tickRollback(packet.getX(), packet.getY(), packet.getZ(), true);
     });
 
     public static void init() {

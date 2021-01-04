@@ -11,6 +11,7 @@ import io.github.coolmineman.cheaterdeleter.checks.Check;
 import io.github.coolmineman.cheaterdeleter.checks.config.GlobalConfig;
 import io.github.coolmineman.cheaterdeleter.compat.CompatManager;
 import io.github.coolmineman.cheaterdeleter.compat.StepHeightEntityAttributeCompat;
+import io.github.coolmineman.cheaterdeleter.events.OutgoingTeleportListener;
 import io.github.coolmineman.cheaterdeleter.util.BoxUtil;
 import it.unimi.dsi.fastutil.objects.Object2LongOpenHashMap;
 import net.minecraft.network.MessageType;
@@ -35,6 +36,10 @@ public final class CDPlayer {
     private double lastGoodX;
     private double lastGoodY;
     private double lastGoodZ;
+
+    static {
+        OutgoingTeleportListener.EVENT.register((player, packet) -> player.tickRollback(packet.getX(), packet.getY(), packet.getZ(), true));
+    }
 
     //Use CDPlayer.of
     private CDPlayer(ServerPlayerEntity mcPlayer) {
@@ -161,6 +166,10 @@ public final class CDPlayer {
         mcPlayer.networkHandler.requestTeleport(x, y, z, yaw, pitch);
     }
 
+    public float getSpeed() {
+        return mcPlayer.getMovementSpeed();
+    }
+
     /**
      * Gets Box For Current Position, Not Cached Use A Local Variable For Calls
      */
@@ -189,7 +198,7 @@ public final class CDPlayer {
     }
 
     public void kick(Text text) {
-        if (GlobalConfig.debugMode) {
+        if (GlobalConfig.debugMode >= 2) {
             mcPlayer.sendMessage(new LiteralText("Kicked: ").append(text), MessageType.SYSTEM, Util.NIL_UUID);
             flags = 0;
         } else {

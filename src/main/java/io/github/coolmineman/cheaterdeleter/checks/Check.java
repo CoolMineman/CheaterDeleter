@@ -11,7 +11,7 @@ public class Check {
     }
 
     public boolean flag(CDPlayer player, Check.FlagSeverity severity, String message) {
-        if (GlobalConfig.debugMode) {
+        if (GlobalConfig.debugMode >= 1) {
             player.mcPlayer.sendMessage(new LiteralText("Flagged: " + message), true);
         }
         if (severity == FlagSeverity.MAJOR) {

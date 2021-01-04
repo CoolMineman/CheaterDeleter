@@ -20,7 +20,7 @@ public class PacketLimiterCheck extends Check implements PacketCallback {
         PacketVolumeData data = player.getOrCreateData(PacketVolumeData.class, PacketVolumeData::new);
         data.packetCount++;
         if (data.packetCount > MAX_PACKETS_PER_SECOND * INTERVAL) {
-            player.kick(new LiteralText("Too Many Packets"));
+            player.getNetworkHandler().disconnect(new LiteralText("Too Many Packets")); //No Bypass Even In Testing
             return ActionResult.FAIL;
         } else if (System.currentTimeMillis() - data.lastCheck >= INTERVAL * 1000) {
             data.packetCount = 0;
