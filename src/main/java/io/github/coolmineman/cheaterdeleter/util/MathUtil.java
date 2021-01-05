@@ -10,6 +10,6 @@ public class MathUtil {
     }
 
     public static double round(double d) {
-        return d > 0.00001 ? d : 0;
+        return Math.abs(d) > 0.00001 ? d : 0;
     }
 }

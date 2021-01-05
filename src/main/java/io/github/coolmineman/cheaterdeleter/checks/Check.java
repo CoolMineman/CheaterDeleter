@@ -15,9 +15,17 @@ public class Check {
             player.mcPlayer.sendMessage(new LiteralText("Flagged: " + message), true);
         }
         if (severity == FlagSeverity.MAJOR) {
-            CheaterDeleterInit.GLOBAL_LOGGER.warn("{} Was Flagged: {}", player, message);
+            CheaterDeleterInit.GLOBAL_LOGGER.warn("{} Was Major Flagged: {}", player, message);
+            player.mcPlayer.getServer().getPlayerManager().getPlayerList().forEach(player1 -> {
+                CDPlayer player2 = CDPlayer.of(player1);
+                if (player2.shouldSendMajorFlags()) player2.mcPlayer.sendMessage(new LiteralText(player.mcPlayer.getGameProfile().getName() + " was major flagged: " + message), false);
+            });
         } else {
-            CheaterDeleterInit.GLOBAL_LOGGER.info("{} Was Flagged: {}", player, message);
+            CheaterDeleterInit.GLOBAL_LOGGER.info("{} Was Minor Flagged: {}", player, message);
+            player.mcPlayer.getServer().getPlayerManager().getPlayerList().forEach(player1 -> {
+                CDPlayer player2 = CDPlayer.of(player1);
+                if (player2.shouldSendMinorFlags()) player2.mcPlayer.sendMessage(new LiteralText(player.mcPlayer.getGameProfile().getName() + " was minor flagged: " + message), false);
+            });
         }
         return player.flag(this, severity);
     }

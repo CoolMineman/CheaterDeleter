@@ -18,6 +18,7 @@ public class GlideCheck extends Check implements MovementPacketCallback, PlayerD
 
     @Override
     public ActionResult onMovementPacket(CDPlayer player, PlayerMoveC2SPacketView packet) {
+        if (player.shouldBypassAnticheat()) return ActionResult.PASS;
         GlideCheckData data = player.getOrCreateData(GlideCheckData.class, GlideCheckData::new);
         if (!packet.isOnGround() && packet.isChangePosition() && !player.isFallFlying()) {
             if (data.isActive) {
@@ -32,7 +33,7 @@ public class GlideCheck extends Check implements MovementPacketCallback, PlayerD
                     }
                     int violations = data.violations.get();
                     if (violations >= 4) {
-                        if (flag(player, Check.FlagSeverity.MAJOR, "Failed Glide Check " + (player.getY() - packet.getY()))) PunishUtil.groundPlayer(player);
+                        fail(player, player.getY() - packet.getY());
                         data.violations.set(0);
                     }
                     if (violations < 0) data.violations.getAndAdd(-1 * violations);
@@ -41,6 +42,14 @@ public class GlideCheck extends Check implements MovementPacketCallback, PlayerD
             data.isActive = true;
         }
         return ActionResult.PASS;
+    }
+
+    private void fail(CDPlayer player, double failamount) {
+        if (failamount < 2.0) {
+            flag(player, FlagSeverity.MINOR, "Failed Glide Check (Minor) " + failamount);
+        } else {
+            if (flag(player, Check.FlagSeverity.MAJOR, "Failed Glide Check " + failamount)) PunishUtil.groundPlayer(player);
+        }
     }
 
     @Override

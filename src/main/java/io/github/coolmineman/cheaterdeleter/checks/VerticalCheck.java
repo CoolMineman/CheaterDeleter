@@ -20,6 +20,7 @@ public class VerticalCheck extends Check implements MovementPacketCallback, Play
     //TODO: Smarter Bounce Handling
     @Override
     public ActionResult onMovementPacket(CDPlayer player, PlayerMoveC2SPacketView packet) {
+        if (player.shouldBypassAnticheat()) return ActionResult.PASS;
         VerticalCheckData verticalCheckData = player.getOrCreateData(VerticalCheckData.class, VerticalCheckData::new);
         if (player.mcPlayer.isCreative() || player.mcPlayer.isSwimming() || player.mcPlayer.isClimbing() || player.isFallFlying() || CollisionUtil.isNearby(player, 2.0, 4.0, CollisionUtil.NON_SOLID_COLLISION)) {
             verticalCheckData.isActive = false;
@@ -52,6 +53,7 @@ public class VerticalCheck extends Check implements MovementPacketCallback, Play
 
 	@Override
 	public void onPlayerDamage(CDPlayer player, DamageSource source, float amount) {
+        if (player.shouldBypassAnticheat()) return;
 		VerticalCheckData verticalCheckData = player.getData(VerticalCheckData.class);
 		if (verticalCheckData != null) {
             verticalCheckData.maxY += 0.5;

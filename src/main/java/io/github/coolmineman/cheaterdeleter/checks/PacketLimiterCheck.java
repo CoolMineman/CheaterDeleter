@@ -17,6 +17,7 @@ public class PacketLimiterCheck extends Check implements PacketCallback {
 
     @Override
     public ActionResult onPacket(CDPlayer player, Packet<ServerPlayPacketListener> packet) {
+        if (player.shouldBypassAnticheat()) return ActionResult.PASS;
         PacketVolumeData data = player.getOrCreateData(PacketVolumeData.class, PacketVolumeData::new);
         data.packetCount++;
         if (data.packetCount > MAX_PACKETS_PER_SECOND * INTERVAL) {

@@ -24,6 +24,7 @@ public class PhaseCheck extends Check implements MovementPacketCallback {
 
     @Override
     public ActionResult onMovementPacket(CDPlayer player, PlayerMoveC2SPacketView packet) {
+        if (player.shouldBypassAnticheat()) return ActionResult.PASS;
         if (packet.isChangePosition()) {
             World world = player.getWorld();
             Box box = BoxUtil.getBoxForPosition(player, packet.getX(), packet.getY(), packet.getZ()).expand(-0.1);

@@ -16,15 +16,17 @@ public class VerifyOnGroundCheck extends Check implements MovementPacketCallback
 
     @Override
     public ActionResult onMovementPacket(CDPlayer player, PlayerMoveC2SPacketView packet) {
+        if (player.shouldBypassAnticheat()) return ActionResult.PASS;
         if (packet.isChangePosition()) {
             if (packet.isOnGround()) {
-                Box playerBox = BoxUtil.getBoxForPosition(player, packet.getX(), packet.getY(), packet.getZ()).expand(0.4);
+                Box playerBox = BoxUtil.getBoxForPosition(player, packet.getX(), packet.getY(), packet.getZ()).expand(0.6); //Fences
                 // Not having a smaller feetbox shouldn't matter unless head is in a block lol
                 assertOrFlag(CollisionUtil.isTouching(playerBox, player.getWorld(), CollisionUtil.touchingTopPredicate(playerBox)), player, FlagSeverity.MINOR, "Spoofed onGround true");
             } else {
                 Box playerBox = BoxUtil.getBoxForPosition(player, packet.getX(), packet.getY(), packet.getZ()).expand(-0.1);
                 Box feetBox = new Box(playerBox.minX, playerBox.minY, playerBox.minZ, playerBox.minX, playerBox.maxY, playerBox.minZ);
-                assertOrFlag(!CollisionUtil.isTouching(feetBox, player.getWorld(), CollisionUtil.touchingTopPredicate(feetBox)), player, FlagSeverity.MINOR, "Spoofed onGround false");
+                //TODO: Why do fences break this?
+                if (!CollisionUtil.isNearby(player, 3, 3, CollisionUtil.FENCE_LIKE)) assertOrFlag(!CollisionUtil.isTouching(feetBox, player.getWorld(), CollisionUtil.touchingTopPredicate(feetBox)), player, FlagSeverity.MINOR, "Spoofed onGround false");
             }
         } else if (packet.isOnGround() && !player.isOnGround()) {
             Box playerBox = BoxUtil.getBoxForPosition(player, player.getX(), player.getY(), player.getZ()).expand(0.4); //Should be liberal enough

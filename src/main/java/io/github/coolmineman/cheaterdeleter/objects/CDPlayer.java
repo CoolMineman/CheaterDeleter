@@ -10,10 +10,12 @@ import org.jetbrains.annotations.Nullable;
 import io.github.coolmineman.cheaterdeleter.checks.Check;
 import io.github.coolmineman.cheaterdeleter.checks.config.GlobalConfig;
 import io.github.coolmineman.cheaterdeleter.compat.CompatManager;
+import io.github.coolmineman.cheaterdeleter.compat.LuckoPermissionsCompat;
 import io.github.coolmineman.cheaterdeleter.compat.StepHeightEntityAttributeCompat;
 import io.github.coolmineman.cheaterdeleter.events.OutgoingTeleportListener;
 import io.github.coolmineman.cheaterdeleter.util.BoxUtil;
 import it.unimi.dsi.fastutil.objects.Object2LongOpenHashMap;
+import net.fabricmc.fabric.api.util.TriState;
 import net.minecraft.network.MessageType;
 import net.minecraft.server.network.ServerPlayNetworkHandler;
 import net.minecraft.server.network.ServerPlayerEntity;
@@ -124,6 +126,23 @@ public final class CDPlayer {
             lastGoodY = y;
             lastGoodZ = z;
         }
+    }
+
+    public TriState getPermission(String permission) {
+        LuckoPermissionsCompat compat = CompatManager.getCompatHolder(LuckoPermissionsCompat.class).compat;
+        return compat != null ? compat.get(this, permission) : TriState.DEFAULT;
+    }
+
+    public boolean shouldBypassAnticheat() {
+        return getPermission("cheaterdeleter.bypassanticheat") == TriState.TRUE;
+    }
+
+    public boolean shouldSendMajorFlags() {
+        return getPermission("cheaterdeleter.sendmajorflags") == TriState.TRUE;
+    }
+
+    public boolean shouldSendMinorFlags() {
+        return getPermission("cheaterdeleter.cheaterdeleter.sendminorflags") == TriState.TRUE;
     }
 
     public double getX() {

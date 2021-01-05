@@ -11,10 +11,21 @@
 * Step (Even "legit" In Some Clients)
 * Packet Limiter Stops Some Lag Exploits
 * No Fall
+* Speed (Mostly)
 
 ## Supported Mods
 
-* [https://github.com/emilyalexandra/step-height-entity-attribute](https://github.com/emilyalexandra/step-height-entity-attribute)
+* Step Height Entity Attribute Library [https://github.com/emilyalexandra/step-height-entity-attribute](https://github.com/emilyalexandra/step-height-entity-attribute)
+* :key: fabric-permissions-api [https://github.com/lucko/fabric-permissions-api](https://github.com/lucko/fabric-permissions-api)
+    * LuckPerms [https://github.com/lucko/LuckPerms](https://github.com/lucko/LuckPerms)
+
+## Permissions
+
+**Requires LuckPerms or Another fabric-permissions-api Compatable Permissions Mod**
+
+`cheaterdeleter.bypassanticheat` - Allows a player to bypass this Anti-Cheat
+`cheaterdeleter.sendmajorflags` - Send major flags from all players to this player in chat
+`cheaterdeleter.sendminorflags` - Send minor flags from all players to this player in chat
 
 ## Setup
 

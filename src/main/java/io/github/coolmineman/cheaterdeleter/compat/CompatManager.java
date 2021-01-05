@@ -15,6 +15,7 @@ public class CompatManager {
 
     public static void init() {
         compat(StepHeightEntityAttributeCompat::new, "step-height-entity-attribute", "Step Height Entity Attribute Library", StepHeightEntityAttributeCompat.class);
+        compat(LuckoPermissionsCompat::new, "fabric-permissions-api-v0", "fabric-permissions-api (Permissions Support)", LuckoPermissionsCompat.class);
     }
 
     public static <T extends Compat> void compat(Supplier<T> supplier, String modid, String modName, Class<T> clazz) {

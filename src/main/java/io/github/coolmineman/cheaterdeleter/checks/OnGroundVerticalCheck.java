@@ -16,6 +16,7 @@ public class OnGroundVerticalCheck extends Check implements MovementPacketCallba
     // TODO: Boats and Shulker
     @Override
     public ActionResult onMovementPacket(CDPlayer player, PlayerMoveC2SPacketView packet) {
+        if (player.shouldBypassAnticheat()) return ActionResult.PASS;
         float stepHeight = player.getStepHeight();
         if (packet.isChangePosition() &&
             packet.isOnGround() &&

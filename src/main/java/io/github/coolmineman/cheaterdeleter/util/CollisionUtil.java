@@ -26,6 +26,18 @@ public class CollisionUtil {
         return false;
     };
 
+    public static final BiPredicate<World, BlockPos> FENCE_LIKE = (world, pos) -> {
+        BlockState state = world.getBlockState(pos);
+        VoxelShape shape = state.getCollisionShape(world, pos);
+        if (shape.isEmpty()) return false;
+        return shape.getBoundingBox().maxY > 1.0;
+    };
+
+    public static final BiPredicate<World, BlockPos> SPLIPPERY = (world, pos) -> {
+        BlockState state = world.getBlockState(pos);
+        return state.getBlock().getSlipperiness() > 0.6f;
+    };
+
     public static BiPredicate<World, BlockPos> steppablePredicate(float stepheight) {
         return (world, pos) -> {
             VoxelShape shape = world.getBlockState(pos).getCollisionShape(world, pos);
