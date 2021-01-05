@@ -12,6 +12,7 @@
 * Packet Limiter Stops Some Lag Exploits
 * No Fall
 * Speed (Mostly)
+* Teleport Finder
 
 ## Supported Mods
 
@@ -24,7 +25,9 @@
 **Requires LuckPerms or Another fabric-permissions-api Compatable Permissions Mod**
 
 `cheaterdeleter.bypassanticheat` - Allows a player to bypass this Anti-Cheat
+
 `cheaterdeleter.sendmajorflags` - Send major flags from all players to this player in chat
+
 `cheaterdeleter.sendminorflags` - Send minor flags from all players to this player in chat
 
 ## Setup
