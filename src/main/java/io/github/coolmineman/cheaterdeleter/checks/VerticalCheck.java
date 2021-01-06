@@ -7,6 +7,7 @@ import io.github.coolmineman.cheaterdeleter.objects.CDPlayer;
 import io.github.coolmineman.cheaterdeleter.util.CollisionUtil;
 import io.github.coolmineman.cheaterdeleter.util.PunishUtil;
 import net.minecraft.entity.damage.DamageSource;
+import net.minecraft.entity.effect.StatusEffects;
 import net.minecraft.util.ActionResult;
 
 public class VerticalCheck extends Check implements MovementPacketCallback, PlayerDamageListener {
@@ -16,7 +17,6 @@ public class VerticalCheck extends Check implements MovementPacketCallback, Play
         PlayerDamageListener.EVENT.register(this);
     }
 
-    //TODO: Account for jump boost etc
     //TODO: Smarter Bounce Handling
     @Override
     public ActionResult onMovementPacket(CDPlayer player, PlayerMoveC2SPacketView packet) {
@@ -27,7 +27,7 @@ public class VerticalCheck extends Check implements MovementPacketCallback, Play
             return ActionResult.PASS;
         }
         if (player.isOnGround() && !packet.isOnGround() && player.getVelocity().getY() < 0.45) {
-            verticalCheckData.maxY = player.getY() + 1.45;
+            verticalCheckData.maxY = player.getY() + getMaxJumpHeight(player);
             verticalCheckData.isActive = true;
         } else if (packet.isOnGround()) {
             if (verticalCheckData != null && verticalCheckData.isActive) {
@@ -38,12 +38,22 @@ public class VerticalCheck extends Check implements MovementPacketCallback, Play
                 if (flag(player, FlagSeverity.MINOR, "Failed Vertical Movement Check " + (verticalCheckData.maxY - packet.getY()))) PunishUtil.groundPlayer(player);
             }
             if (!verticalCheckData.isActive && player.getVelocity().getY() < 0.45) {
-                verticalCheckData.maxY = player.getY() + 1.45;
+                verticalCheckData.maxY = player.getY() + getMaxJumpHeight(player);
                 verticalCheckData.isActive = true;
             }
 
         }
         return ActionResult.PASS;
+    }
+
+    //TODO: Hard coded (like vanilla)
+    private double getMaxJumpHeight(CDPlayer player) {
+        double result = 1.25f;
+        if (player.mcPlayer.hasStatusEffect(StatusEffects.JUMP_BOOST)) {
+            result += Math.pow(1.5, (player.mcPlayer.getStatusEffect(StatusEffects.JUMP_BOOST).getAmplifier() + 1)) - 1; //Acumulates Error With High Jump Boosts, oh well
+        }
+        result += 0.2; // Give a bit of wiggle room
+        return result;
     }
 
     private class VerticalCheckData {
