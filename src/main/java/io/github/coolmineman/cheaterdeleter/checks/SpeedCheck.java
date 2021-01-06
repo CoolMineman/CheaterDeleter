@@ -26,13 +26,11 @@ public class SpeedCheck extends Check
     @Override
     public ActionResult onMovementPacket(CDPlayer player, PlayerMoveC2SPacketView packet) {
         if (player.shouldBypassAnticheat()) return ActionResult.PASS;
-        if (!(player.mcPlayer.isCreative() || System.currentTimeMillis() - TrackerManager.get(PlayerLastTeleportData.class, player).lastTeleport < 3000 || CollisionUtil.isNearby(player, 2, 4, CollisionUtil.SPLIPPERY))) {
+        if (packet.isChangePosition() || !(player.mcPlayer.isCreative() || System.currentTimeMillis() - TrackerManager.get(PlayerLastTeleportData.class, player).lastTeleport < 3000 || CollisionUtil.isNearby(player, 2, 4, CollisionUtil.SPLIPPERY))) {
             double distanceSquared = MathUtil.getDistanceSquared(player.getX(), player.getZ(), packet.getX(),
                     packet.getZ());
             double distance = Math.sqrt(distanceSquared);
-            if (distance < 100) { // Todo wtf
-                player.getOrCreateData(SpeedCheckData.class, SpeedCheckData::new).distance.addAndGet(distance);
-            }
+            player.getOrCreateData(SpeedCheckData.class, SpeedCheckData::new).distance.addAndGet(distance);
         }
         return ActionResult.PASS;
     }

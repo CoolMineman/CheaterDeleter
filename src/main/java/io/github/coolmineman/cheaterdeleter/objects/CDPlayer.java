@@ -12,15 +12,18 @@ import io.github.coolmineman.cheaterdeleter.checks.config.GlobalConfig;
 import io.github.coolmineman.cheaterdeleter.compat.CompatManager;
 import io.github.coolmineman.cheaterdeleter.compat.LuckoPermissionsCompat;
 import io.github.coolmineman.cheaterdeleter.compat.StepHeightEntityAttributeCompat;
+import io.github.coolmineman.cheaterdeleter.events.ClickSlotC2SPacketCallback;
 import io.github.coolmineman.cheaterdeleter.events.OutgoingTeleportListener;
 import io.github.coolmineman.cheaterdeleter.util.BoxUtil;
 import it.unimi.dsi.fastutil.objects.Object2LongOpenHashMap;
 import net.fabricmc.fabric.api.util.TriState;
 import net.minecraft.network.MessageType;
+import net.minecraft.screen.ScreenHandler;
 import net.minecraft.server.network.ServerPlayNetworkHandler;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.text.LiteralText;
 import net.minecraft.text.Text;
+import net.minecraft.util.ActionResult;
 import net.minecraft.util.Util;
 import net.minecraft.util.math.Box;
 import net.minecraft.util.math.Vec3d;
@@ -39,8 +42,17 @@ public final class CDPlayer {
     private double lastGoodY;
     private double lastGoodZ;
 
+    private boolean hasCurrentPlayerScreenHandler;
+
     static {
         OutgoingTeleportListener.EVENT.register((player, packet) -> player.tickRollback(packet.getX(), packet.getY(), packet.getZ(), true));
+
+        ClickSlotC2SPacketCallback.EVENT.register((player, packet) -> {
+            if (packet.getSyncId() == 0 && player.mcPlayer.currentScreenHandler == player.mcPlayer.playerScreenHandler) {
+                player.setHasCurrentPlayerScreenHandler(true);
+            }
+            return ActionResult.PASS;
+        });
     }
 
     //Use CDPlayer.of
@@ -114,6 +126,15 @@ public final class CDPlayer {
             break;
         }
         return true;
+    }
+
+    @Nullable
+    public ScreenHandler getCurrentScreenHandler() {
+        return mcPlayer.currentScreenHandler == mcPlayer.playerScreenHandler && !hasCurrentPlayerScreenHandler ? null : mcPlayer.currentScreenHandler;
+    }
+
+    public void setHasCurrentPlayerScreenHandler(boolean hasCurrentPlayerScreenHandler) {
+        this.hasCurrentPlayerScreenHandler = hasCurrentPlayerScreenHandler;
     }
 
     public void rollback() {

@@ -66,7 +66,7 @@ public class VerticalCheck extends Check implements MovementPacketCallback, Play
         if (player.shouldBypassAnticheat()) return;
 		VerticalCheckData verticalCheckData = player.getData(VerticalCheckData.class);
 		if (verticalCheckData != null) {
-            verticalCheckData.maxY += 0.5;
+            verticalCheckData.maxY += 0.6;
         }
     }
 }

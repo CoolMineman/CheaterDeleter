@@ -7,5 +7,6 @@ public class EventManager {
         MovementPacketCallback.init();
         PlayerEndTickCallback.init();
         OutgoingTeleportListener.init();
+        ClickSlotC2SPacketCallback.init();
     }
 }

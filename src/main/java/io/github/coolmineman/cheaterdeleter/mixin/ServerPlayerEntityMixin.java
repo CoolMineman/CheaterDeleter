@@ -31,4 +31,9 @@ public class ServerPlayerEntityMixin implements CDPlayer.Provider {
     public void onSpawn(CallbackInfo cb) {
         cdPlayer.tickRollback(cdPlayer.getX(), cdPlayer.getY(), cdPlayer.getZ(), true);
     }
+
+    @Inject(method = "closeScreenHandler", at = @At("HEAD"))
+    public void onCloseScreenHandler(CallbackInfo cb) {
+        cdPlayer.setHasCurrentPlayerScreenHandler(false);
+    }
 }

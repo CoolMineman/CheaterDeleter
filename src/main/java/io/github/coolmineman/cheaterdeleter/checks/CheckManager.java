@@ -17,6 +17,7 @@ public class CheckManager {
         registerCheck(new PhaseCheck());
         registerCheck(new SpeedCheck());
         registerCheck(new AntiTeleportFinder());
+        registerCheck(new InventoryMoveCheck());
     }
 
     public static void registerCheck(Check check) {
