@@ -13,6 +13,7 @@
 * No Fall
 * Speed (Mostly)
 * Teleport Finder
+* XCary and Inventory Move
 
 ## Supported Mods
 
@@ -29,6 +30,10 @@
 `cheaterdeleter.sendmajorflags` - Send major flags from all players to this player in chat
 
 `cheaterdeleter.sendminorflags` - Send minor flags from all players to this player in chat
+
+## Discord
+
+[https://discord.gg/JSZNtzRGjx](https://discord.gg/JSZNtzRGjx)
 
 ## Setup
 
