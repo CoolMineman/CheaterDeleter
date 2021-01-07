@@ -10,11 +10,12 @@
   ],
   "contact": {
     "homepage": "https://github.com/CoolMineman/CheaterDeleter",
-    "sources": "https://github.com/CoolMineman/CheaterDeleter"
+    "sources": "https://github.com/CoolMineman/CheaterDeleter",
+    "issues": "https://github.com/CoolMineman/CheaterDeleter/issues"
   },
 
   "license": "CC0-1.0",
-  "icon": "assets/modid/icon.png",
+  "icon": "assets/cheaterdeleter/icon.png",
 
   "environment": "*",
   "entrypoints": {
