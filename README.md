@@ -14,6 +14,7 @@
 * Speed (Mostly)
 * Teleport Finder
 * XCary and Inventory Move
+* Poorly Written Water Walk Cheats
 
 ## Supported Mods
 

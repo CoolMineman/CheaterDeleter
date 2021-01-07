@@ -21,7 +21,7 @@ public class VerifyOnGroundCheck extends Check implements MovementPacketCallback
             if (packet.isOnGround()) {
                 Box playerBox = BoxUtil.getBoxForPosition(player, packet.getX(), packet.getY(), packet.getZ()).expand(0.6); //Fences
                 // Not having a smaller feetbox shouldn't matter unless head is in a block lol
-                assertOrFlag(CollisionUtil.isTouching(playerBox, player.getWorld(), CollisionUtil.touchingTopPredicate(playerBox)), player, FlagSeverity.MINOR, "Spoofed onGround true");
+                if (assertOrFlag(CollisionUtil.isTouching(playerBox, player.getWorld(), CollisionUtil.touchingTopPredicate(playerBox)), player, FlagSeverity.MINOR, "Spoofed onGround true")) player.rollback();
             } else {
                 Box playerBox = BoxUtil.getBoxForPosition(player, packet.getX(), packet.getY(), packet.getZ()).expand(-0.1);
                 Box feetBox = new Box(playerBox.minX, playerBox.minY, playerBox.minZ, playerBox.minX, playerBox.maxY, playerBox.minZ);
