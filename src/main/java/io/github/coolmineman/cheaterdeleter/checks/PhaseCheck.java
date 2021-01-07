@@ -95,7 +95,6 @@ public class PhaseCheck extends Check implements MovementPacketCallback {
         return ActionResult.PASS;
     }
 
-    //TODO teleports people through floor
     @Override
     public boolean flag(CDPlayer player, FlagSeverity severity, String message) {
         if (super.flag(player, severity, message)) player.rollback();

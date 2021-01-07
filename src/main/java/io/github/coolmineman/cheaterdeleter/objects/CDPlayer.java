@@ -141,10 +141,8 @@ public final class CDPlayer {
 
     public void rollback() {
         tickRollback(mcPlayer.getX(), mcPlayer.getY(), mcPlayer.getZ(), false);
-        if (lastGoodY < 10) {
-            System.out.println(lastGoodX + " " + lastGoodY + " " + lastGoodZ);
-        }
         if (hasLastGood) teleport(lastGoodX, lastGoodY, lastGoodZ);
+        hasLastGood = true;
     }
 
     public void tickRollback(double x, double y, double z, boolean isTeleport) {
@@ -154,6 +152,8 @@ public final class CDPlayer {
             lastGoodZ = z;
             if (isTeleport)
                 hasLastGood = false;
+            else
+                hasLastGood = true;
         }
     }
 
