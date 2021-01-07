@@ -30,8 +30,9 @@ public class Check {
         return player.flag(this, severity);
     }
 
-    public void assertOrFlag(boolean condition, CDPlayer player, Check.FlagSeverity severity, String message) {
-        if (!condition) flag(player, severity, message);
+    public boolean assertOrFlag(boolean condition, CDPlayer player, Check.FlagSeverity severity, String message) {
+        if (!condition) return flag(player, severity, message);
+        return false;
     }
 
     public enum FlagSeverity {

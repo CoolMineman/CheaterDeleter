@@ -28,7 +28,7 @@ public class PhaseCheck extends Check implements MovementPacketCallback {
         if (packet.isChangePosition()) {
             World world = player.getWorld();
             Box box = BoxUtil.getBoxForPosition(player, packet.getX(), packet.getY(), packet.getZ()).expand(-0.1);
-            assertOrFlag(!CollisionUtil.isTouching(box, world, CollisionUtil.touchingNonSteppablePredicate(player.getStepHeight(), box, player.getY(), packet.getY())), player, FlagSeverity.MAJOR, "Failed Phase Check1");
+            if (assertOrFlag(!CollisionUtil.isTouching(box, world, CollisionUtil.touchingNonSteppablePredicate(player.getStepHeight(), box, player.getY(), packet.getY())), player, FlagSeverity.MAJOR, "Failed Phase Check1")) return ActionResult.FAIL;
             if (System.currentTimeMillis() - TrackerManager.get(PlayerLastTeleportData.class, player).lastTeleport < 1000) return ActionResult.PASS; 
             double currentX = player.getX();
             double currentY = player.getY();
@@ -95,6 +95,7 @@ public class PhaseCheck extends Check implements MovementPacketCallback {
         return ActionResult.PASS;
     }
 
+    //TODO teleports people through floor
     @Override
     public boolean flag(CDPlayer player, FlagSeverity severity, String message) {
         if (super.flag(player, severity, message)) player.rollback();

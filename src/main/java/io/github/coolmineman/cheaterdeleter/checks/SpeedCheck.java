@@ -15,6 +15,8 @@ import net.minecraft.util.ActionResult;
 
 //TODO This is garbage
 //TODO Ice
+//TODO Running at a cobble wall breaks this
+//TODO Running at crap seems to break this in general
 //TODO Block on head 
 public class SpeedCheck extends Check
         implements MovementPacketCallback, PlayerEndTickCallback {
@@ -46,7 +48,7 @@ public class SpeedCheck extends Check
             SpeedCheckData data = player.getOrCreateData(SpeedCheckData.class, SpeedCheckData::new);
             double distance = data.distance.getAndSet(0.0);
             double magicNumber = distance / (1 + (player.getSpeed() * 1.2)); // TODO Lmao what is this
-            if (magicNumber > 13) {
+            if (magicNumber > 13 && magicNumber < 100) { //TODO FIX THIS AHHHHHH
                 if (flag(player, FlagSeverity.MINOR, "Speed Check " + magicNumber))
                     player.rollback();
             }

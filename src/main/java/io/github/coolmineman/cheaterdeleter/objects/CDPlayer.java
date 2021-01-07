@@ -41,6 +41,7 @@ public final class CDPlayer {
     private double lastGoodX;
     private double lastGoodY;
     private double lastGoodZ;
+    private boolean hasLastGood;
 
     private boolean hasCurrentPlayerScreenHandler;
 
@@ -61,6 +62,7 @@ public final class CDPlayer {
         this.lastGoodX = mcPlayer.getX();
         this.lastGoodY = mcPlayer.getY();
         this.lastGoodZ = mcPlayer.getZ();
+        this.hasLastGood = false;
     }
 
     public <T> void putData(Class<T> clazz, T data) {
@@ -138,14 +140,20 @@ public final class CDPlayer {
     }
 
     public void rollback() {
-        teleport(lastGoodX, lastGoodY, lastGoodZ);
+        tickRollback(mcPlayer.getX(), mcPlayer.getY(), mcPlayer.getZ(), false);
+        if (lastGoodY < 10) {
+            System.out.println(lastGoodX + " " + lastGoodY + " " + lastGoodZ);
+        }
+        if (hasLastGood) teleport(lastGoodX, lastGoodY, lastGoodZ);
     }
 
-    public void tickRollback(double x, double y, double z, boolean bypassFlagsCheck) {
-        if (System.currentTimeMillis() - lastFlag > 5000 || bypassFlagsCheck) {
+    public void tickRollback(double x, double y, double z, boolean isTeleport) {
+        if (System.currentTimeMillis() - lastFlag > 5000 || isTeleport) {
             lastGoodX = x;
             lastGoodY = y;
             lastGoodZ = z;
+            if (isTeleport)
+                hasLastGood = false;
         }
     }
 
