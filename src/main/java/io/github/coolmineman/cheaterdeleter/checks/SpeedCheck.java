@@ -18,6 +18,7 @@ import net.minecraft.util.math.Box;
 
 //TODO This is garbage
 //TODO Ice
+//TODO Velocity/Inertia (not the mod)
 //TODO Block on head 
 public class SpeedCheck extends Check
         implements MovementPacketCallback, PlayerEndTickCallback, OutgoingTeleportListener {
