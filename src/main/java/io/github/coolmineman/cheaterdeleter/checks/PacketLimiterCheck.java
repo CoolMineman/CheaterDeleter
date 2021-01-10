@@ -1,7 +1,7 @@
 package io.github.coolmineman.cheaterdeleter.checks;
 
 import io.github.coolmineman.cheaterdeleter.events.PacketCallback;
-import io.github.coolmineman.cheaterdeleter.objects.CDPlayer;
+import io.github.coolmineman.cheaterdeleter.objects.entity.CDPlayer;
 import net.minecraft.network.Packet;
 import net.minecraft.network.listener.ServerPlayPacketListener;
 import net.minecraft.text.LiteralText;

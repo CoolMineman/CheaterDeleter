@@ -1,4 +1,4 @@
-package io.github.coolmineman.cheaterdeleter.duck;
+package io.github.coolmineman.cheaterdeleter.objects;
 
 public interface PlayerMoveC2SPacketView {
     double getX();

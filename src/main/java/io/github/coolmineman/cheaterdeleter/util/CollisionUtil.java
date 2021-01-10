@@ -5,7 +5,7 @@ import java.util.function.BiPredicate;
 import org.apache.commons.lang3.mutable.MutableBoolean;
 import org.apache.commons.lang3.mutable.MutableDouble;
 
-import io.github.coolmineman.cheaterdeleter.objects.CDPlayer;
+import io.github.coolmineman.cheaterdeleter.objects.entity.CDPlayer;
 import net.minecraft.block.BedBlock;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.SlimeBlock;
@@ -118,7 +118,7 @@ public class CollisionUtil {
     }
 
     public static boolean isNearby(CDPlayer player, double expandHorizontal, double expandVertical, BiPredicate<World, BlockPos> predicate) {
-        return isTouching(player.mcPlayer.getBoundingBox().expand(expandHorizontal, expandVertical, expandHorizontal), player.getWorld(), predicate);
+        return isTouching(player.asMcPlayer().getBoundingBox().expand(expandHorizontal, expandVertical, expandHorizontal), player.getWorld(), predicate);
     }
 
     public static boolean isNearby(CDPlayer player, double posx, double posy, double posz, double expandHorizontal, double expandVertical, BiPredicate<World, BlockPos> predicate) {

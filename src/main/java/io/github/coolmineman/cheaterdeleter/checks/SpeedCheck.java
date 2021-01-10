@@ -2,12 +2,12 @@ package io.github.coolmineman.cheaterdeleter.checks;
 
 import com.google.common.util.concurrent.AtomicDouble;
 
-import io.github.coolmineman.cheaterdeleter.duck.PlayerMoveC2SPacketView;
-import io.github.coolmineman.cheaterdeleter.duck.PlayerPositionLookS2CPacketView;
 import io.github.coolmineman.cheaterdeleter.events.MovementPacketCallback;
 import io.github.coolmineman.cheaterdeleter.events.OutgoingTeleportListener;
 import io.github.coolmineman.cheaterdeleter.events.PlayerEndTickCallback;
-import io.github.coolmineman.cheaterdeleter.objects.CDPlayer;
+import io.github.coolmineman.cheaterdeleter.objects.PlayerMoveC2SPacketView;
+import io.github.coolmineman.cheaterdeleter.objects.PlayerPositionLookS2CPacketView;
+import io.github.coolmineman.cheaterdeleter.objects.entity.CDPlayer;
 import io.github.coolmineman.cheaterdeleter.trackers.TrackerManager;
 import io.github.coolmineman.cheaterdeleter.trackers.data.PlayerLastTeleportData;
 import io.github.coolmineman.cheaterdeleter.util.BoxUtil;
@@ -32,10 +32,9 @@ public class SpeedCheck extends Check
     public ActionResult onMovementPacket(CDPlayer player, PlayerMoveC2SPacketView packet) {
         if (player.shouldBypassAnticheat())
             return ActionResult.PASS;
-        if (packet.isChangePosition() || !(player.mcPlayer.isCreative()
-                || System.currentTimeMillis()
-                        - TrackerManager.get(PlayerLastTeleportData.class, player).lastTeleport < 3000
-                || CollisionUtil.isNearby(player, 2, 4, CollisionUtil.SPLIPPERY))) {
+        if (packet.isChangePosition() &&
+            !(player.asMcPlayer().isCreative() || System.currentTimeMillis() - TrackerManager.get(PlayerLastTeleportData.class, player).lastTeleport < 100 || CollisionUtil.isNearby(player, 2, 4, CollisionUtil.SPLIPPERY))
+        ) {
             double distanceSquared = MathUtil.getDistanceSquared(player.getX(), player.getZ(), packet.getX(),
                     packet.getZ());
             double distance = Math.sqrt(distanceSquared);

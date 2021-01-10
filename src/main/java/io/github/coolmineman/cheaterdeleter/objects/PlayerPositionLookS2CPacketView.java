@@ -1,4 +1,4 @@
-package io.github.coolmineman.cheaterdeleter.duck;
+package io.github.coolmineman.cheaterdeleter.objects;
 
 import java.util.Set;
 

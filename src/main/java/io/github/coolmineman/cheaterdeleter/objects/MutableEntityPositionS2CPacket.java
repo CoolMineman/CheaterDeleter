@@ -1,4 +1,4 @@
-package io.github.coolmineman.cheaterdeleter.duck;
+package io.github.coolmineman.cheaterdeleter.objects;
 
 import net.minecraft.entity.Entity;
 import net.minecraft.world.World;

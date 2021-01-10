@@ -9,7 +9,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 import io.github.coolmineman.cheaterdeleter.events.OutgoingPacketListener;
 import io.github.coolmineman.cheaterdeleter.events.PacketCallback;
-import io.github.coolmineman.cheaterdeleter.objects.CDPlayer;
+import io.github.coolmineman.cheaterdeleter.objects.entity.CDPlayer;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.util.concurrent.Future;
 import io.netty.util.concurrent.GenericFutureListener;

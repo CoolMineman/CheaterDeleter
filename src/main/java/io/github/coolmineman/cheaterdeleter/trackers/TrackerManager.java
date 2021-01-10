@@ -2,7 +2,7 @@ package io.github.coolmineman.cheaterdeleter.trackers;
 
 import java.util.HashMap;
 
-import io.github.coolmineman.cheaterdeleter.objects.CDPlayer;
+import io.github.coolmineman.cheaterdeleter.objects.entity.CDPlayer;
 import io.github.coolmineman.cheaterdeleter.trackers.data.Data;
 
 public class TrackerManager {

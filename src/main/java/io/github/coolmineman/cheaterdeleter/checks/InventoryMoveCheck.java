@@ -1,8 +1,8 @@
 package io.github.coolmineman.cheaterdeleter.checks;
 
-import io.github.coolmineman.cheaterdeleter.duck.PlayerMoveC2SPacketView;
 import io.github.coolmineman.cheaterdeleter.events.MovementPacketCallback;
-import io.github.coolmineman.cheaterdeleter.objects.CDPlayer;
+import io.github.coolmineman.cheaterdeleter.objects.PlayerMoveC2SPacketView;
+import io.github.coolmineman.cheaterdeleter.objects.entity.CDPlayer;
 import io.github.coolmineman.cheaterdeleter.util.CollisionUtil;
 import net.minecraft.util.ActionResult;
 
@@ -16,7 +16,7 @@ public class InventoryMoveCheck extends Check implements MovementPacketCallback 
     public ActionResult onMovementPacket(CDPlayer player, PlayerMoveC2SPacketView packet) {
         if (player.shouldBypassAnticheat() || CollisionUtil.isNearby(player, 2, 4, CollisionUtil.NON_SOLID_COLLISION)) return ActionResult.PASS;
         if (packet.isChangePosition() && player.getCurrentScreenHandler() != null && invalidateMove(player, packet)) {
-            player.mcPlayer.closeHandledScreen();
+            player.asMcPlayer().closeHandledScreen();
             flag(player, FlagSeverity.MINOR, "Inventory Move");
         } else if (player.getCurrentScreenHandler() == null) {
             InventoryMoveCheckData data = player.getOrCreateData(InventoryMoveCheckData.class, InventoryMoveCheckData::new);

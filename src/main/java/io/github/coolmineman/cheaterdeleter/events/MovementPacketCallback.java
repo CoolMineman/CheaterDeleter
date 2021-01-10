@@ -1,7 +1,7 @@
 package io.github.coolmineman.cheaterdeleter.events;
 
-import io.github.coolmineman.cheaterdeleter.duck.PlayerMoveC2SPacketView;
-import io.github.coolmineman.cheaterdeleter.objects.CDPlayer;
+import io.github.coolmineman.cheaterdeleter.objects.PlayerMoveC2SPacketView;
+import io.github.coolmineman.cheaterdeleter.objects.entity.CDPlayer;
 import net.fabricmc.fabric.api.event.Event;
 import net.fabricmc.fabric.api.event.EventFactory;
 import net.minecraft.network.packet.c2s.play.PlayerMoveC2SPacket;

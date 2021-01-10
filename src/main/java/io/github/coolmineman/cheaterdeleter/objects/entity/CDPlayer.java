@@ -1,0 +1,198 @@
+package io.github.coolmineman.cheaterdeleter.objects.entity;
+
+import java.util.Locale;
+
+import org.jetbrains.annotations.Nullable;
+
+import io.github.coolmineman.cheaterdeleter.checks.Check;
+import io.github.coolmineman.cheaterdeleter.checks.config.GlobalConfig;
+import io.github.coolmineman.cheaterdeleter.compat.CompatManager;
+import io.github.coolmineman.cheaterdeleter.compat.LuckoPermissionsCompat;
+import io.github.coolmineman.cheaterdeleter.compat.StepHeightEntityAttributeCompat;
+import io.github.coolmineman.cheaterdeleter.util.BoxUtil;
+import net.fabricmc.fabric.api.util.TriState;
+import net.minecraft.network.MessageType;
+import net.minecraft.screen.ScreenHandler;
+import net.minecraft.server.network.ServerPlayNetworkHandler;
+import net.minecraft.server.network.ServerPlayerEntity;
+import net.minecraft.text.LiteralText;
+import net.minecraft.text.Text;
+import net.minecraft.util.Util;
+import net.minecraft.util.math.Box;
+
+public interface CDPlayer extends CDEntity {
+
+    @Override
+    default void _init() {
+        CDEntity.super._init();
+        CDPlayerEx ex = new CDPlayerEx(this);
+        putData(CDPlayerEx.class, ex);
+    }
+
+    default void flag(int amount) {
+        CDPlayerEx ex = getData(CDPlayerEx.class);
+        if (ex.flags > 0) {
+            long timeDelta = System.currentTimeMillis() - ex.lastFlag;
+            while (timeDelta > 1000) { //Runs once per second
+                timeDelta -= 1000;
+                //Max of 16 minor flags or 4 major per 1 min 
+                ex.flags -= 1.0 / (16.0 * 5.0 * 60.0);
+                if (ex.flags < 0) {
+                    ex.flags = 0;
+                }
+            }
+        }
+        ex.flags += amount;
+        ex.lastFlag = System.currentTimeMillis();
+        if (ex.flags > 16) {
+            kick(new LiteralText("Flagged Too Much by AC"));
+        }
+    }
+
+    default void minorFlag() {
+        flag(1);
+    }
+
+    default void majorFlag() {
+        flag(4);
+    }
+
+    /**
+     * Call on failed Check
+     * @return punish if true
+     */
+    default boolean flag(Check check, Check.FlagSeverity severity) {
+        CDPlayerEx ex = getData(CDPlayerEx.class);
+        if (check.getFlagCoolDownMs() > System.currentTimeMillis() - ex.lastFlagsMap.getLong(check)) {
+            return false;
+        }
+        ex.lastFlagsMap.put(check, System.currentTimeMillis());
+        switch (severity) {
+            case MAJOR:
+                majorFlag();
+            break;
+            case MINOR:
+                minorFlag();
+            break;
+        }
+        return true;
+    }
+
+    @Nullable
+    default ScreenHandler getCurrentScreenHandler() {
+        CDPlayerEx ex = getData(CDPlayerEx.class);
+        return asMcPlayer().currentScreenHandler == asMcPlayer().playerScreenHandler && !ex.hasCurrentPlayerScreenHandler ? null : asMcPlayer().currentScreenHandler;
+    }
+
+    default void setHasCurrentPlayerScreenHandler(boolean hasCurrentPlayerScreenHandler) {
+        CDPlayerEx ex = getData(CDPlayerEx.class);
+        ex.hasCurrentPlayerScreenHandler = hasCurrentPlayerScreenHandler;
+    }
+
+    default void rollback() {
+        tickRollback(asMcPlayer().getX(), asMcPlayer().getY(), asMcPlayer().getZ(), false);
+        CDPlayerEx ex = getData(CDPlayerEx.class);
+        if (ex.hasLastGood) teleport(ex.lastGoodX, ex.lastGoodY, ex.lastGoodZ);
+    }
+
+    default void tickRollback(double x, double y, double z, boolean isTeleport) {
+        CDPlayerEx ex = getData(CDPlayerEx.class);
+        if (System.currentTimeMillis() - ex.lastFlag > 5000 || isTeleport) {
+            ex.lastGoodX = x;
+            ex.lastGoodY = y;
+            ex.lastGoodZ = z;
+            if (isTeleport)
+                ex.hasLastGood = false;
+            else
+                ex.hasLastGood = true;
+        } else if (!ex.hasLastGood) {
+            ex.lastGoodX = x;
+            ex.lastGoodY = y;
+            ex.lastGoodZ = z;
+            ex.hasLastGood = true;
+        }
+    }
+
+    default TriState getPermission(String permission) {
+        LuckoPermissionsCompat compat = CompatManager.getCompatHolder(LuckoPermissionsCompat.class).compat;
+        return compat != null ? compat.get(this, permission) : TriState.DEFAULT;
+    }
+
+    default boolean shouldBypassAnticheat() {
+        return getPermission("cheaterdeleter.bypassanticheat") == TriState.TRUE;
+    }
+
+    default boolean shouldSendMajorFlags() {
+        return getPermission("cheaterdeleter.sendmajorflags") == TriState.TRUE;
+    }
+
+    default boolean shouldSendMinorFlags() {
+        return getPermission("cheaterdeleter.cheaterdeleter.sendminorflags") == TriState.TRUE;
+    }
+
+    default void teleport(double x, double y, double z) {
+        teleport(x, y, z, getYaw(), getPitch());
+        CDPlayerEx ex = getData(CDPlayerEx.class);
+        ex.lastGoodX = x;
+        ex.lastGoodY = y;
+        ex.lastGoodZ = z;
+        ex.hasLastGood = true;
+    }
+
+    default void teleport(double x, double y, double z, float yaw, float pitch) {
+        asMcPlayer().networkHandler.requestTeleport(x, y, z, yaw, pitch);
+    }
+
+    default float getSpeed() {
+        return asMcPlayer().getMovementSpeed();
+    }
+
+    /**
+     * Gets Box For Current Position, Not Cached Use A Local Variable For Calls
+     */
+    default Box getBox() {
+        return BoxUtil.getBoxForPosition(this, this.getX(), this.getY(), this.getZ());
+    }
+
+    default float getStepHeight() {
+        StepHeightEntityAttributeCompat compat = CompatManager.getCompatHolder(StepHeightEntityAttributeCompat.class).compat;
+        if (compat == null) {
+            return 0.6f;
+        } else {
+            return compat.getStepHeightAddition(asMcPlayer()) + 0.6f;
+        }
+    }
+
+    /**
+     * True if flying with an Elytra or similar
+     */
+    default boolean isFallFlying() {
+        return asMcPlayer().isFallFlying();
+    }
+
+    default ServerPlayNetworkHandler getNetworkHandler() {
+        return asMcPlayer().networkHandler;
+    }
+
+    default void kick(Text text) {
+        if (GlobalConfig.debugMode >= 2) {
+            asMcPlayer().sendMessage(new LiteralText("Kicked: ").append(text), MessageType.SYSTEM, Util.NIL_UUID);
+            CDPlayerEx ex = getData(CDPlayerEx.class);
+            ex.flags = 0;
+        } else {
+            asMcPlayer().networkHandler.disconnect(text);
+        }
+    }
+
+    default String asString() {
+        return String.format(Locale.ROOT, "Player['%s'/%s, l='%s', x=%.2f, y=%.2f, z=%.2f]", asMcPlayer().getName().asString(), this.getUuid().toString(), this.getWorld() == null ? "~NULL~" : this.getWorld().toString(), this.getX(), this.getY(), this.getZ());
+    }
+
+    default ServerPlayerEntity asMcPlayer() {
+        return (ServerPlayerEntity)this;
+    }
+
+    public static CDPlayer of(ServerPlayerEntity mcPlayer) {
+        return ((CDPlayer)mcPlayer);
+    }
+}

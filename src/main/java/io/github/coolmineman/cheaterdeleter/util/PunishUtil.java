@@ -1,6 +1,6 @@
 package io.github.coolmineman.cheaterdeleter.util;
 
-import io.github.coolmineman.cheaterdeleter.objects.CDPlayer;
+import io.github.coolmineman.cheaterdeleter.objects.entity.CDPlayer;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Box;
 import net.minecraft.world.World;

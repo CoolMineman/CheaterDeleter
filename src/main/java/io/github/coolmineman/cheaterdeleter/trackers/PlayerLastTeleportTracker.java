@@ -2,9 +2,9 @@ package io.github.coolmineman.cheaterdeleter.trackers;
 
 import org.jetbrains.annotations.NotNull;
 
-import io.github.coolmineman.cheaterdeleter.duck.PlayerPositionLookS2CPacketView;
 import io.github.coolmineman.cheaterdeleter.events.OutgoingTeleportListener;
-import io.github.coolmineman.cheaterdeleter.objects.CDPlayer;
+import io.github.coolmineman.cheaterdeleter.objects.PlayerPositionLookS2CPacketView;
+import io.github.coolmineman.cheaterdeleter.objects.entity.CDPlayer;
 import io.github.coolmineman.cheaterdeleter.trackers.data.PlayerLastTeleportData;
 
 public class PlayerLastTeleportTracker extends Tracker<PlayerLastTeleportData> implements OutgoingTeleportListener {

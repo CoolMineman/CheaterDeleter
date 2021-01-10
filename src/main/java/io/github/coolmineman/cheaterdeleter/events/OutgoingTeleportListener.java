@@ -1,7 +1,7 @@
 package io.github.coolmineman.cheaterdeleter.events;
 
-import io.github.coolmineman.cheaterdeleter.duck.PlayerPositionLookS2CPacketView;
-import io.github.coolmineman.cheaterdeleter.objects.CDPlayer;
+import io.github.coolmineman.cheaterdeleter.objects.PlayerPositionLookS2CPacketView;
+import io.github.coolmineman.cheaterdeleter.objects.entity.CDPlayer;
 import net.fabricmc.fabric.api.event.Event;
 import net.fabricmc.fabric.api.event.EventFactory;
 import net.minecraft.network.packet.s2c.play.PlayerPositionLookS2CPacket;

@@ -1,13 +1,13 @@
 package io.github.coolmineman.cheaterdeleter.util;
 
-import io.github.coolmineman.cheaterdeleter.objects.CDPlayer;
+import io.github.coolmineman.cheaterdeleter.objects.entity.CDPlayer;
 import net.minecraft.util.math.Box;
 
 public class BoxUtil {
     private BoxUtil() { }
 
     public static Box getBoxForPosition(CDPlayer player, double posx, double posy, double posz) {
-        return player.mcPlayer.getDimensions(player.mcPlayer.getPose()).method_30231(posx, posy, posz); // method_30231 -> withPos
+        return player.asMcPlayer().getDimensions(player.asMcPlayer().getPose()).method_30231(posx, posy, posz); // method_30231 -> withPos
     }
 
     public static Box withNewMinY(Box box, double minY) {

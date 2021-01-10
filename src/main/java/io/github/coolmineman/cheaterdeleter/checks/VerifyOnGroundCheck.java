@@ -1,8 +1,8 @@
 package io.github.coolmineman.cheaterdeleter.checks;
 
-import io.github.coolmineman.cheaterdeleter.duck.PlayerMoveC2SPacketView;
 import io.github.coolmineman.cheaterdeleter.events.MovementPacketCallback;
-import io.github.coolmineman.cheaterdeleter.objects.CDPlayer;
+import io.github.coolmineman.cheaterdeleter.objects.PlayerMoveC2SPacketView;
+import io.github.coolmineman.cheaterdeleter.objects.entity.CDPlayer;
 import io.github.coolmineman.cheaterdeleter.util.BoxUtil;
 import io.github.coolmineman.cheaterdeleter.util.CollisionUtil;
 import net.minecraft.util.ActionResult;

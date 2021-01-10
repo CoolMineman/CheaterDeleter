@@ -5,7 +5,7 @@ import java.util.Set;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 
-import io.github.coolmineman.cheaterdeleter.duck.PlayerPositionLookS2CPacketView;
+import io.github.coolmineman.cheaterdeleter.objects.PlayerPositionLookS2CPacketView;
 import net.minecraft.network.packet.s2c.play.PlayerPositionLookS2CPacket;
 import net.minecraft.network.packet.s2c.play.PlayerPositionLookS2CPacket.Flag;
 

@@ -2,9 +2,9 @@ package io.github.coolmineman.cheaterdeleter.trackers;
 
 import org.jetbrains.annotations.NotNull;
 
-import io.github.coolmineman.cheaterdeleter.duck.PlayerMoveC2SPacketView;
 import io.github.coolmineman.cheaterdeleter.events.MovementPacketCallback;
-import io.github.coolmineman.cheaterdeleter.objects.CDPlayer;
+import io.github.coolmineman.cheaterdeleter.objects.PlayerMoveC2SPacketView;
+import io.github.coolmineman.cheaterdeleter.objects.entity.CDPlayer;
 import io.github.coolmineman.cheaterdeleter.trackers.data.PlayerHitGroundData;
 import net.minecraft.util.ActionResult;
 

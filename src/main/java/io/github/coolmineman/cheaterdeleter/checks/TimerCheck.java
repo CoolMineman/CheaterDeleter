@@ -2,10 +2,10 @@ package io.github.coolmineman.cheaterdeleter.checks;
 
 import java.util.concurrent.atomic.AtomicInteger;
 
-import io.github.coolmineman.cheaterdeleter.duck.PlayerMoveC2SPacketView;
 import io.github.coolmineman.cheaterdeleter.events.MovementPacketCallback;
 import io.github.coolmineman.cheaterdeleter.events.PlayerEndTickCallback;
-import io.github.coolmineman.cheaterdeleter.objects.CDPlayer;
+import io.github.coolmineman.cheaterdeleter.objects.PlayerMoveC2SPacketView;
+import io.github.coolmineman.cheaterdeleter.objects.entity.CDPlayer;
 import net.minecraft.util.ActionResult;
 
 public class TimerCheck extends Check implements MovementPacketCallback, PlayerEndTickCallback {
