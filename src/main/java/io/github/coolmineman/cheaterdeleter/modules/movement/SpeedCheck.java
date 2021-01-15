@@ -39,7 +39,7 @@ public class SpeedCheck extends CDModule
             double distanceSquared = MathUtil.getDistanceSquared(player.getX(), player.getZ(), packet.getX(),
                     packet.getZ());
             double distance = Math.sqrt(distanceSquared);
-            Box box = BoxUtil.getBoxForPosition(player, packet.getX(), packet.getY(), packet.getZ()).expand(0.1, -0.1,
+            Box box = player.getBoxForPosition(packet.getX(), packet.getY(), packet.getZ()).expand(0.1, -0.1,
                     0.1);
             if (!BlockCollisionUtil.isTouching(box, player.getWorld(), BlockCollisionUtil.touchingPredicate(box)))
                 player.getOrCreateData(SpeedCheckData.class, SpeedCheckData::new).distance.addAndGet(distance); // Bruh

@@ -139,6 +139,7 @@ public interface CDPlayer extends CDEntity {
         ex.hasLastGood = true;
     }
 
+    //TODO: Still breaks boats somehow
     default void teleport(double x, double y, double z, float yaw, float pitch) {
         if (asMcPlayer().hasVehicle()) asMcPlayer().stopRiding();
         asMcPlayer().networkHandler.requestTeleport(x, y, z, yaw, pitch);
@@ -148,13 +149,7 @@ public interface CDPlayer extends CDEntity {
         return asMcPlayer().getMovementSpeed();
     }
 
-    /**
-     * Gets Box For Current Position, Not Cached Use A Local Variable For Calls
-     */
-    default Box getBox() {
-        return BoxUtil.getBoxForPosition(this, this.getX(), this.getY(), this.getZ());
-    }
-
+    @Override
     default float getStepHeight() {
         StepHeightEntityAttributeCompat compat = CompatManager.getCompatHolder(StepHeightEntityAttributeCompat.class).compat;
         if (compat == null) {

@@ -29,6 +29,14 @@ public class BlockCollisionUtil {
         return false;
     };
 
+    public static final BiPredicate<World, BlockPos> LIQUID = (world, pos) -> {
+        BlockState state = world.getBlockState(pos);
+        if (!state.getFluidState().isEmpty()) return true;
+        if (state.getMaterial().isLiquid()) return true;
+        return false;
+    };
+
+
     public static final BiPredicate<World, BlockPos> FENCE_LIKE = (world, pos) -> {
         BlockState state = world.getBlockState(pos);
         VoxelShape shape = state.getCollisionShape(world, pos);
@@ -125,7 +133,7 @@ public class BlockCollisionUtil {
     }
 
     public static boolean isNearby(CDPlayer player, double posx, double posy, double posz, double expandHorizontal, double expandVertical, BiPredicate<World, BlockPos> predicate) {
-        return isTouching(BoxUtil.getBoxForPosition(player, posx, posy, posz).expand(expandHorizontal, expandVertical, expandHorizontal), player.getWorld(), predicate);
+        return isTouching(player.getBoxForPosition(posx, posy, posz).expand(expandHorizontal, expandVertical, expandHorizontal), player.getWorld(), predicate);
     }
 
     public static boolean isTouching(Box box, World world, BiPredicate<World, BlockPos> predicate) {

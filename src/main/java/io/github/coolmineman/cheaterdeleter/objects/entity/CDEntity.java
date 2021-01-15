@@ -39,7 +39,27 @@ public interface CDEntity {
         return asMcEntity().isCollidable() ? asMcEntity().getBoundingBox() : null;
     }
 
+    /**
+     * Gets Box For Current Position, Not Cached Use A Local Variable For Calls
+     */
+    default Box getBox() {
+        return getBoxForPosition(this.getX(), this.getY(), this.getZ());
+    }
+
+    default Box getBoxForPosition(double posx, double posy, double posz) {
+        return asMcEntity().getDimensions(asMcEntity().getPose()).method_30231(posx, posy, posz); // method_30231 -> withPos
+    }
+
     default void _init() {
+    }
+
+    @Nullable
+    default CDEntity getVehicleCd() {
+        return CDEntity.of(asMcEntity().getVehicle());
+    }
+
+    default float getStepHeight() {
+        return asMcEntity().stepHeight;
     }
 
     default double getX() {

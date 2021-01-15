@@ -1,6 +1,7 @@
 package io.github.coolmineman.cheaterdeleter.modules.movement;
 
 import io.github.coolmineman.cheaterdeleter.modules.ModuleManager;
+import io.github.coolmineman.cheaterdeleter.modules.movement.entity.BoatFlyCheck;
 
 public class MovementModuleManager {
     private MovementModuleManager() { }
@@ -13,5 +14,7 @@ public class MovementModuleManager {
         ModuleManager.registerCheck(new PhaseCheck());
         ModuleManager.registerCheck(new SpeedCheck());
         ModuleManager.registerCheck(new InventoryMoveCheck());
+        //Entity
+        ModuleManager.registerCheck(new BoatFlyCheck());
     }
 }

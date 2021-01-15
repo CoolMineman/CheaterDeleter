@@ -33,7 +33,7 @@ public class CollisionUtil {
     }
 
     public static boolean isNearby(CDPlayer player, double posx, double posy, double posz, double expandHorizontal, double expandVertical, Pair<BiPredicate<World, BlockPos>, Predicate<CDEntity>> predicates) {
-        return isTouching(player, BoxUtil.getBoxForPosition(player, posx, posy, posz).expand(expandHorizontal, expandVertical, expandHorizontal), player.getWorld(), predicates);
+        return isTouching(player, player.getBoxForPosition(posx, posy, posz).expand(expandHorizontal, expandVertical, expandHorizontal), player.getWorld(), predicates);
     }
 
     public static boolean isTouching(@Nullable CDEntity excludeEntity, Box box, World world, Pair<BiPredicate<World, BlockPos>, Predicate<CDEntity>> predicates) {

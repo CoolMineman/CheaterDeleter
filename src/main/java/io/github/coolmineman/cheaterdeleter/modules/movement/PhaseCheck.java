@@ -28,7 +28,7 @@ public class PhaseCheck extends CDModule implements MovementPacketCallback {
         if (player.shouldBypassAnticheat()) return ActionResult.PASS;
         if (packet.isChangePosition()) {
             World world = player.getWorld();
-            Box box = BoxUtil.getBoxForPosition(player, packet.getX(), packet.getY(), packet.getZ()).expand(-0.1);
+            Box box = player.getBoxForPosition(packet.getX(), packet.getY(), packet.getZ()).expand(-0.1);
             if (assertOrFlag(!BlockCollisionUtil.isTouching(box, world, BlockCollisionUtil.touchingNonSteppablePredicate(player.getStepHeight(), box, player.getY(), packet.getY())), player, FlagSeverity.MAJOR, "Failed Phase Check1")) return ActionResult.FAIL;
             if (System.currentTimeMillis() - player.getTracked(Trackers.PLAYER_LAST_TELEPORT_TRACKER).lastTeleport < 1000) return ActionResult.PASS; 
             double currentX = player.getX();
@@ -44,7 +44,7 @@ public class PhaseCheck extends CDModule implements MovementPacketCallback {
             boolean targetZPositive = targetZ > player.getZ();
             boolean hitTargetZ = false;
             while (!(hitTargetX && hitTargetY && hitTargetZ)) {
-                box = BoxUtil.getBoxForPosition(player, currentX, currentY, currentZ).expand(-0.1);
+                box = player.getBoxForPosition(currentX, currentY, currentZ).expand(-0.1);
                 assertOrFlag(!BlockCollisionUtil.isTouching(box, world, BlockCollisionUtil.touchingNonSteppablePredicate(player.getStepHeight(), box, player.getY(), packet.getY())), player, FlagSeverity.MAJOR, "Failed Phase Check2");
                 if (!hitTargetX) {
                     if (targetXPositive) {
