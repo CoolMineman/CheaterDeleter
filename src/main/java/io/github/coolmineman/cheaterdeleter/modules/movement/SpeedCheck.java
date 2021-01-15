@@ -1,14 +1,15 @@
-package io.github.coolmineman.cheaterdeleter.checks;
+package io.github.coolmineman.cheaterdeleter.modules.movement;
 
 import com.google.common.util.concurrent.AtomicDouble;
 
 import io.github.coolmineman.cheaterdeleter.events.MovementPacketCallback;
 import io.github.coolmineman.cheaterdeleter.events.OutgoingTeleportListener;
 import io.github.coolmineman.cheaterdeleter.events.PlayerEndTickCallback;
+import io.github.coolmineman.cheaterdeleter.modules.CDModule;
 import io.github.coolmineman.cheaterdeleter.objects.PlayerMoveC2SPacketView;
 import io.github.coolmineman.cheaterdeleter.objects.PlayerPositionLookS2CPacketView;
 import io.github.coolmineman.cheaterdeleter.objects.entity.CDPlayer;
-import io.github.coolmineman.cheaterdeleter.trackers.TrackerManager;
+import io.github.coolmineman.cheaterdeleter.trackers.Trackers;
 import io.github.coolmineman.cheaterdeleter.trackers.data.PlayerLastTeleportData;
 import io.github.coolmineman.cheaterdeleter.util.BoxUtil;
 import io.github.coolmineman.cheaterdeleter.util.BlockCollisionUtil;
@@ -20,7 +21,7 @@ import net.minecraft.util.math.Box;
 //TODO Ice
 //TODO Velocity/Inertia (not the mod)
 //TODO Block on head 
-public class SpeedCheck extends Check
+public class SpeedCheck extends CDModule
         implements MovementPacketCallback, PlayerEndTickCallback, OutgoingTeleportListener {
     public SpeedCheck() {
         MovementPacketCallback.EVENT.register(this);
@@ -33,7 +34,7 @@ public class SpeedCheck extends Check
         if (player.shouldBypassAnticheat())
             return ActionResult.PASS;
         if (packet.isChangePosition() &&
-            !(player.asMcPlayer().isCreative() || System.currentTimeMillis() - TrackerManager.get(PlayerLastTeleportData.class, player).lastTeleport < 100 || BlockCollisionUtil.isNearby(player, 2, 4, BlockCollisionUtil.SPLIPPERY))
+            !(player.asMcPlayer().isCreative() || System.currentTimeMillis() - player.getTracked(Trackers.PLAYER_LAST_TELEPORT_TRACKER).lastTeleport < 100 || BlockCollisionUtil.isNearby(player, 2, 4, BlockCollisionUtil.SPLIPPERY))
         ) {
             double distanceSquared = MathUtil.getDistanceSquared(player.getX(), player.getZ(), packet.getX(),
                     packet.getZ());

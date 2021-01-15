@@ -4,6 +4,7 @@ import org.jetbrains.annotations.NotNull;
 
 import io.github.coolmineman.cheaterdeleter.events.OutgoingTeleportListener;
 import io.github.coolmineman.cheaterdeleter.objects.PlayerPositionLookS2CPacketView;
+import io.github.coolmineman.cheaterdeleter.objects.entity.CDEntity;
 import io.github.coolmineman.cheaterdeleter.objects.entity.CDPlayer;
 import io.github.coolmineman.cheaterdeleter.trackers.data.PlayerLastTeleportData;
 
@@ -16,8 +17,8 @@ public class PlayerLastTeleportTracker extends Tracker<PlayerLastTeleportData> i
 
     @Override
     @NotNull
-    PlayerLastTeleportData get(CDPlayer player) {
-        return player.getOrCreateData(PlayerLastTeleportData.class, PlayerLastTeleportData::new);
+    public PlayerLastTeleportData get(CDEntity entity) {
+        return entity.getOrCreateData(PlayerLastTeleportData.class, PlayerLastTeleportData::new);
     }
 
     @Override

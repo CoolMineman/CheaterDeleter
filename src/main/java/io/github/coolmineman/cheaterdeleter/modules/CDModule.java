@@ -1,16 +1,16 @@
-package io.github.coolmineman.cheaterdeleter.checks;
+package io.github.coolmineman.cheaterdeleter.modules;
 
 import io.github.coolmineman.cheaterdeleter.CheaterDeleterInit;
-import io.github.coolmineman.cheaterdeleter.checks.config.GlobalConfig;
+import io.github.coolmineman.cheaterdeleter.modules.config.GlobalConfig;
 import io.github.coolmineman.cheaterdeleter.objects.entity.CDPlayer;
 import net.minecraft.text.LiteralText;
 
-public class Check {
+public class CDModule {
     public long getFlagCoolDownMs() {
         return 1000;
     }
 
-    public boolean flag(CDPlayer player, Check.FlagSeverity severity, String message) {
+    public boolean flag(CDPlayer player, CDModule.FlagSeverity severity, String message) {
         if (GlobalConfig.debugMode >= 1) {
             player.asMcPlayer().sendMessage(new LiteralText("Flagged: " + message), true);
         }
@@ -30,7 +30,7 @@ public class Check {
         return player.flag(this, severity);
     }
 
-    public boolean assertOrFlag(boolean condition, CDPlayer player, Check.FlagSeverity severity, String message) {
+    public boolean assertOrFlag(boolean condition, CDPlayer player, CDModule.FlagSeverity severity, String message) {
         if (!condition) return flag(player, severity, message);
         return false;
     }

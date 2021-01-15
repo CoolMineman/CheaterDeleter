@@ -3,10 +3,10 @@ package io.github.coolmineman.cheaterdeleter;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import io.github.coolmineman.cheaterdeleter.checks.CheckManager;
 import io.github.coolmineman.cheaterdeleter.compat.CompatManager;
 import io.github.coolmineman.cheaterdeleter.events.EventManager;
-import io.github.coolmineman.cheaterdeleter.trackers.TrackerManager;
+import io.github.coolmineman.cheaterdeleter.modules.ModuleManager;
+import io.github.coolmineman.cheaterdeleter.trackers.Trackers;
 import net.fabricmc.api.ModInitializer;
 
 public class CheaterDeleterInit implements ModInitializer {
@@ -24,12 +24,12 @@ public class CheaterDeleterInit implements ModInitializer {
 		LOGGER.info("Finished Initializing Events");
 		LOGGER.info("Initializing Trackers...");
 		long trackerInitStart = System.currentTimeMillis();
-		TrackerManager.init();
-		LOGGER.info("Loaded {} trackers in {}ms", TrackerManager.getTrackerCount(), System.currentTimeMillis() - trackerInitStart);
+		Trackers.init();
+		LOGGER.info("Loaded {} trackers in {}ms", Trackers.getTrackerCount(), System.currentTimeMillis() - trackerInitStart);
 		LOGGER.info("Initializing Checks...");
 		long checkInitStart = System.currentTimeMillis();
-		CheckManager.init();
-		LOGGER.info("Loaded {} checks in {}ms", CheckManager.getCheckCount(), System.currentTimeMillis() - checkInitStart);
+		ModuleManager.init();
+		LOGGER.info("Loaded {} modules in {}ms", ModuleManager.getCheckCount(), System.currentTimeMillis() - checkInitStart);
 		LOGGER.info("Initializing Compatability Manager");
 		long compatInitStart = System.currentTimeMillis();
 		CompatManager.init();

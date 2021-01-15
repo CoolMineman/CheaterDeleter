@@ -1,7 +1,8 @@
-package io.github.coolmineman.cheaterdeleter.checks;
+package io.github.coolmineman.cheaterdeleter.modules.movement;
 
 import io.github.coolmineman.cheaterdeleter.events.MovementPacketCallback;
 import io.github.coolmineman.cheaterdeleter.events.PlayerDamageListener;
+import io.github.coolmineman.cheaterdeleter.modules.CDModule;
 import io.github.coolmineman.cheaterdeleter.objects.PlayerMoveC2SPacketView;
 import io.github.coolmineman.cheaterdeleter.objects.entity.CDPlayer;
 import io.github.coolmineman.cheaterdeleter.util.BlockCollisionUtil;
@@ -10,7 +11,7 @@ import net.minecraft.entity.damage.DamageSource;
 import net.minecraft.entity.effect.StatusEffects;
 import net.minecraft.util.ActionResult;
 
-public class VerticalCheck extends Check implements MovementPacketCallback, PlayerDamageListener {
+public class VerticalCheck extends CDModule implements MovementPacketCallback, PlayerDamageListener {
     public VerticalCheck() {
         MovementPacketCallback.EVENT.register(this);
 

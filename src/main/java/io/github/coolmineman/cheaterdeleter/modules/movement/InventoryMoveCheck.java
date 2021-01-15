@@ -1,12 +1,13 @@
-package io.github.coolmineman.cheaterdeleter.checks;
+package io.github.coolmineman.cheaterdeleter.modules.movement;
 
 import io.github.coolmineman.cheaterdeleter.events.MovementPacketCallback;
+import io.github.coolmineman.cheaterdeleter.modules.CDModule;
 import io.github.coolmineman.cheaterdeleter.objects.PlayerMoveC2SPacketView;
 import io.github.coolmineman.cheaterdeleter.objects.entity.CDPlayer;
 import io.github.coolmineman.cheaterdeleter.util.BlockCollisionUtil;
 import net.minecraft.util.ActionResult;
 
-public class InventoryMoveCheck extends Check implements MovementPacketCallback {
+public class InventoryMoveCheck extends CDModule implements MovementPacketCallback {
     public InventoryMoveCheck() {
         MovementPacketCallback.EVENT.register(this);
     }

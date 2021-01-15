@@ -1,4 +1,4 @@
-package io.github.coolmineman.cheaterdeleter.checks.config;
+package io.github.coolmineman.cheaterdeleter.modules.config;
 
 import net.fabricmc.loader.api.FabricLoader;
 

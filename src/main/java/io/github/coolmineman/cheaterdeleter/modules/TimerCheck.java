@@ -1,4 +1,4 @@
-package io.github.coolmineman.cheaterdeleter.checks;
+package io.github.coolmineman.cheaterdeleter.modules;
 
 import java.util.concurrent.atomic.AtomicInteger;
 
@@ -8,7 +8,8 @@ import io.github.coolmineman.cheaterdeleter.objects.PlayerMoveC2SPacketView;
 import io.github.coolmineman.cheaterdeleter.objects.entity.CDPlayer;
 import net.minecraft.util.ActionResult;
 
-public class TimerCheck extends Check implements MovementPacketCallback, PlayerEndTickCallback {
+//TODO: Fails when walking into a glitched boat
+public class TimerCheck extends CDModule implements MovementPacketCallback, PlayerEndTickCallback {
     private static final int CHECK_PERIOD = 5;
     private static final int MAX_PACKETS = 21 * CHECK_PERIOD; // 20 is target give some wiggle room
 

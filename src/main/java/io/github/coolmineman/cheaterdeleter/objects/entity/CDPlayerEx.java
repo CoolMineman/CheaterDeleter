@@ -1,8 +1,8 @@
 package io.github.coolmineman.cheaterdeleter.objects.entity;
 
-import io.github.coolmineman.cheaterdeleter.checks.Check;
 import io.github.coolmineman.cheaterdeleter.events.ClickSlotC2SPacketCallback;
 import io.github.coolmineman.cheaterdeleter.events.OutgoingTeleportListener;
+import io.github.coolmineman.cheaterdeleter.modules.CDModule;
 import it.unimi.dsi.fastutil.objects.Object2LongOpenHashMap;
 import net.minecraft.util.ActionResult;
 
@@ -24,7 +24,7 @@ import net.minecraft.util.ActionResult;
         this.lastGoodZ = player.getZ();
     }
 
-    public Object2LongOpenHashMap<Check> lastFlagsMap = new Object2LongOpenHashMap<>();
+    public Object2LongOpenHashMap<CDModule> lastFlagsMap = new Object2LongOpenHashMap<>();
 
     public double flags = 0.0;
     public long lastFlag = 0;

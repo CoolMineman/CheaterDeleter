@@ -1,16 +1,17 @@
-package io.github.coolmineman.cheaterdeleter.checks;
+package io.github.coolmineman.cheaterdeleter.modules.movement;
 
 import java.util.concurrent.atomic.AtomicInteger;
 
 import io.github.coolmineman.cheaterdeleter.events.MovementPacketCallback;
 import io.github.coolmineman.cheaterdeleter.events.PlayerDamageListener;
+import io.github.coolmineman.cheaterdeleter.modules.CDModule;
 import io.github.coolmineman.cheaterdeleter.objects.PlayerMoveC2SPacketView;
 import io.github.coolmineman.cheaterdeleter.objects.entity.CDPlayer;
 import io.github.coolmineman.cheaterdeleter.util.PunishUtil;
 import net.minecraft.entity.damage.DamageSource;
 import net.minecraft.util.ActionResult;
 
-public class GlideCheck extends Check implements MovementPacketCallback, PlayerDamageListener {
+public class GlideCheck extends CDModule implements MovementPacketCallback, PlayerDamageListener {
     public GlideCheck() {
         MovementPacketCallback.EVENT.register(this);
         PlayerDamageListener.EVENT.register(this);
@@ -48,7 +49,7 @@ public class GlideCheck extends Check implements MovementPacketCallback, PlayerD
         if (failamount < 2.0) {
             flag(player, FlagSeverity.MINOR, "Failed Glide Check (Minor) " + failamount);
         } else {
-            if (flag(player, Check.FlagSeverity.MAJOR, "Failed Glide Check " + failamount)) PunishUtil.groundPlayer(player);
+            if (flag(player, FlagSeverity.MAJOR, "Failed Glide Check " + failamount)) PunishUtil.groundPlayer(player);
         }
     }
 

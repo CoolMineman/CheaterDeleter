@@ -2,7 +2,7 @@ package io.github.coolmineman.cheaterdeleter.trackers;
 
 import org.jetbrains.annotations.NotNull;
 
-import io.github.coolmineman.cheaterdeleter.objects.entity.CDPlayer;
+import io.github.coolmineman.cheaterdeleter.objects.entity.CDEntity;
 import io.github.coolmineman.cheaterdeleter.trackers.data.Data;
 
 public abstract class Tracker<T extends Data> {
@@ -17,5 +17,5 @@ public abstract class Tracker<T extends Data> {
     }
 
     @NotNull
-    abstract T get(CDPlayer player);
+    public abstract T get(CDEntity entity);
 }

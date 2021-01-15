@@ -1,4 +1,4 @@
-package io.github.coolmineman.cheaterdeleter.checks;
+package io.github.coolmineman.cheaterdeleter.modules;
 
 import io.github.coolmineman.cheaterdeleter.events.PacketCallback;
 import io.github.coolmineman.cheaterdeleter.objects.entity.CDPlayer;
@@ -7,7 +7,7 @@ import net.minecraft.network.listener.ServerPlayPacketListener;
 import net.minecraft.text.LiteralText;
 import net.minecraft.util.ActionResult;
 
-public class PacketLimiterCheck extends Check implements PacketCallback {
+public class PacketLimiterCheck extends CDModule implements PacketCallback {
     private static final long INTERVAL = 7;
     private static final long MAX_PACKETS_PER_SECOND = 500;
 

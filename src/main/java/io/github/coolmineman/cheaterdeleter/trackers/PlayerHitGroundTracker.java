@@ -4,6 +4,7 @@ import org.jetbrains.annotations.NotNull;
 
 import io.github.coolmineman.cheaterdeleter.events.MovementPacketCallback;
 import io.github.coolmineman.cheaterdeleter.objects.PlayerMoveC2SPacketView;
+import io.github.coolmineman.cheaterdeleter.objects.entity.CDEntity;
 import io.github.coolmineman.cheaterdeleter.objects.entity.CDPlayer;
 import io.github.coolmineman.cheaterdeleter.trackers.data.PlayerHitGroundData;
 import net.minecraft.util.ActionResult;
@@ -24,7 +25,7 @@ public class PlayerHitGroundTracker extends Tracker<PlayerHitGroundData> impleme
 
     @Override
     @NotNull
-    PlayerHitGroundData get(CDPlayer player) {
-        return player.getOrCreateData(PlayerHitGroundData.class, PlayerHitGroundData::new);
+    public PlayerHitGroundData get(CDEntity entity) {
+        return entity.getOrCreateData(PlayerHitGroundData.class, PlayerHitGroundData::new);
     }
 }

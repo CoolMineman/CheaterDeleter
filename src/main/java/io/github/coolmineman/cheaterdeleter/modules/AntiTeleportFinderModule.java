@@ -1,4 +1,4 @@
-package io.github.coolmineman.cheaterdeleter.checks;
+package io.github.coolmineman.cheaterdeleter.modules;
 
 import java.util.concurrent.ThreadLocalRandom;
 
@@ -9,8 +9,8 @@ import io.github.coolmineman.cheaterdeleter.util.MathUtil;
 import net.minecraft.network.Packet;
 import net.minecraft.network.listener.ClientPlayPacketListener;
 
-public class AntiTeleportFinder extends Check implements OutgoingPacketListener {
-    public AntiTeleportFinder() {
+public class AntiTeleportFinderModule extends CDModule implements OutgoingPacketListener {
+    public AntiTeleportFinderModule() {
         OutgoingPacketListener.EVENT.register(this);
     }
 

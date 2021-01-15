@@ -4,11 +4,11 @@ import java.util.Locale;
 
 import org.jetbrains.annotations.Nullable;
 
-import io.github.coolmineman.cheaterdeleter.checks.Check;
-import io.github.coolmineman.cheaterdeleter.checks.config.GlobalConfig;
 import io.github.coolmineman.cheaterdeleter.compat.CompatManager;
 import io.github.coolmineman.cheaterdeleter.compat.LuckoPermissionsCompat;
 import io.github.coolmineman.cheaterdeleter.compat.StepHeightEntityAttributeCompat;
+import io.github.coolmineman.cheaterdeleter.modules.CDModule;
+import io.github.coolmineman.cheaterdeleter.modules.config.GlobalConfig;
 import io.github.coolmineman.cheaterdeleter.util.BoxUtil;
 import net.fabricmc.fabric.api.util.TriState;
 import net.minecraft.network.MessageType;
@@ -61,7 +61,7 @@ public interface CDPlayer extends CDEntity {
      * Call on failed Check
      * @return punish if true
      */
-    default boolean flag(Check check, Check.FlagSeverity severity) {
+    default boolean flag(CDModule check, CDModule.FlagSeverity severity) {
         CDPlayerEx ex = getData(CDPlayerEx.class);
         if (check.getFlagCoolDownMs() > System.currentTimeMillis() - ex.lastFlagsMap.getLong(check)) {
             return false;

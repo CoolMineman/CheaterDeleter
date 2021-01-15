@@ -1,6 +1,7 @@
-package io.github.coolmineman.cheaterdeleter.checks;
+package io.github.coolmineman.cheaterdeleter.modules.movement;
 
 import io.github.coolmineman.cheaterdeleter.events.MovementPacketCallback;
+import io.github.coolmineman.cheaterdeleter.modules.CDModule;
 import io.github.coolmineman.cheaterdeleter.objects.PlayerMoveC2SPacketView;
 import io.github.coolmineman.cheaterdeleter.objects.entity.CDPlayer;
 import io.github.coolmineman.cheaterdeleter.util.BoxUtil;
@@ -10,7 +11,7 @@ import net.minecraft.util.ActionResult;
 import net.minecraft.util.math.Box;
 
 //TODO: Enforce fall damage ourselves
-public class VerifyOnGroundCheck extends Check implements MovementPacketCallback {
+public class VerifyOnGroundCheck extends CDModule implements MovementPacketCallback {
     public VerifyOnGroundCheck() {
         MovementPacketCallback.EVENT.register(this);
     }

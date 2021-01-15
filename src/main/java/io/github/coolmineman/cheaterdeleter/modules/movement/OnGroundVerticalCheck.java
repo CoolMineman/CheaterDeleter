@@ -1,15 +1,15 @@
-package io.github.coolmineman.cheaterdeleter.checks;
+package io.github.coolmineman.cheaterdeleter.modules.movement;
 
 import io.github.coolmineman.cheaterdeleter.events.MovementPacketCallback;
+import io.github.coolmineman.cheaterdeleter.modules.CDModule;
 import io.github.coolmineman.cheaterdeleter.objects.PlayerMoveC2SPacketView;
 import io.github.coolmineman.cheaterdeleter.objects.entity.CDPlayer;
-import io.github.coolmineman.cheaterdeleter.trackers.TrackerManager;
-import io.github.coolmineman.cheaterdeleter.trackers.data.PlayerHitGroundData;
+import io.github.coolmineman.cheaterdeleter.trackers.Trackers;
 import io.github.coolmineman.cheaterdeleter.util.BlockCollisionUtil;
 import io.github.coolmineman.cheaterdeleter.util.CollisionUtil;
 import net.minecraft.util.ActionResult;
 
-public class OnGroundVerticalCheck extends Check implements MovementPacketCallback {
+public class OnGroundVerticalCheck extends CDModule implements MovementPacketCallback {
     public OnGroundVerticalCheck() {
         MovementPacketCallback.EVENT.register(this);
     }
@@ -22,7 +22,7 @@ public class OnGroundVerticalCheck extends Check implements MovementPacketCallba
         if (packet.isChangePosition() &&
             packet.isOnGround() &&
             player.isOnGround() &&
-            System.currentTimeMillis() - TrackerManager.get(PlayerHitGroundData.class, player).lastInAir.get() > 500 &&
+            System.currentTimeMillis() - player.getTracked(Trackers.PLAYER_HIT_GROUND_TRACKER).lastInAir.get() > 500 &&
             !BlockCollisionUtil.isNearby(player, 2.0, 4.0, BlockCollisionUtil.NON_SOLID_COLLISION) &&
             ((stepHeight > 1f) || !CollisionUtil.isNearby(player, packet.getX(), packet.getY(), packet.getZ(), 0.2, 0.5, CollisionUtil.steppablePredicates(stepHeight)))
         ) {

@@ -5,6 +5,8 @@ import java.util.function.Supplier;
 
 import org.jetbrains.annotations.Nullable;
 
+import io.github.coolmineman.cheaterdeleter.trackers.Tracker;
+import io.github.coolmineman.cheaterdeleter.trackers.data.Data;
 import net.minecraft.entity.Entity;
 import net.minecraft.util.math.Box;
 import net.minecraft.util.math.Vec3d;
@@ -23,6 +25,10 @@ public interface CDEntity {
             putData(clazz, result);
         }
         return result;
+    }
+
+    default <T extends Data> T getTracked(Tracker<T> tracker) {
+        return tracker.get(this);
     }
 
     /**
