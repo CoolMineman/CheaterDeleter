@@ -17,10 +17,14 @@ public class EntityVerticalCheck extends CDModule implements VehicleMoveC2SPacke
     }
 
     @Override
+    public long getFlagCoolDownMs() {
+        return 100;
+    }
+
+    @Override
     public ActionResult onVehicleMoveC2SPacket(CDPlayer player, VehicleMoveC2SPacket packet) {
         CDEntity vehicle = player.getVehicleCd();
         if (player.shouldBypassAnticheat() || vehicle == null) return ActionResult.PASS;
-        System.out.println("jump " + player.getVehicleCd().getMaxJumpHeight());
         EntityVerticalCheckData verticalCheckData = player.getOrCreateData(EntityVerticalCheckData.class, EntityVerticalCheckData::new);
         if (vehicle.asMcEntity().isSwimming() || BlockCollisionUtil.isNearby(player, 2.0, 4.0, BlockCollisionUtil.NON_SOLID_COLLISION)) {
             verticalCheckData.isActive = false;

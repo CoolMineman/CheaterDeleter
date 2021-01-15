@@ -6,7 +6,7 @@ public interface CDHorseBaseEntity extends CDEntity {
 
     @Override
     default double getBaseMaxJumpHeight() {
-        return ((asMcHorseBaseEntity().getJumpStrength() - 0.4) * 9) + 0.25; //What is this
+        return (asMcHorseBaseEntity().getJumpStrength() * 4); //What is this
     }
     
     default HorseBaseEntity asMcHorseBaseEntity() {

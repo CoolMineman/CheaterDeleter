@@ -34,7 +34,7 @@ public class TimerCheck extends CDModule implements MovementPacketCallback, Play
 
     @Override
     public void onPlayerEndTick(CDPlayer player) {
-        if (player.shouldBypassAnticheat()) return;
+        if (player.shouldBypassAnticheat() || player.getVehicleCd() != null) return;
         PlayerTimerInfo info = player.getData(PlayerTimerInfo.class);
         if (info != null) {
             long timediff = System.currentTimeMillis() - info.time;
