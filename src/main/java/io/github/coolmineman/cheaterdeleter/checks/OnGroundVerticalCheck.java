@@ -6,6 +6,7 @@ import io.github.coolmineman.cheaterdeleter.objects.entity.CDPlayer;
 import io.github.coolmineman.cheaterdeleter.trackers.TrackerManager;
 import io.github.coolmineman.cheaterdeleter.trackers.data.PlayerHitGroundData;
 import io.github.coolmineman.cheaterdeleter.util.BlockCollisionUtil;
+import io.github.coolmineman.cheaterdeleter.util.CollisionUtil;
 import net.minecraft.util.ActionResult;
 
 public class OnGroundVerticalCheck extends Check implements MovementPacketCallback {
@@ -23,7 +24,7 @@ public class OnGroundVerticalCheck extends Check implements MovementPacketCallba
             player.isOnGround() &&
             System.currentTimeMillis() - TrackerManager.get(PlayerHitGroundData.class, player).lastInAir.get() > 500 &&
             !BlockCollisionUtil.isNearby(player, 2.0, 4.0, BlockCollisionUtil.NON_SOLID_COLLISION) &&
-            ((stepHeight > 1f) || !BlockCollisionUtil.isNearby(player, packet.getX(), packet.getY(), packet.getZ(), 0.2, 0.5, BlockCollisionUtil.steppablePredicate(stepHeight)))
+            ((stepHeight > 1f) || !CollisionUtil.isNearby(player, packet.getX(), packet.getY(), packet.getZ(), 0.2, 0.5, CollisionUtil.steppablePredicates(stepHeight)))
         ) {
             double ydelta = packet.getY() - player.getY();
             if (ydelta > (stepHeight < 1f ? 0.3 : stepHeight)) flagRollback(player, FlagSeverity.MAJOR, "Player Moved Vertically While onGround " + ydelta);

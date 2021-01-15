@@ -16,6 +16,14 @@ public class EntityCollisionUtil {
         return entity -> CollisionUtil.intersectsTop(entity.getRigidCollision(), box);
     }
 
+    public static Predicate<CDEntity> steppablePredicate(float stepheight) {
+        return entity -> {
+            Box box = entity.getRigidCollision();
+            if (box == null) return false;
+            return box.maxY - entity.getY() <= stepheight;
+        };
+    }
+
     public static boolean isTouching(@Nullable CDEntity excludeEntity, Box box, World world, Predicate<CDEntity> predicate) {
         for (Entity e : world.getOtherEntities(excludeEntity == null ? null : excludeEntity.asMcEntity(), box, null)) {
             if (predicate.test(CDEntity.of(e))) return true;

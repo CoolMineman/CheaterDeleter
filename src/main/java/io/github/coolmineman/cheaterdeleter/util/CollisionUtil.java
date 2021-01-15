@@ -8,6 +8,7 @@ import com.mojang.datafixers.util.Pair;
 import org.jetbrains.annotations.Nullable;
 
 import io.github.coolmineman.cheaterdeleter.objects.entity.CDEntity;
+import io.github.coolmineman.cheaterdeleter.objects.entity.CDPlayer;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Box;
 import net.minecraft.world.World;
@@ -25,6 +26,14 @@ public class CollisionUtil {
 
     public static Pair<BiPredicate<World, BlockPos>, Predicate<CDEntity>> touchingRigidTopPredicates(Box box) {
         return new Pair<>(BlockCollisionUtil.touchingPredicate(box), EntityCollisionUtil.touchingRigidTopPredicate(box));
+    }
+
+    public static Pair<BiPredicate<World, BlockPos>, Predicate<CDEntity>> steppablePredicates(float stepheight) {
+        return new Pair<>(BlockCollisionUtil.steppablePredicate(stepheight), EntityCollisionUtil.steppablePredicate(stepheight));
+    }
+
+    public static boolean isNearby(CDPlayer player, double posx, double posy, double posz, double expandHorizontal, double expandVertical, Pair<BiPredicate<World, BlockPos>, Predicate<CDEntity>> predicates) {
+        return isTouching(player, BoxUtil.getBoxForPosition(player, posx, posy, posz).expand(expandHorizontal, expandVertical, expandHorizontal), player.getWorld(), predicates);
     }
 
     public static boolean isTouching(@Nullable CDEntity excludeEntity, Box box, World world, Pair<BiPredicate<World, BlockPos>, Predicate<CDEntity>> predicates) {
