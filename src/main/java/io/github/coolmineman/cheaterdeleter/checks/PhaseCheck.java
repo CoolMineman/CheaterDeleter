@@ -6,7 +6,7 @@ import io.github.coolmineman.cheaterdeleter.objects.entity.CDPlayer;
 import io.github.coolmineman.cheaterdeleter.trackers.TrackerManager;
 import io.github.coolmineman.cheaterdeleter.trackers.data.PlayerLastTeleportData;
 import io.github.coolmineman.cheaterdeleter.util.BoxUtil;
-import io.github.coolmineman.cheaterdeleter.util.CollisionUtil;
+import io.github.coolmineman.cheaterdeleter.util.BlockCollisionUtil;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.math.Box;
 import net.minecraft.world.World;
@@ -28,7 +28,7 @@ public class PhaseCheck extends Check implements MovementPacketCallback {
         if (packet.isChangePosition()) {
             World world = player.getWorld();
             Box box = BoxUtil.getBoxForPosition(player, packet.getX(), packet.getY(), packet.getZ()).expand(-0.1);
-            if (assertOrFlag(!CollisionUtil.isTouching(box, world, CollisionUtil.touchingNonSteppablePredicate(player.getStepHeight(), box, player.getY(), packet.getY())), player, FlagSeverity.MAJOR, "Failed Phase Check1")) return ActionResult.FAIL;
+            if (assertOrFlag(!BlockCollisionUtil.isTouching(box, world, BlockCollisionUtil.touchingNonSteppablePredicate(player.getStepHeight(), box, player.getY(), packet.getY())), player, FlagSeverity.MAJOR, "Failed Phase Check1")) return ActionResult.FAIL;
             if (System.currentTimeMillis() - TrackerManager.get(PlayerLastTeleportData.class, player).lastTeleport < 1000) return ActionResult.PASS; 
             double currentX = player.getX();
             double currentY = player.getY();
@@ -44,7 +44,7 @@ public class PhaseCheck extends Check implements MovementPacketCallback {
             boolean hitTargetZ = false;
             while (!(hitTargetX && hitTargetY && hitTargetZ)) {
                 box = BoxUtil.getBoxForPosition(player, currentX, currentY, currentZ).expand(-0.1);
-                assertOrFlag(!CollisionUtil.isTouching(box, world, CollisionUtil.touchingNonSteppablePredicate(player.getStepHeight(), box, player.getY(), packet.getY())), player, FlagSeverity.MAJOR, "Failed Phase Check2");
+                assertOrFlag(!BlockCollisionUtil.isTouching(box, world, BlockCollisionUtil.touchingNonSteppablePredicate(player.getStepHeight(), box, player.getY(), packet.getY())), player, FlagSeverity.MAJOR, "Failed Phase Check2");
                 if (!hitTargetX) {
                     if (targetXPositive) {
                         if (currentX + INTERP < targetX) {
@@ -93,6 +93,11 @@ public class PhaseCheck extends Check implements MovementPacketCallback {
             }
         }
         return ActionResult.PASS;
+    }
+
+    @Override
+    public long getFlagCoolDownMs() {
+        return 0;
     }
 
     @Override

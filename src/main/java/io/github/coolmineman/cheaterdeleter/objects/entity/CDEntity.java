@@ -6,6 +6,7 @@ import java.util.function.Supplier;
 import org.jetbrains.annotations.Nullable;
 
 import net.minecraft.entity.Entity;
+import net.minecraft.util.math.Box;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
 
@@ -22,6 +23,14 @@ public interface CDEntity {
             putData(clazz, result);
         }
         return result;
+    }
+
+    /**
+     * Gets the rigid collision box that acts like a block (Shulkers and Boats)
+     */
+    @Nullable
+    default Box getRigidCollision() {
+        return asMcEntity().isCollidable() ? asMcEntity().getBoundingBox() : null;
     }
 
     default void _init() {

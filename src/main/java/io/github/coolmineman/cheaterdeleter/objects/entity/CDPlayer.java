@@ -140,6 +140,7 @@ public interface CDPlayer extends CDEntity {
     }
 
     default void teleport(double x, double y, double z, float yaw, float pitch) {
+        if (asMcPlayer().hasVehicle()) asMcPlayer().stopRiding();
         asMcPlayer().networkHandler.requestTeleport(x, y, z, yaw, pitch);
     }
 

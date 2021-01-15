@@ -4,7 +4,7 @@ import io.github.coolmineman.cheaterdeleter.events.MovementPacketCallback;
 import io.github.coolmineman.cheaterdeleter.events.PlayerDamageListener;
 import io.github.coolmineman.cheaterdeleter.objects.PlayerMoveC2SPacketView;
 import io.github.coolmineman.cheaterdeleter.objects.entity.CDPlayer;
-import io.github.coolmineman.cheaterdeleter.util.CollisionUtil;
+import io.github.coolmineman.cheaterdeleter.util.BlockCollisionUtil;
 import io.github.coolmineman.cheaterdeleter.util.PunishUtil;
 import net.minecraft.entity.damage.DamageSource;
 import net.minecraft.entity.effect.StatusEffects;
@@ -22,7 +22,7 @@ public class VerticalCheck extends Check implements MovementPacketCallback, Play
     public ActionResult onMovementPacket(CDPlayer player, PlayerMoveC2SPacketView packet) {
         if (player.shouldBypassAnticheat() || !packet.isChangePosition()) return ActionResult.PASS;
         VerticalCheckData verticalCheckData = player.getOrCreateData(VerticalCheckData.class, VerticalCheckData::new);
-        if (player.asMcPlayer().isCreative() || player.asMcPlayer().isSwimming() || player.asMcPlayer().isClimbing() || player.isFallFlying() || CollisionUtil.isNearby(player, 2.0, 4.0, CollisionUtil.NON_SOLID_COLLISION)) {
+        if (player.asMcPlayer().isCreative() || player.asMcPlayer().isSwimming() || player.asMcPlayer().isClimbing() || player.isFallFlying() || BlockCollisionUtil.isNearby(player, 2.0, 4.0, BlockCollisionUtil.NON_SOLID_COLLISION)) {
             verticalCheckData.isActive = false;
             return ActionResult.PASS;
         }

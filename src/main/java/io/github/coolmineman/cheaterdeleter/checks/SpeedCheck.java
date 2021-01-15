@@ -11,7 +11,7 @@ import io.github.coolmineman.cheaterdeleter.objects.entity.CDPlayer;
 import io.github.coolmineman.cheaterdeleter.trackers.TrackerManager;
 import io.github.coolmineman.cheaterdeleter.trackers.data.PlayerLastTeleportData;
 import io.github.coolmineman.cheaterdeleter.util.BoxUtil;
-import io.github.coolmineman.cheaterdeleter.util.CollisionUtil;
+import io.github.coolmineman.cheaterdeleter.util.BlockCollisionUtil;
 import io.github.coolmineman.cheaterdeleter.util.MathUtil;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.math.Box;
@@ -33,14 +33,14 @@ public class SpeedCheck extends Check
         if (player.shouldBypassAnticheat())
             return ActionResult.PASS;
         if (packet.isChangePosition() &&
-            !(player.asMcPlayer().isCreative() || System.currentTimeMillis() - TrackerManager.get(PlayerLastTeleportData.class, player).lastTeleport < 100 || CollisionUtil.isNearby(player, 2, 4, CollisionUtil.SPLIPPERY))
+            !(player.asMcPlayer().isCreative() || System.currentTimeMillis() - TrackerManager.get(PlayerLastTeleportData.class, player).lastTeleport < 100 || BlockCollisionUtil.isNearby(player, 2, 4, BlockCollisionUtil.SPLIPPERY))
         ) {
             double distanceSquared = MathUtil.getDistanceSquared(player.getX(), player.getZ(), packet.getX(),
                     packet.getZ());
             double distance = Math.sqrt(distanceSquared);
             Box box = BoxUtil.getBoxForPosition(player, packet.getX(), packet.getY(), packet.getZ()).expand(0.1, -0.1,
                     0.1);
-            if (!CollisionUtil.isTouching(box, player.getWorld(), CollisionUtil.touchingPredicate(box)))
+            if (!BlockCollisionUtil.isTouching(box, player.getWorld(), BlockCollisionUtil.touchingPredicate(box)))
                 player.getOrCreateData(SpeedCheckData.class, SpeedCheckData::new).distance.addAndGet(distance); // Bruh
         }
         return ActionResult.PASS;

@@ -3,7 +3,7 @@ package io.github.coolmineman.cheaterdeleter.checks;
 import io.github.coolmineman.cheaterdeleter.events.MovementPacketCallback;
 import io.github.coolmineman.cheaterdeleter.objects.PlayerMoveC2SPacketView;
 import io.github.coolmineman.cheaterdeleter.objects.entity.CDPlayer;
-import io.github.coolmineman.cheaterdeleter.util.CollisionUtil;
+import io.github.coolmineman.cheaterdeleter.util.BlockCollisionUtil;
 import net.minecraft.util.ActionResult;
 
 public class InventoryMoveCheck extends Check implements MovementPacketCallback {
@@ -14,7 +14,7 @@ public class InventoryMoveCheck extends Check implements MovementPacketCallback 
     //TODO Damage
     @Override
     public ActionResult onMovementPacket(CDPlayer player, PlayerMoveC2SPacketView packet) {
-        if (player.shouldBypassAnticheat() || CollisionUtil.isNearby(player, 2, 4, CollisionUtil.NON_SOLID_COLLISION)) return ActionResult.PASS;
+        if (player.shouldBypassAnticheat() || BlockCollisionUtil.isNearby(player, 2, 4, BlockCollisionUtil.NON_SOLID_COLLISION)) return ActionResult.PASS;
         if (packet.isChangePosition() && player.getCurrentScreenHandler() != null && invalidateMove(player, packet)) {
             player.asMcPlayer().closeHandledScreen();
             flag(player, FlagSeverity.MINOR, "Inventory Move");
