@@ -1,7 +1,9 @@
 package io.github.coolmineman.cheaterdeleter.util;
 
+import java.util.Arrays;
 import java.util.function.Predicate;
 
+import org.apache.commons.lang3.ArrayUtils;
 import org.jetbrains.annotations.Nullable;
 
 import io.github.coolmineman.cheaterdeleter.objects.entity.CDEntity;
@@ -27,6 +29,15 @@ public class EntityCollisionUtil {
     public static boolean isTouching(@Nullable CDEntity excludeEntity, Box box, World world, Predicate<CDEntity> predicate) {
         for (Entity e : world.getOtherEntities(excludeEntity == null ? null : excludeEntity.asMcEntity(), box, null)) {
             if (predicate.test(CDEntity.of(e))) return true;
+        }
+        return false;
+    }
+
+    public static boolean isTouching(CDEntity[] excludeEntites, Box box, World world, Predicate<CDEntity> predicate) {
+        for (Entity e : world.getOtherEntities(null, box, null)) {
+            CDEntity e1 = CDEntity.of(e);
+            if (ArrayUtils.contains(excludeEntites, e1)) continue;
+            if (predicate.test(e1)) return true;
         }
         return false;
     }

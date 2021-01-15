@@ -5,6 +5,7 @@ import java.util.function.Predicate;
 
 import com.mojang.datafixers.util.Pair;
 
+import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import io.github.coolmineman.cheaterdeleter.objects.entity.CDEntity;
@@ -38,5 +39,9 @@ public class CollisionUtil {
 
     public static boolean isTouching(@Nullable CDEntity excludeEntity, Box box, World world, Pair<BiPredicate<World, BlockPos>, Predicate<CDEntity>> predicates) {
         return BlockCollisionUtil.isTouching(box, world, predicates.getFirst()) || EntityCollisionUtil.isTouching(excludeEntity, box, world, predicates.getSecond());
+    }
+
+    public static boolean isTouching(@NotNull CDEntity[] excludeEntites, Box box, World world, Pair<BiPredicate<World, BlockPos>, Predicate<CDEntity>> predicates) {
+        return BlockCollisionUtil.isTouching(box, world, predicates.getFirst()) || EntityCollisionUtil.isTouching(excludeEntites, box, world, predicates.getSecond());
     }
 }

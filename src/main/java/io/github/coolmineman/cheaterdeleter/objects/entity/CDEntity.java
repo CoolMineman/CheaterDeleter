@@ -8,6 +8,8 @@ import org.jetbrains.annotations.Nullable;
 import io.github.coolmineman.cheaterdeleter.trackers.Tracker;
 import io.github.coolmineman.cheaterdeleter.trackers.data.Data;
 import net.minecraft.entity.Entity;
+import net.minecraft.entity.LivingEntity;
+import net.minecraft.entity.effect.StatusEffects;
 import net.minecraft.util.math.Box;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
@@ -48,6 +50,22 @@ public interface CDEntity {
 
     default Box getBoxForPosition(double posx, double posy, double posz) {
         return asMcEntity().getDimensions(asMcEntity().getPose()).method_30231(posx, posy, posz); // method_30231 -> withPos
+    }
+
+    default double getMaxJumpHeight() {
+        double result = getBaseMaxJumpHeight();
+        if (asMcEntity() instanceof LivingEntity) {
+            LivingEntity livingEntity = (LivingEntity)asMcEntity();
+            if (livingEntity.hasStatusEffect(StatusEffects.JUMP_BOOST)) {
+                result += Math.pow(1.5, (livingEntity.getStatusEffect(StatusEffects.JUMP_BOOST).getAmplifier() + 1)) - 1; //Acumulates Error With High Jump Boosts, oh well
+            }
+        }
+        result += 0.2; // Give a bit of wiggle room
+        return result;
+    }
+
+    default double getBaseMaxJumpHeight() {
+        return 1.25;
     }
 
     default void _init() {

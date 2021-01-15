@@ -28,7 +28,7 @@ public class VerticalCheck extends CDModule implements MovementPacketCallback, P
             return ActionResult.PASS;
         }
         if (player.isOnGround() && !packet.isOnGround() && player.getVelocity().getY() < 0.45) {
-            verticalCheckData.maxY = player.getY() + getMaxJumpHeight(player);
+            verticalCheckData.maxY = player.getY() + player.getMaxJumpHeight();
             verticalCheckData.isActive = true;
         } else if (packet.isOnGround()) {
             if (verticalCheckData != null && verticalCheckData.isActive) {
@@ -39,22 +39,12 @@ public class VerticalCheck extends CDModule implements MovementPacketCallback, P
                 if (flag(player, FlagSeverity.MINOR, "Failed Vertical Movement Check " + (verticalCheckData.maxY - packet.getY()))) PunishUtil.groundPlayer(player);
             }
             if (!verticalCheckData.isActive && player.getVelocity().getY() < 0.45) {
-                verticalCheckData.maxY = player.getY() + getMaxJumpHeight(player);
+                verticalCheckData.maxY = player.getY() + player.getMaxJumpHeight();
                 verticalCheckData.isActive = true;
             }
 
         }
         return ActionResult.PASS;
-    }
-
-    //TODO: Hard coded (like vanilla)
-    private double getMaxJumpHeight(CDPlayer player) {
-        double result = 1.25f;
-        if (player.asMcPlayer().hasStatusEffect(StatusEffects.JUMP_BOOST)) {
-            result += Math.pow(1.5, (player.asMcPlayer().getStatusEffect(StatusEffects.JUMP_BOOST).getAmplifier() + 1)) - 1; //Acumulates Error With High Jump Boosts, oh well
-        }
-        result += 0.2; // Give a bit of wiggle room
-        return result;
     }
 
     private class VerticalCheckData {

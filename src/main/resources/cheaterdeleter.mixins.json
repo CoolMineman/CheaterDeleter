@@ -9,7 +9,8 @@
     "PlayerMoveC2SPacketMixin",
     "PlayerPositionLookS2CPacketMixin",
     "EntityPositionS2CPacketMixin",
-    "EntityMixin"
+    "EntityMixin",
+    "HorseBaseEntityMixin"
   ],
   "client": [
   ],
