@@ -8,8 +8,7 @@ import io.github.coolmineman.cheaterdeleter.compat.CompatManager;
 import io.github.coolmineman.cheaterdeleter.compat.LuckoPermissionsCompat;
 import io.github.coolmineman.cheaterdeleter.compat.StepHeightEntityAttributeCompat;
 import io.github.coolmineman.cheaterdeleter.modules.CDModule;
-import io.github.coolmineman.cheaterdeleter.modules.config.GlobalConfig;
-import io.github.coolmineman.cheaterdeleter.util.BoxUtil;
+import io.github.coolmineman.cheaterdeleter.config.GlobalConfig;
 import net.fabricmc.fabric.api.util.TriState;
 import net.minecraft.network.MessageType;
 import net.minecraft.screen.ScreenHandler;
@@ -18,7 +17,6 @@ import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.text.LiteralText;
 import net.minecraft.text.Text;
 import net.minecraft.util.Util;
-import net.minecraft.util.math.Box;
 
 public interface CDPlayer extends CDEntity {
 

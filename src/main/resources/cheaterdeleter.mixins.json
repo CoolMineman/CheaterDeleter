@@ -10,7 +10,8 @@
     "PlayerPositionLookS2CPacketMixin",
     "EntityPositionS2CPacketMixin",
     "EntityMixin",
-    "HorseBaseEntityMixin"
+    "HorseBaseEntityMixin",
+    "VehicleMoveS2CPacketMixin"
   ],
   "client": [
   ],

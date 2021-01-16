@@ -1,7 +1,7 @@
 package io.github.coolmineman.cheaterdeleter.modules;
 
 import io.github.coolmineman.cheaterdeleter.CheaterDeleterInit;
-import io.github.coolmineman.cheaterdeleter.modules.config.GlobalConfig;
+import io.github.coolmineman.cheaterdeleter.config.GlobalConfig;
 import io.github.coolmineman.cheaterdeleter.objects.entity.CDPlayer;
 import net.minecraft.text.LiteralText;
 
