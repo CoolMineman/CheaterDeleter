@@ -14,7 +14,10 @@
 * Speed (Mostly)
 * Teleport Finder
 * XCary and Inventory Move
+* Poorly Written Inventory Item Movement Cheats (AutoTotem, AutoMlg if bucket not in hotbar)
 * Poorly Written Water Walk Cheats
+* Vehicle High Jump
+* Boat Fly
 
 ## Supported Mods
 
