@@ -8,6 +8,5 @@ public class EventManager {
         PlayerEndTickCallback.init();
         OutgoingTeleportListener.init();
         ClickSlotC2SPacketCallback.init();
-        VehicleMoveC2SPacketCallback.init();
     }
 }
