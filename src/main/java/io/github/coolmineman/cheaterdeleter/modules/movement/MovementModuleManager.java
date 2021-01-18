@@ -2,6 +2,7 @@ package io.github.coolmineman.cheaterdeleter.modules.movement;
 
 import io.github.coolmineman.cheaterdeleter.modules.ModuleManager;
 import io.github.coolmineman.cheaterdeleter.modules.movement.entity.BoatFlyCheck;
+import io.github.coolmineman.cheaterdeleter.modules.movement.entity.EntityPhaseCheck;
 import io.github.coolmineman.cheaterdeleter.modules.movement.entity.EntityVerticalCheck;
 
 public class MovementModuleManager {
@@ -18,5 +19,6 @@ public class MovementModuleManager {
         //Entity
         ModuleManager.registerCheck(new BoatFlyCheck());
         ModuleManager.registerCheck(new EntityVerticalCheck());
+        ModuleManager.registerCheck(new EntityPhaseCheck());
     }
 }
