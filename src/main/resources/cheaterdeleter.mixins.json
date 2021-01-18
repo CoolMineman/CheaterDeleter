@@ -12,7 +12,8 @@
     "EntityMixin",
     "HorseBaseEntityMixin",
     "VehicleMoveS2CPacketMixin",
-    "WorldChunkMixin"
+    "WorldChunkMixin",
+    "ServerPlayNetworkHandlerMixin"
   ],
   "client": [
   ],

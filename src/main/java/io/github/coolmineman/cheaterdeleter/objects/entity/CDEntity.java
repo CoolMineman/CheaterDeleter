@@ -10,9 +10,9 @@ import io.github.coolmineman.cheaterdeleter.trackers.data.Data;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.effect.StatusEffects;
+import net.minecraft.server.world.ServerWorld;
 import net.minecraft.util.math.Box;
 import net.minecraft.util.math.Vec3d;
-import net.minecraft.world.World;
 
 public interface CDEntity {
     <T> void putData(Class<T> clazz, T data);
@@ -113,8 +113,8 @@ public interface CDEntity {
         return asMcEntity().isOnGround();
     }
 
-    default World getWorld() {
-        return asMcEntity().world;
+    default ServerWorld getWorld() {
+        return (ServerWorld)asMcEntity().world;
     }
 
     default UUID getUuid() {

@@ -9,6 +9,7 @@ import net.minecraft.util.ActionResult;
 import net.minecraft.util.math.Box;
 
 //TODO: Enforce fall damage ourselves
+//TODO: Edge case where player lands on a block that used to exist (common with pistons)
 public class VerifyOnGroundCheck extends CDModule implements MovementPacketCallback {
     public VerifyOnGroundCheck() {
         MovementPacketCallback.EVENT.register(this);

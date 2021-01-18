@@ -62,7 +62,16 @@ public class PhaseBypassTracker extends Tracker<PhaseBypassData> implements SetB
     @Override
     public void onPlayerEndTick(CDPlayer player) {
         PhaseBypassData data = get(player);
-        data.bypassPos.removeIf(distanceFilter(player));
+        if (System.currentTimeMillis() - data.lastUpdated < 5000) {
+            //Do some clean up
+            data.bypassPos.removeIf(distanceFilter(player));
+        }
     }
-    
+
+    public void onOutgoingTeleport(CDPlayer player, double x, double y, double z) {
+        PhaseBypassData data = get(player);
+        data.lastUpdated = System.currentTimeMillis();
+        BlockPos.stream(player.getBoxForPosition(x, y, z)).forEach(pos -> data.bypassPos.add(pos.asLong()));
+    }
+
 }

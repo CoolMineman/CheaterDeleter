@@ -140,7 +140,7 @@ public interface CDPlayer extends CDEntity {
     //TODO: Still breaks boats somehow
     default void teleport(double x, double y, double z, float yaw, float pitch) {
         if (asMcPlayer().hasVehicle()) asMcPlayer().stopRiding();
-        asMcPlayer().networkHandler.requestTeleport(x, y, z, yaw, pitch);
+        asMcPlayer().teleport(getWorld(), x, y, z, yaw, pitch);
     }
 
     default float getSpeed() {

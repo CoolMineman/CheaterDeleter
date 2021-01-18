@@ -5,6 +5,7 @@ import io.github.coolmineman.cheaterdeleter.modules.CDModule;
 import io.github.coolmineman.cheaterdeleter.objects.PlayerMoveC2SPacketView;
 import io.github.coolmineman.cheaterdeleter.objects.entity.CDPlayer;
 import io.github.coolmineman.cheaterdeleter.trackers.Trackers;
+import io.github.coolmineman.cheaterdeleter.trackers.data.PlayerLastTeleportData;
 import io.github.coolmineman.cheaterdeleter.util.BlockCollisionUtil;
 import io.github.coolmineman.cheaterdeleter.util.MathUtil;
 import net.minecraft.util.ActionResult;
@@ -33,8 +34,9 @@ public class PhaseCheck extends CDModule implements MovementPacketCallback {
                 return ActionResult.PASS;
             }
             Box box = player.getBoxForPosition(packet.getX(), packet.getY(), packet.getZ()).expand(-0.1);
-            if (assertOrFlag(!BlockCollisionUtil.isTouching(box, world, Trackers.PHASE_BYPASS_TRACKER.isNotBypassed(player).and(BlockCollisionUtil.touchingNonSteppablePredicate(player.getStepHeight(), box, player.getY(), packet.getY()))), player, FlagSeverity.MAJOR, "Failed Phase Check1")) return ActionResult.FAIL;
-            if (System.currentTimeMillis() - player.getTracked(Trackers.PLAYER_LAST_TELEPORT_TRACKER).lastTeleport < 1000) return ActionResult.PASS; 
+            if (assertOrFlag(!BlockCollisionUtil.isTouching(box, world, Trackers.PHASE_BYPASS_TRACKER.isNotBypassed(player).and(BlockCollisionUtil.touchingNonSteppablePredicate(player.getStepHeight(), box, player.getY(), packet.getY()))), player, FlagSeverity.MAJOR, "Failed Phase Check1")) return ActionResult.PASS;
+            PlayerLastTeleportData playerLastTeleportData = player.getTracked(Trackers.PLAYER_LAST_TELEPORT_TRACKER);
+            if (System.currentTimeMillis() - playerLastTeleportData.lastTeleport < 1000 && MathUtil.getDistanceSquared(playerLastTeleportData.lastTeleportX, playerLastTeleportData.lastTeleportY, playerLastTeleportData.lastTeleportZ, packet.getX(), packet.getY(), packet.getZ()) < 0.1) return ActionResult.PASS; 
             double currentX = player.getX();
             double currentY = player.getY();
             double currentZ = player.getZ();

@@ -11,6 +11,7 @@ import io.github.coolmineman.cheaterdeleter.util.PunishUtil;
 import net.minecraft.entity.damage.DamageSource;
 import net.minecraft.util.ActionResult;
 
+//TODO false flags with slime block pistons
 public class GlideCheck extends CDModule implements MovementPacketCallback, PlayerDamageListener {
     public GlideCheck() {
         MovementPacketCallback.EVENT.register(this);
