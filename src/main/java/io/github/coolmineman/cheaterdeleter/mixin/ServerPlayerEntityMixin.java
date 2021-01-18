@@ -7,6 +7,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 import io.github.coolmineman.cheaterdeleter.events.PlayerDamageListener;
+import io.github.coolmineman.cheaterdeleter.events.PlayerSpawnListener;
 import io.github.coolmineman.cheaterdeleter.objects.entity.CDPlayer;
 import net.minecraft.entity.damage.DamageSource;
 import net.minecraft.server.network.ServerPlayerEntity;
@@ -22,6 +23,7 @@ public abstract class ServerPlayerEntityMixin implements CDPlayer {
     @Inject(method = "onSpawn", at = @At("TAIL"))
     public void onSpawn(CallbackInfo cb) {
         this.tickRollback(this.getX(), this.getY(), this.getZ(), true);
+        PlayerSpawnListener.EVENT.invoker().onSpawn((CDPlayer)this);
     }
 
     @Inject(method = "closeScreenHandler", at = @At("HEAD"))

@@ -88,22 +88,13 @@ public interface CDPlayer extends CDEntity {
     }
 
     default void rollback() {
-        tickRollback(asMcPlayer().getX(), asMcPlayer().getY(), asMcPlayer().getZ(), false);
         CDPlayerEx ex = getData(CDPlayerEx.class);
         if (ex.hasLastGood) teleport(ex.lastGoodX, ex.lastGoodY, ex.lastGoodZ);
     }
 
     default void tickRollback(double x, double y, double z, boolean isTeleport) {
         CDPlayerEx ex = getData(CDPlayerEx.class);
-        if (System.currentTimeMillis() - ex.lastFlag > 5000 || isTeleport) {
-            ex.lastGoodX = x;
-            ex.lastGoodY = y;
-            ex.lastGoodZ = z;
-            if (isTeleport)
-                ex.hasLastGood = false;
-            else
-                ex.hasLastGood = true;
-        } else if (!ex.hasLastGood) {
+        if (System.currentTimeMillis() - ex.lastFlag > 5000 || isTeleport || !ex.hasLastGood) {
             ex.lastGoodX = x;
             ex.lastGoodY = y;
             ex.lastGoodZ = z;

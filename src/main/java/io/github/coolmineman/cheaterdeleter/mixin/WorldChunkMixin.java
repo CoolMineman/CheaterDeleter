@@ -1,6 +1,5 @@
 package io.github.coolmineman.cheaterdeleter.mixin;
 
-import org.apache.logging.log4j.core.jmx.Server;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;

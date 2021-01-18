@@ -7,6 +7,7 @@ import java.util.function.LongPredicate;
 import org.jetbrains.annotations.NotNull;
 
 import io.github.coolmineman.cheaterdeleter.events.PlayerEndTickCallback;
+import io.github.coolmineman.cheaterdeleter.events.PlayerSpawnListener;
 import io.github.coolmineman.cheaterdeleter.events.SetBlockStateListener;
 import io.github.coolmineman.cheaterdeleter.objects.entity.CDEntity;
 import io.github.coolmineman.cheaterdeleter.objects.entity.CDPlayer;
@@ -18,7 +19,7 @@ import net.minecraft.server.world.ServerWorld;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
-public class PhaseBypassTracker extends Tracker<PhaseBypassData> implements SetBlockStateListener, PlayerEndTickCallback {
+public class PhaseBypassTracker extends Tracker<PhaseBypassData> implements SetBlockStateListener, PlayerEndTickCallback, PlayerSpawnListener {
 
     /**
      * True if not bypassed
@@ -62,7 +63,7 @@ public class PhaseBypassTracker extends Tracker<PhaseBypassData> implements SetB
     @Override
     public void onPlayerEndTick(CDPlayer player) {
         PhaseBypassData data = get(player);
-        if (System.currentTimeMillis() - data.lastUpdated < 5000) {
+        if (System.currentTimeMillis() - data.lastUpdated < 1000) {
             //Do some clean up
             data.bypassPos.removeIf(distanceFilter(player));
         }
@@ -72,6 +73,13 @@ public class PhaseBypassTracker extends Tracker<PhaseBypassData> implements SetB
         PhaseBypassData data = get(player);
         data.lastUpdated = System.currentTimeMillis();
         BlockPos.stream(player.getBoxForPosition(x, y, z)).forEach(pos -> data.bypassPos.add(pos.asLong()));
+    }
+
+    @Override
+    public void onSpawn(CDPlayer player) {
+        PhaseBypassData data = get(player);
+        data.lastUpdated = System.currentTimeMillis();
+        BlockPos.stream(player.getBox().expand(-0.1)).forEach(pos -> data.bypassPos.add(pos.asLong()));
     }
 
 }

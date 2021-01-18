@@ -34,7 +34,7 @@ public class PhaseCheck extends CDModule implements MovementPacketCallback {
                 return ActionResult.PASS;
             }
             Box box = player.getBoxForPosition(packet.getX(), packet.getY(), packet.getZ()).expand(-0.1);
-            if (assertOrFlag(!BlockCollisionUtil.isTouching(box, world, Trackers.PHASE_BYPASS_TRACKER.isNotBypassed(player).and(BlockCollisionUtil.touchingNonSteppablePredicate(player.getStepHeight(), box, player.getY(), packet.getY()))), player, FlagSeverity.MAJOR, "Failed Phase Check1")) return ActionResult.PASS;
+            if (assertOrFlag(!BlockCollisionUtil.isTouching(box, world, Trackers.PHASE_BYPASS_TRACKER.isNotBypassed(player).and(BlockCollisionUtil.touchingNonSteppablePredicate(player.getStepHeight(), box, player.getY(), packet.getY()))), player, FlagSeverity.MAJOR, "Failed Phase Check1")) return ActionResult.FAIL;
             PlayerLastTeleportData playerLastTeleportData = player.getTracked(Trackers.PLAYER_LAST_TELEPORT_TRACKER);
             if (System.currentTimeMillis() - playerLastTeleportData.lastTeleport < 1000 && MathUtil.getDistanceSquared(playerLastTeleportData.lastTeleportX, playerLastTeleportData.lastTeleportY, playerLastTeleportData.lastTeleportZ, packet.getX(), packet.getY(), packet.getZ()) < 0.1) return ActionResult.PASS; 
             double currentX = player.getX();
@@ -51,7 +51,7 @@ public class PhaseCheck extends CDModule implements MovementPacketCallback {
             boolean hitTargetZ = false;
             while (!(hitTargetX && hitTargetY && hitTargetZ)) {
                 box = player.getBoxForPosition(currentX, currentY, currentZ).expand(-0.1);
-                assertOrFlag(!BlockCollisionUtil.isTouching(box, world, Trackers.PHASE_BYPASS_TRACKER.isNotBypassed(player).and(BlockCollisionUtil.touchingNonSteppablePredicate(player.getStepHeight(), box, player.getY(), packet.getY()))), player, FlagSeverity.MAJOR, "Failed Phase Check2");
+                if (assertOrFlag(!BlockCollisionUtil.isTouching(box, world, Trackers.PHASE_BYPASS_TRACKER.isNotBypassed(player).and(BlockCollisionUtil.touchingNonSteppablePredicate(player.getStepHeight(), box, player.getY(), packet.getY()))), player, FlagSeverity.MAJOR, "Failed Phase Check2")) return ActionResult.FAIL;
                 if (!hitTargetX) {
                     if (targetXPositive) {
                         if (currentX + INTERP < targetX) {
