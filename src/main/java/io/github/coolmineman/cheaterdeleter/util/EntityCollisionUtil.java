@@ -1,6 +1,5 @@
 package io.github.coolmineman.cheaterdeleter.util;
 
-import java.util.Arrays;
 import java.util.function.Predicate;
 
 import org.apache.commons.lang3.ArrayUtils;

@@ -4,6 +4,7 @@ import java.util.HashMap;
 
 import org.jetbrains.annotations.Nullable;
 import org.spongepowered.asm.mixin.Mixin;
+import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
@@ -14,6 +15,9 @@ import net.minecraft.entity.Entity;
 
 @Mixin(Entity.class)
 public class EntityMixin implements CDEntity {
+    @Shadow
+    private long pistonMovementTick;
+
     @Unique
     private HashMap<Class<?>, Object> storedData = new HashMap<>();
 
@@ -30,5 +34,10 @@ public class EntityMixin implements CDEntity {
     @Inject(method = "<init>()V", at = @At("TAIL"))
     void onConstruct(CallbackInfo cb) {
         _init();
+    }
+
+    @Override
+    public long getPistonMovementTick() {
+        return pistonMovementTick;
     }
 }

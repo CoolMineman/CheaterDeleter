@@ -10,8 +10,6 @@ import io.github.coolmineman.cheaterdeleter.objects.PlayerMoveC2SPacketView;
 import io.github.coolmineman.cheaterdeleter.objects.PlayerPositionLookS2CPacketView;
 import io.github.coolmineman.cheaterdeleter.objects.entity.CDPlayer;
 import io.github.coolmineman.cheaterdeleter.trackers.Trackers;
-import io.github.coolmineman.cheaterdeleter.trackers.data.PlayerLastTeleportData;
-import io.github.coolmineman.cheaterdeleter.util.BoxUtil;
 import io.github.coolmineman.cheaterdeleter.util.BlockCollisionUtil;
 import io.github.coolmineman.cheaterdeleter.util.MathUtil;
 import net.minecraft.util.ActionResult;

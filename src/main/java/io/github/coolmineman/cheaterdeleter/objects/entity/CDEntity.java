@@ -76,6 +76,11 @@ public interface CDEntity {
         return CDEntity.of(asMcEntity().getVehicle());
     }
 
+    /**
+     * When last pushed by a piston in world ticks
+     */
+    long getPistonMovementTick();
+
     default float getStepHeight() {
         return asMcEntity().stepHeight;
     }

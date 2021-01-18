@@ -11,7 +11,8 @@
     "EntityPositionS2CPacketMixin",
     "EntityMixin",
     "HorseBaseEntityMixin",
-    "VehicleMoveS2CPacketMixin"
+    "VehicleMoveS2CPacketMixin",
+    "WorldChunkMixin"
   ],
   "client": [
   ],
