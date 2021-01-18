@@ -64,13 +64,6 @@ public class BlockCollisionUtil {
     public static BiPredicate<World, BlockPos> touchingNonSteppablePredicate(float stepheight, Box box, double oldY, double newY) {
         return (world, pos) -> {
             VoxelShape shape = world.getBlockState(pos).getCollisionShape(world, pos).offset(pos.getX(), pos.getY(), pos.getZ());
-            /*debug*/
-            if (newY <= oldY && intersects(shape, box)) {
-                System.out.println("ahhh");
-                System.out.println(newY);
-                System.out.println(oldY);
-                System.out.println(shape.isEmpty());
-            }
             if (newY <= oldY) return intersects(shape, box);
             if (intersects(shape, box)) {
                 MutableDouble stepHeight = new MutableDouble(Double.MAX_VALUE);

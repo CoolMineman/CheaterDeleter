@@ -49,8 +49,6 @@ public class PhaseCheck extends CDModule implements MovementPacketCallback {
             boolean hitTargetZ = false;
             while (!(hitTargetX && hitTargetY && hitTargetZ)) {
                 box = player.getBoxForPosition(currentX, currentY, currentZ).expand(-0.1);
-                System.out.println(player.getX() + " " + player.getZ());
-                System.out.println(packet.getX() + " " + packet.getZ());
                 assertOrFlag(!BlockCollisionUtil.isTouching(box, world, Trackers.PHASE_BYPASS_TRACKER.isNotBypassed(player).and(BlockCollisionUtil.touchingNonSteppablePredicate(player.getStepHeight(), box, player.getY(), packet.getY()))), player, FlagSeverity.MAJOR, "Failed Phase Check2");
                 if (!hitTargetX) {
                     if (targetXPositive) {
