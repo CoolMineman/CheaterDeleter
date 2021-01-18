@@ -31,7 +31,7 @@ public class EntityMixin implements CDEntity {
         return clazz.cast(storedData.get(clazz));
     }
 
-    @Inject(method = "<init>()V", at = @At("TAIL"))
+    @Inject(method = "<init>", at = @At("TAIL"))
     void onConstruct(CallbackInfo cb) {
         _init();
     }
