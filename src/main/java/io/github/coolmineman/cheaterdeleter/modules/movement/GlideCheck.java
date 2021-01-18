@@ -47,7 +47,7 @@ public class GlideCheck extends CDModule implements MovementPacketCallback, Play
     }
 
     private void fail(CDPlayer player, double failamount) {
-        if (failamount < 2.0) {
+        if (failamount > 0.3) {
             flag(player, FlagSeverity.MINOR, "Failed Glide Check (Minor) " + failamount);
         } else {
             if (flag(player, FlagSeverity.MAJOR, "Failed Glide Check " + failamount)) PunishUtil.groundPlayer(player);
