@@ -1,6 +1,6 @@
 package io.github.coolmineman.cheaterdeleter.mixin;
 
-import java.util.HashMap;
+import java.util.concurrent.ConcurrentHashMap;
 
 import org.jetbrains.annotations.Nullable;
 import org.spongepowered.asm.mixin.Mixin;
@@ -22,7 +22,7 @@ public class EntityMixin implements CDEntity {
     private long pistonMovementTick;
 
     @Unique
-    private HashMap<Class<?>, Object> storedData = new HashMap<>();
+    private ConcurrentHashMap<Class<?>, Object> storedData = new ConcurrentHashMap<>();
 
     @Override
     public <T> void putData(Class<T> clazz, T data) {
