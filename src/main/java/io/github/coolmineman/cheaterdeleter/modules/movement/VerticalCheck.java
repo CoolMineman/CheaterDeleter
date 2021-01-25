@@ -12,8 +12,8 @@ import net.minecraft.util.ActionResult;
 
 public class VerticalCheck extends CDModule implements MovementPacketCallback, PlayerDamageListener {
     public VerticalCheck() {
+        super("vertical_check");
         MovementPacketCallback.EVENT.register(this);
-
         PlayerDamageListener.EVENT.register(this);
     }
 

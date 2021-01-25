@@ -14,6 +14,7 @@ import net.minecraft.util.math.Box;
 
 public class EntityVerticalCheck extends CDModule implements VehicleMoveListener {
     public EntityVerticalCheck() {
+        super("entity_vertical_check");
         VehicleMoveListener.EVENT.register(this);
     }
 

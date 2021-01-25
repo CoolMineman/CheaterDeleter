@@ -9,6 +9,7 @@ import net.minecraft.util.ActionResult;
 
 public class InventoryMoveCheck extends CDModule implements MovementPacketCallback {
     public InventoryMoveCheck() {
+        super("inventorymove_check");
         MovementPacketCallback.EVENT.register(this);
     }
 

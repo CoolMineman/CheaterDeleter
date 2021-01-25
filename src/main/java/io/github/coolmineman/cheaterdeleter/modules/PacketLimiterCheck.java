@@ -12,6 +12,7 @@ public class PacketLimiterCheck extends CDModule implements PacketCallback {
     private static final long MAX_PACKETS_PER_SECOND = 500;
 
     public PacketLimiterCheck() {
+        super("packet_limiter");
         PacketCallback.EVENT.register(this);
     }
 

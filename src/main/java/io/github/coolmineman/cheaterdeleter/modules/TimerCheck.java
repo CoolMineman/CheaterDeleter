@@ -15,8 +15,8 @@ public class TimerCheck extends CDModule implements MovementPacketCallback, Play
     private static final int MAX_PACKETS = 21 * CHECK_PERIOD; // 20 is target give some wiggle room
 
     public TimerCheck() {
+        super("timer_check");
         MovementPacketCallback.EVENT.register(this);
-
         PlayerEndTickCallback.EVENT.register(this);
     }
 

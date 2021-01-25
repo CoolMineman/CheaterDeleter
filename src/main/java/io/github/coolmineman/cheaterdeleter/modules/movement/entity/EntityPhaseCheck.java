@@ -17,6 +17,7 @@ public class EntityPhaseCheck extends CDModule implements VehicleMoveListener {
     private static final double INTERP = 0.7;
 
     public EntityPhaseCheck() {
+        super("entity_phase_check");
         VehicleMoveListener.EVENT.register(this);
     }
 

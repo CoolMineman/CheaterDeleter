@@ -13,6 +13,7 @@ import net.minecraft.util.math.Box;
 
 public class BoatFlyCheck extends CDModule implements VehicleMoveListener {
     public BoatFlyCheck() {
+        super("boat_fly_check");
         VehicleMoveListener.EVENT.register(this);
     }
 

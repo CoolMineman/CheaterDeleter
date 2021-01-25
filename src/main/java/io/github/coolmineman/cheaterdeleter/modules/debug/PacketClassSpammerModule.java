@@ -12,6 +12,7 @@ import net.minecraft.util.ActionResult;
 public class PacketClassSpammerModule extends CDModule implements PacketCallback {
 
     public PacketClassSpammerModule() {
+        super("packet_class_spammer_module");
         PacketCallback.EVENT.register(this);
     }
 

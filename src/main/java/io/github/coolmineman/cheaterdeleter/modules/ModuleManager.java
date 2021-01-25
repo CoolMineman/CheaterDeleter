@@ -1,6 +1,7 @@
 package io.github.coolmineman.cheaterdeleter.modules;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import io.github.coolmineman.cheaterdeleter.config.GlobalConfig;
 import io.github.coolmineman.cheaterdeleter.modules.debug.DebugModuleManager;
@@ -10,24 +11,28 @@ import io.github.coolmineman.cheaterdeleter.modules.movement.MovementModuleManag
 public class ModuleManager {
     private ModuleManager() { }
 
-    private static final ArrayList<CDModule> CHECKS = new ArrayList<>();
+    private static final ArrayList<CDModule> MODULES = new ArrayList<>();
 
     public static void init() {
-        registerCheck(new PacketLimiterCheck());
-        if (GlobalConfig.debugMode >= 2) {
+        registerModule(new PacketLimiterCheck());
+        if (GlobalConfig.getDebugMode() >= 2) {
             DebugModuleManager.init();
         }
-        registerCheck(new TimerCheck());
+        registerModule(new TimerCheck());
         ExploitModuleMangaer.init();
         MovementModuleManager.init();
     }
 
-    public static void registerCheck(CDModule check) {
-        CHECKS.add(check);
+    public static void registerModule(CDModule check) {
+        MODULES.add(check);
     }
 
-    public static int getCheckCount() {
-        return CHECKS.size();
+    public static List<CDModule> getModules() {
+        return MODULES;
+    }
+
+    public static int getModuleCount() {
+        return MODULES.size();
     }
 
 }

@@ -7,8 +7,8 @@ public class DebugModuleManager {
     private DebugModuleManager() { }
 
     public static void init() {
-        if (GlobalConfig.debugMode >= 3) {
-            ModuleManager.registerCheck(new PacketClassSpammerModule());
+        if (GlobalConfig.getDebugMode() >= 3) {
+            ModuleManager.registerModule(new PacketClassSpammerModule());
         }
     }
 }

@@ -9,16 +9,16 @@ public class MovementModuleManager {
     private MovementModuleManager() { }
 
     public static void init() {
-        ModuleManager.registerCheck(new VerifyOnGroundCheck());
-        ModuleManager.registerCheck(new VerticalCheck());
-        ModuleManager.registerCheck(new GlideCheck());
-        ModuleManager.registerCheck(new OnGroundVerticalCheck());
-        ModuleManager.registerCheck(new PhaseCheck());
-        ModuleManager.registerCheck(new SpeedCheck());
-        ModuleManager.registerCheck(new InventoryMoveCheck());
+        ModuleManager.registerModule(new VerifyOnGroundCheck());
+        ModuleManager.registerModule(new VerticalCheck());
+        ModuleManager.registerModule(new GlideCheck());
+        ModuleManager.registerModule(new OnGroundVerticalCheck());
+        ModuleManager.registerModule(new PhaseCheck());
+        ModuleManager.registerModule(new SpeedCheck());
+        ModuleManager.registerModule(new InventoryMoveCheck());
         //Entity
-        ModuleManager.registerCheck(new BoatFlyCheck());
-        ModuleManager.registerCheck(new EntityVerticalCheck());
-        ModuleManager.registerCheck(new EntityPhaseCheck());
+        ModuleManager.registerModule(new BoatFlyCheck());
+        ModuleManager.registerModule(new EntityVerticalCheck());
+        ModuleManager.registerModule(new EntityPhaseCheck());
     }
 }

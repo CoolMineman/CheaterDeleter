@@ -12,6 +12,7 @@ import net.minecraft.util.math.Box;
 //TODO: Edge case where player lands on a block that used to exist (common with pistons)
 public class VerifyOnGroundCheck extends CDModule implements MovementPacketCallback {
     public VerifyOnGroundCheck() {
+        super("verify_on_ground_check");
         MovementPacketCallback.EVENT.register(this);
     }
 

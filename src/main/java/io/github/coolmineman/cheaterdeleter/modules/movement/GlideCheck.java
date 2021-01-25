@@ -14,6 +14,7 @@ import net.minecraft.util.ActionResult;
 //TODO false flags with slime block pistons
 public class GlideCheck extends CDModule implements MovementPacketCallback, PlayerDamageListener {
     public GlideCheck() {
+        super("glide_check");
         MovementPacketCallback.EVENT.register(this);
         PlayerDamageListener.EVENT.register(this);
     }

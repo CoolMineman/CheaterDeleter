@@ -18,6 +18,7 @@ public class PhaseCheck extends CDModule implements MovementPacketCallback {
     private static final double INTERP = 0.7;
 
     public PhaseCheck() {
+        super("phase_check");
         MovementPacketCallback.EVENT.register(this);
     }
 

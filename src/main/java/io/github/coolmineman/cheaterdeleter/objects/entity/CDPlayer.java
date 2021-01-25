@@ -160,7 +160,7 @@ public interface CDPlayer extends CDEntity {
     }
 
     default void kick(Text text) {
-        if (GlobalConfig.debugMode >= 2) {
+        if (GlobalConfig.getDebugMode() >= 2) {
             asMcPlayer().sendMessage(new LiteralText("Kicked: ").append(text), MessageType.SYSTEM, Util.NIL_UUID);
             CDPlayerEx ex = getData(CDPlayerEx.class);
             ex.flags = 0;

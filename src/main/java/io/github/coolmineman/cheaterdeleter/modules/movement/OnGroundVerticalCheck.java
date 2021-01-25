@@ -11,6 +11,7 @@ import net.minecraft.util.ActionResult;
 
 public class OnGroundVerticalCheck extends CDModule implements MovementPacketCallback {
     public OnGroundVerticalCheck() {
+        super("onground_vertical_check");
         MovementPacketCallback.EVENT.register(this);
     }
 

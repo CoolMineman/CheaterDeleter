@@ -22,6 +22,7 @@ import net.minecraft.util.math.Box;
 public class SpeedCheck extends CDModule
         implements MovementPacketCallback, PlayerEndTickCallback, OutgoingTeleportListener {
     public SpeedCheck() {
+        super("speed_check");
         MovementPacketCallback.EVENT.register(this);
         PlayerEndTickCallback.EVENT.register(this);
         OutgoingTeleportListener.EVENT.register(this);

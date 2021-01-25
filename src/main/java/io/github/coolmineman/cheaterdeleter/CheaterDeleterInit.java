@@ -4,6 +4,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import io.github.coolmineman.cheaterdeleter.compat.CompatManager;
+import io.github.coolmineman.cheaterdeleter.config.GlobalConfig;
 import io.github.coolmineman.cheaterdeleter.events.EventManager;
 import io.github.coolmineman.cheaterdeleter.modules.ModuleManager;
 import io.github.coolmineman.cheaterdeleter.trackers.Trackers;
@@ -25,15 +26,17 @@ public class CheaterDeleterInit implements ModInitializer {
 		LOGGER.info("Initializing Trackers...");
 		long trackerInitStart = System.currentTimeMillis();
 		Trackers.init();
-		LOGGER.info("Loaded {} trackers in {}ms", Trackers.getTrackerCount(), System.currentTimeMillis() - trackerInitStart);
+		LOGGER.info("Loaded {} Trackers in {}ms", Trackers.getTrackerCount(), System.currentTimeMillis() - trackerInitStart);
 		LOGGER.info("Initializing Checks...");
 		long checkInitStart = System.currentTimeMillis();
 		ModuleManager.init();
-		LOGGER.info("Loaded {} modules in {}ms", ModuleManager.getCheckCount(), System.currentTimeMillis() - checkInitStart);
+		LOGGER.info("Loaded {} Modules in {}ms", ModuleManager.getModuleCount(), System.currentTimeMillis() - checkInitStart);
 		LOGGER.info("Initializing Compatability Manager");
 		long compatInitStart = System.currentTimeMillis();
 		CompatManager.init();
 		LOGGER.info("Loaded Compatability For {} Mods in {}ms", CompatManager.getCompatCount(), System.currentTimeMillis() - compatInitStart);
+		GlobalConfig.loadConfig();
+		GlobalConfig.saveConfig();
 		LOGGER.info(EQUALS_LINE);
 		LOGGER.info("CheaterDeleter Anti-Cheat has Loaded Succesfully :)");
 		LOGGER.info(EQUALS_LINE);
