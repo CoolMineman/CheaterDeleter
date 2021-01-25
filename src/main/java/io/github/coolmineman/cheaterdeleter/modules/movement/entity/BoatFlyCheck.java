@@ -26,6 +26,7 @@ public class BoatFlyCheck extends CDModule implements VehicleMoveListener {
     // TODO: Piston Support
     @Override
     public void onVehicleMove(CDPlayer player, PlayerMoveC2SPacketView playerLook, PlayerInputC2SPacket playerInput, VehicleMoveC2SPacket vehicleMoveC2SPacket) {
+        if (!enabledFor(player)) return;
         CDEntity vehicle = player.getVehicleCd();
         if (vehicle != null) {
             double ydelta = vehicleMoveC2SPacket.getY() - vehicle.getY() - 0.001;

@@ -45,6 +45,10 @@ public class CDModule {
         return player.flag(this, severity);
     }
 
+    public boolean enabledFor(CDPlayer player) {
+        return enabled.get() && !player.shouldBypassAnticheat();
+    }
+
     public boolean assertOrFlag(boolean condition, CDPlayer player, CDModule.FlagSeverity severity, String message) {
         if (!condition) return flag(player, severity, message);
         return false;

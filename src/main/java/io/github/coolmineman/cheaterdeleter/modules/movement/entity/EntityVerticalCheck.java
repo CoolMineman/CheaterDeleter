@@ -30,6 +30,7 @@ public class EntityVerticalCheck extends CDModule implements VehicleMoveListener
 
     @Override
     public void onVehicleMove(CDPlayer player, PlayerMoveC2SPacketView playerLook, PlayerInputC2SPacket playerInput, VehicleMoveC2SPacket vehicleMoveC2SPacket) {
+            if (!enabledFor(player)) return;
             CDEntity vehicle = player.getVehicleCd();
             if (player.shouldBypassAnticheat() || vehicle == null) return;
             EntityVerticalCheckData verticalCheckData = player.getOrCreateData(EntityVerticalCheckData.class,

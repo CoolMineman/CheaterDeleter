@@ -18,7 +18,7 @@ public class VerifyOnGroundCheck extends CDModule implements MovementPacketCallb
 
     @Override
     public ActionResult onMovementPacket(CDPlayer player, PlayerMoveC2SPacketView packet) {
-        if (player.shouldBypassAnticheat()) return ActionResult.PASS;
+        if (!enabledFor(player)) return ActionResult.PASS;
         if (packet.isChangePosition()) {
             if (packet.isOnGround()) {
                 Box playerBox = player.getBoxForPosition(packet.getX(), packet.getY(), packet.getZ()).expand(0.6); //Fences

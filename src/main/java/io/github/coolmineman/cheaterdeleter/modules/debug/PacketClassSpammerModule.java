@@ -18,6 +18,7 @@ public class PacketClassSpammerModule extends CDModule implements PacketCallback
 
     @Override
     public ActionResult onPacket(CDPlayer player, Packet<ServerPlayPacketListener> packet) {
+        if (!enabledFor(player)) return ActionResult.PASS;
         if (!(packet instanceof PlayerMoveC2SPacket))
             CheaterDeleterInit.GLOBAL_LOGGER.info(packet.getClass().getSimpleName());
         return ActionResult.PASS;

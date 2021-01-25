@@ -30,7 +30,7 @@ public class SpeedCheck extends CDModule
 
     @Override
     public ActionResult onMovementPacket(CDPlayer player, PlayerMoveC2SPacketView packet) {
-        if (player.shouldBypassAnticheat() || player.isFallFlying())
+        if (!enabledFor(player) || player.isFallFlying())
             return ActionResult.PASS;
         if (packet.isChangePosition() &&
             !(player.asMcPlayer().isCreative() || System.currentTimeMillis() - player.getTracked(Trackers.PLAYER_LAST_TELEPORT_TRACKER).lastTeleport < 100 || BlockCollisionUtil.isNearby(player, 2, 4, BlockCollisionUtil.SPLIPPERY))

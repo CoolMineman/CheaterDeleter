@@ -16,7 +16,7 @@ public class InventoryMoveCheck extends CDModule implements MovementPacketCallba
     //TODO Damage
     @Override
     public ActionResult onMovementPacket(CDPlayer player, PlayerMoveC2SPacketView packet) {
-        if (player.shouldBypassAnticheat() || player.isFallFlying() || BlockCollisionUtil.isNearby(player, 2, 4, BlockCollisionUtil.NON_SOLID_COLLISION)) return ActionResult.PASS;
+        if (!enabledFor(player) || player.isFallFlying() || BlockCollisionUtil.isNearby(player, 2, 4, BlockCollisionUtil.NON_SOLID_COLLISION)) return ActionResult.PASS;
         if (packet.isChangePosition() && player.getCurrentScreenHandler() != null && invalidateMove(player, packet)) {
             flag(player, FlagSeverity.MINOR, "Inventory Move");
         } else if (player.getCurrentScreenHandler() == null) {

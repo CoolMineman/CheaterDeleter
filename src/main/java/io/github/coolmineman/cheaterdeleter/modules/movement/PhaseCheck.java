@@ -24,7 +24,7 @@ public class PhaseCheck extends CDModule implements MovementPacketCallback {
 
     @Override
     public ActionResult onMovementPacket(CDPlayer player, PlayerMoveC2SPacketView packet) {
-        if (player.shouldBypassAnticheat()) return ActionResult.PASS;
+        if (!enabledFor(player)) return ActionResult.PASS;
         if (packet.isChangePosition()) {
             World world = player.getWorld();
             if (world.getTime() - player.getPistonMovementTick() < 20 && Math.abs(player.getY() - packet.getY()) < 1.1 && MathUtil.getDistanceSquared(player.getX(), player.getZ(), packet.getX(), packet.getZ()) < 1.5) {

@@ -23,6 +23,7 @@ public class EntityPhaseCheck extends CDModule implements VehicleMoveListener {
 
     @Override
     public void onVehicleMove(CDPlayer player, PlayerMoveC2SPacketView playerLook, PlayerInputC2SPacket playerInput, VehicleMoveC2SPacket vehicleMoveC2SPacket) {
+        if (!enabledFor(player)) return;
         World world = player.getWorld();
         CDEntity entity = player.getVehicleCd();
         if (entity == null) return;
