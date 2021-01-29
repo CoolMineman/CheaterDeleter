@@ -53,8 +53,10 @@ public class VehicleMovePacketsTracker extends Tracker<VehicleMovePacketsData> i
             VehicleMoveC2SPacket vehicleMove = (VehicleMoveC2SPacket) packet;
             if (data.magic == 1) {
                 data.magic = -1;
-                VehicleMoveListener.EVENT.invoker().onVehicleMove(player, data.playerLook, data.playerInput,
-                        vehicleMove);
+                CDEntity vehicle = player.getVehicleCd();
+                if (vehicle != null)
+                    VehicleMoveListener.EVENT.invoker().onVehicleMove(player, vehicle, data.playerLook, data.playerInput, vehicleMove, data.lastVehicleMoveC2SPacket);
+                data.lastVehicleMoveC2SPacket = vehicleMove;
                 data.playerInput = null;
                 data.playerLook = null;
             } else {

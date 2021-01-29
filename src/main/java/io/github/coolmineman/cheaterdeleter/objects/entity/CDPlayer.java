@@ -89,7 +89,7 @@ public interface CDPlayer extends CDEntity {
 
     default void rollback() {
         CDPlayerEx ex = getData(CDPlayerEx.class);
-        if (ex.hasLastGood) teleport(ex.lastGoodX, ex.lastGoodY, ex.lastGoodZ);
+        if (ex.hasLastGood) teleportCd(ex.lastGoodX, ex.lastGoodY, ex.lastGoodZ);
     }
 
     default void tickRollback(double x, double y, double z, boolean isTeleport) {
@@ -119,8 +119,8 @@ public interface CDPlayer extends CDEntity {
         return getPermission("cheaterdeleter.cheaterdeleter.sendminorflags") == TriState.TRUE;
     }
 
-    default void teleport(double x, double y, double z) {
-        teleport(x, y, z, getYaw(), getPitch());
+    default void teleportCd(double x, double y, double z) {
+        teleportCd(x, y, z, getYaw(), getPitch());
         CDPlayerEx ex = getData(CDPlayerEx.class);
         ex.lastGoodX = x;
         ex.lastGoodY = y;
@@ -129,13 +129,9 @@ public interface CDPlayer extends CDEntity {
     }
 
     //TODO: Still breaks boats somehow
-    default void teleport(double x, double y, double z, float yaw, float pitch) {
-        if (asMcPlayer().hasVehicle()) asMcPlayer().stopRiding();
+    default void teleportCd(double x, double y, double z, float yaw, float pitch) {
+        asMcPlayer().stopRiding();
         asMcPlayer().teleport(getWorld(), x, y, z, yaw, pitch);
-    }
-
-    default float getSpeed() {
-        return asMcPlayer().getMovementSpeed();
     }
 
     @Override

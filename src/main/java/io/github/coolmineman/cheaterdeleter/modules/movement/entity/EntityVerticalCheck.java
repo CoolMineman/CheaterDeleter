@@ -1,5 +1,7 @@
 package io.github.coolmineman.cheaterdeleter.modules.movement.entity;
 
+import org.jetbrains.annotations.Nullable;
+
 import io.github.coolmineman.cheaterdeleter.events.VehicleMoveListener;
 import io.github.coolmineman.cheaterdeleter.modules.CDModule;
 import io.github.coolmineman.cheaterdeleter.objects.PlayerMoveC2SPacketView;
@@ -29,10 +31,9 @@ public class EntityVerticalCheck extends CDModule implements VehicleMoveListener
     }
 
     @Override
-    public void onVehicleMove(CDPlayer player, PlayerMoveC2SPacketView playerLook, PlayerInputC2SPacket playerInput, VehicleMoveC2SPacket vehicleMoveC2SPacket) {
+    public void onVehicleMove(CDPlayer player, CDEntity vehicle, PlayerMoveC2SPacketView playerLook, PlayerInputC2SPacket playerInput, VehicleMoveC2SPacket vehicleMoveC2SPacket, @Nullable VehicleMoveC2SPacket lastVehicleMoveC2SPacket) {
             if (!enabledFor(player)) return;
-            CDEntity vehicle = player.getVehicleCd();
-            if (player.shouldBypassAnticheat() || vehicle == null) return;
+            if (vehicle == null) return;
             EntityVerticalCheckData verticalCheckData = player.getOrCreateData(EntityVerticalCheckData.class,
                     EntityVerticalCheckData::new);
             if (vehicle.asMcEntity().isSwimming()

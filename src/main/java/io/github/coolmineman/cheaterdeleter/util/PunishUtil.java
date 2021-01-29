@@ -15,7 +15,7 @@ public class PunishUtil {
         Box box = BoxUtil.withNewMinY(player.getBox(), 0);
         World world = player.getWorld();
         double newY = BlockPos.stream(box).mapToDouble(pos -> BlockCollisionUtil.getHighestTopIntersection(world.getBlockState(pos).getCollisionShape(world, pos).offset(pos.getX(), pos.getY(), pos.getZ()), box, -100)).max().orElse(-100);
-        player.teleport(player.getX(), newY, player.getZ());
+        player.teleportCd(player.getX(), newY, player.getZ());
     }
 
     public static void groundBoat(CDPlayer player, CDEntity entity) {

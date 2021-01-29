@@ -1,5 +1,7 @@
 package io.github.coolmineman.cheaterdeleter.modules.movement.entity;
 
+import org.jetbrains.annotations.Nullable;
+
 import io.github.coolmineman.cheaterdeleter.events.VehicleMoveListener;
 import io.github.coolmineman.cheaterdeleter.modules.CDModule;
 import io.github.coolmineman.cheaterdeleter.objects.PlayerMoveC2SPacketView;
@@ -22,28 +24,27 @@ public class EntityPhaseCheck extends CDModule implements VehicleMoveListener {
     }
 
     @Override
-    public void onVehicleMove(CDPlayer player, PlayerMoveC2SPacketView playerLook, PlayerInputC2SPacket playerInput, VehicleMoveC2SPacket vehicleMoveC2SPacket) {
+    public void onVehicleMove(CDPlayer player, CDEntity vehicle, PlayerMoveC2SPacketView playerLook, PlayerInputC2SPacket playerInput, VehicleMoveC2SPacket vehicleMoveC2SPacket, @Nullable VehicleMoveC2SPacket lastVehicleMoveC2SPacket) {
         if (!enabledFor(player)) return;
         World world = player.getWorld();
-        CDEntity entity = player.getVehicleCd();
-        if (entity == null) return;
-        Box box = entity.getBoxForPosition(vehicleMoveC2SPacket.getX(), vehicleMoveC2SPacket.getY(), vehicleMoveC2SPacket.getZ()).expand(-0.1);
-        if (assertOrFlag(!BlockCollisionUtil.isTouching(box, world, Trackers.PHASE_BYPASS_TRACKER.isNotBypassed(player).and(BlockCollisionUtil.touchingNonSteppablePredicate(entity.getStepHeight(), box, entity.getY(), vehicleMoveC2SPacket.getY()))), player, FlagSeverity.MAJOR, "Failed Entity Phase Check1")) return;
-        double currentX = entity.getX();
-        double currentY = entity.getY();
-        double currentZ = entity.getZ();
+        if (vehicle == null) return;
+        Box box = vehicle.getBoxForPosition(vehicleMoveC2SPacket.getX(), vehicleMoveC2SPacket.getY(), vehicleMoveC2SPacket.getZ()).expand(-0.1);
+        if (assertOrFlag(!BlockCollisionUtil.isTouching(box, world, Trackers.PHASE_BYPASS_TRACKER.isNotBypassed(player).and(BlockCollisionUtil.touchingNonSteppablePredicate(vehicle.getStepHeight(), box, vehicle.getY(), vehicleMoveC2SPacket.getY()))), player, FlagSeverity.MAJOR, "Failed Entity Phase Check1")) return;
+        double currentX = vehicle.getX();
+        double currentY = vehicle.getY();
+        double currentZ = vehicle.getZ();
         double targetX = vehicleMoveC2SPacket.getX();
-        boolean targetXPositive = targetX > entity.getX();
+        boolean targetXPositive = targetX > vehicle.getX();
         boolean hitTargetX = false;
         double targetY = vehicleMoveC2SPacket.getY();
-        boolean targetYPositive = targetY > entity.getY();
+        boolean targetYPositive = targetY > vehicle.getY();
         boolean hitTargetY = false;
         double targetZ = vehicleMoveC2SPacket.getZ();
-        boolean targetZPositive = targetZ > entity.getZ();
+        boolean targetZPositive = targetZ > vehicle.getZ();
         boolean hitTargetZ = false;
         while (!(hitTargetX && hitTargetY && hitTargetZ)) {
-            box = entity.getBoxForPosition(currentX, currentY, currentZ).expand(-0.1);
-            if (assertOrFlag(!BlockCollisionUtil.isTouching(box, world, Trackers.PHASE_BYPASS_TRACKER.isNotBypassed(player).and(BlockCollisionUtil.touchingNonSteppablePredicate(entity.getStepHeight(), box, entity.getY(), vehicleMoveC2SPacket.getY()))), player, FlagSeverity.MAJOR, "Failed Entity Phase Check2")) return;
+            box = vehicle.getBoxForPosition(currentX, currentY, currentZ).expand(-0.1);
+            if (assertOrFlag(!BlockCollisionUtil.isTouching(box, world, Trackers.PHASE_BYPASS_TRACKER.isNotBypassed(player).and(BlockCollisionUtil.touchingNonSteppablePredicate(vehicle.getStepHeight(), box, vehicle.getY(), vehicleMoveC2SPacket.getY()))), player, FlagSeverity.MAJOR, "Failed Entity Phase Check2")) return;
             if (!hitTargetX) {
                 if (targetXPositive) {
                     if (currentX + INTERP < targetX) {

@@ -10,6 +10,7 @@ import io.github.coolmineman.cheaterdeleter.trackers.data.Data;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.effect.StatusEffects;
+import net.minecraft.entity.vehicle.BoatEntity;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.util.math.Box;
 import net.minecraft.util.math.Vec3d;
@@ -66,6 +67,12 @@ public interface CDEntity {
 
     default double getBaseMaxJumpHeight() {
         return 1.25;
+    }
+
+    default float getSpeed() {
+        if (this instanceof LivingEntity) return ((LivingEntity)this).getMovementSpeed();
+        if (this instanceof BoatEntity) return 0.2f; //Guestimation
+        return 0;
     }
 
     default void _init() {

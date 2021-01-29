@@ -27,7 +27,7 @@ public class TimerCheck extends CDModule implements MovementPacketCallback, Play
 
     @Override
     public ActionResult onMovementPacket(CDPlayer player, PlayerMoveC2SPacketView packet) {
-        if (player.shouldBypassAnticheat()) return ActionResult.PASS;
+        if (!enabledFor(player)) return ActionResult.PASS;
         PlayerTimerInfo info = player.getOrCreateData(PlayerTimerInfo.class, PlayerTimerInfo::new);
         info.movementPackets.addAndGet(1);
         return ActionResult.PASS;
@@ -35,7 +35,7 @@ public class TimerCheck extends CDModule implements MovementPacketCallback, Play
 
     @Override
     public void onPlayerEndTick(CDPlayer player) {
-        if (player.shouldBypassAnticheat() || player.getVehicleCd() != null) return;
+        if (!enabledFor(player)|| player.getVehicleCd() != null) return;
         PlayerTimerInfo info = player.getData(PlayerTimerInfo.class);
         if (info != null) {
             long timediff = System.currentTimeMillis() - info.time;

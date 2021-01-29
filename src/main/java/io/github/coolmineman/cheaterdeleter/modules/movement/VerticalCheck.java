@@ -53,7 +53,7 @@ public class VerticalCheck extends CDModule implements MovementPacketCallback, P
 
 	@Override
 	public void onPlayerDamage(CDPlayer player, DamageSource source, float amount) {
-        if (player.shouldBypassAnticheat()) return;
+        if (!enabledFor(player)) return;
 		VerticalCheckData verticalCheckData = player.getData(VerticalCheckData.class);
 		if (verticalCheckData != null) {
             verticalCheckData.maxY += 0.6;

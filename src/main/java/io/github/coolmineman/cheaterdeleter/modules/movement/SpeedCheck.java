@@ -52,7 +52,7 @@ public class SpeedCheck extends CDModule
 
     @Override
     public void onPlayerEndTick(CDPlayer player) {
-        if (player.shouldBypassAnticheat())
+        if (!enabledFor(player))
             return;
         if (player.getWorld().getTime() % 40 == 0) {
             SpeedCheckData data = player.getOrCreateData(SpeedCheckData.class, SpeedCheckData::new);
