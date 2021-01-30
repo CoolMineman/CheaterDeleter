@@ -1,6 +1,7 @@
 package io.github.coolmineman.cheaterdeleter.mixin;
 
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.function.Supplier;
 
 import org.jetbrains.annotations.Nullable;
 import org.spongepowered.asm.mixin.Mixin;
@@ -29,6 +30,12 @@ public class EntityMixin implements CDEntity {
         storedData.put(clazz, data);
     }
 
+    @SuppressWarnings("unchecked")
+    @Override
+    public <T> T getOrCreateData(Class<T> clazz, Supplier<T> supplier) {
+        return (T) storedData.computeIfAbsent(clazz, e -> supplier.get());
+    }
+
     @Override
     public <T> @Nullable T getData(Class<T> clazz) {
         return clazz.cast(storedData.get(clazz));
@@ -47,7 +54,7 @@ public class EntityMixin implements CDEntity {
     @Inject(method = "Lnet/minecraft/entity/Entity;startRiding(Lnet/minecraft/entity/Entity;Z)Z", at = @At("RETURN"))
     public void onStartRiding(Entity entity, boolean force, CallbackInfoReturnable<Boolean> cb) {
         if (cb.getReturnValueZ() && this instanceof CDPlayer) {
-            PlayerStartRidingListener.EVENT.invoker().onStartRiding((CDPlayer)this, (CDEntity)entity);
+            PlayerStartRidingListener.EVENT.invoker().onStartRiding((CDPlayer) this, (CDEntity) entity);
         }
     }
 }

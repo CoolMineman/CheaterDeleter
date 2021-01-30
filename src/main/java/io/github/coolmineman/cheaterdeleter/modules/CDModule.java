@@ -1,9 +1,7 @@
 package io.github.coolmineman.cheaterdeleter.modules;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import io.github.coolmineman.cheaterdeleter.CheaterDeleterInit;
 import io.github.coolmineman.cheaterdeleter.config.BooleanConfigValue;

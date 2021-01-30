@@ -21,14 +21,7 @@ public interface CDEntity {
     @Nullable
     <T> T getData(Class<T> clazz);
 
-    default <T> T getOrCreateData(Class<T> clazz, Supplier<T> supplier) {
-        T result = getData(clazz);
-        if (result == null) {
-            result = supplier.get();
-            putData(clazz, result);
-        }
-        return result;
-    }
+    <T> T getOrCreateData(Class<T> clazz, Supplier<T> supplier);
 
     default <T extends Data> T getTracked(Tracker<T> tracker) {
         return tracker.get(this);
@@ -50,7 +43,7 @@ public interface CDEntity {
     }
 
     default Box getBoxForPosition(double posx, double posy, double posz) {
-        return asMcEntity().getDimensions(asMcEntity().getPose()).method_30231(posx, posy, posz); // method_30231 -> withPos
+        return asMcEntity().getDimensions(asMcEntity().getPose()).getBoxAt(posx, posy, posz);
     }
 
     default double getMaxJumpHeight() {
