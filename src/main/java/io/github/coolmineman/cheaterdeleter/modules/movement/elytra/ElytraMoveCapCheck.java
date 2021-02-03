@@ -17,6 +17,7 @@ import net.minecraft.util.Hand;
 /**
  * Based on max distance / fall speed from https://minecraft.gamepedia.com/Elytra#Speed_and_altitude
  * Simple cap so cheats can't pull too many shenanigans
+ * TODO: Water
  */
 public class ElytraMoveCapCheck extends CDModule implements ClientCommandC2SPacketListener, MovementPacketCallback, InteractItemListener {
     public ElytraMoveCapCheck() {
@@ -65,7 +66,7 @@ public class ElytraMoveCapCheck extends CDModule implements ClientCommandC2SPack
     public void onInteractItem(CDPlayer player, Hand hand, ItemStack stackInHand) {
         ElytraMoveCapCheckData data = player.getData(ElytraMoveCapCheckData.class);
         if (data != null && data.isActive && stackInHand.getItem() == Items.FIREWORK_ROCKET) {
-            data.yCap += 50; //Not Exact
+            data.yCap += 75; //Bruh
         }
     }
 }
