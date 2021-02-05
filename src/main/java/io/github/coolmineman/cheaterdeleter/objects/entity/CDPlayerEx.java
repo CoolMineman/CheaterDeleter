@@ -1,15 +1,12 @@
 package io.github.coolmineman.cheaterdeleter.objects.entity;
 
 import io.github.coolmineman.cheaterdeleter.events.ClickSlotC2SPacketCallback;
-import io.github.coolmineman.cheaterdeleter.events.TeleportConfirmListener;
 import io.github.coolmineman.cheaterdeleter.modules.CDModule;
 import it.unimi.dsi.fastutil.objects.Object2LongOpenHashMap;
 import net.minecraft.util.ActionResult;
 
 /* Package Private */ class CDPlayerEx {
     static {
-        TeleportConfirmListener.EVENT.register((player, teleportConfirmC2SPacket, packet) -> player.tickRollback(packet.getX(), packet.getY(), packet.getZ(), true));
-
         ClickSlotC2SPacketCallback.EVENT.register((player, packet) -> {
             if (packet.getSyncId() == 0 && player.asMcPlayer().currentScreenHandler == player.asMcPlayer().playerScreenHandler) {
                 player.setHasCurrentPlayerScreenHandler(true);
@@ -30,13 +27,13 @@ import net.minecraft.util.ActionResult;
 
     public Object2LongOpenHashMap<CDModule> lastFlagsMap = new Object2LongOpenHashMap<>();
 
-    public double flags = 0.0;
-    public long lastFlag = 0;
+    public volatile double flags = 0.0;
+    public volatile long lastFlag = 0;
 
-    public double lastGoodX;
-    public double lastGoodY;
-    public double lastGoodZ;
-    public boolean hasLastGood = false;
+    public volatile double lastGoodX;
+    public volatile double lastGoodY;
+    public volatile double lastGoodZ;
+    public volatile boolean hasLastGood = false;
 
     public volatile double lastPacketX;
     public volatile double lastPacketY;

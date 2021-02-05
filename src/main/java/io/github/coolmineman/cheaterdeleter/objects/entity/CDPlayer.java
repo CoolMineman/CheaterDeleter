@@ -4,6 +4,7 @@ import java.util.Locale;
 
 import org.jetbrains.annotations.Nullable;
 
+import io.github.coolmineman.cheaterdeleter.CheaterDeleterInit;
 import io.github.coolmineman.cheaterdeleter.compat.CompatManager;
 import io.github.coolmineman.cheaterdeleter.compat.LuckoPermissionsCompat;
 import io.github.coolmineman.cheaterdeleter.compat.StepHeightEntityAttributeCompat;
@@ -90,7 +91,10 @@ public interface CDPlayer extends CDEntity {
 
     default void rollback() {
         CDPlayerEx ex = getData(CDPlayerEx.class);
-        if (ex.hasLastGood) teleportCd(ex.lastGoodX, ex.lastGoodY, ex.lastGoodZ);
+        if (ex.hasLastGood) {
+            teleportCd(ex.lastGoodX, ex.lastGoodY, ex.lastGoodZ);
+            CheaterDeleterInit.GLOBAL_LOGGER.info("Rolled {} back to {} {} {}", asString(), ex.lastGoodX, ex.lastGoodY, ex.lastGoodZ);
+        }
     }
 
     default void tickRollback(double x, double y, double z, boolean isTeleport) {
