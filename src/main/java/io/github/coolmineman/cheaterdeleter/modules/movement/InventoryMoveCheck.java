@@ -29,7 +29,7 @@ public class InventoryMoveCheck extends CDModule
 
     // TODO Damage
     @Override
-    public void onMovementPacket(CDPlayer player, PlayerMoveC2SPacketView packet) {
+    public void onMovementPacket(CDPlayer player, PlayerMoveC2SPacketView packet, MoveCause cause) {
         if (!enabledFor(player) || player.isFallFlying()
                 || BlockCollisionUtil.isNearby(player, 2, 4, BlockCollisionUtil.NON_SOLID_COLLISION))
             return;

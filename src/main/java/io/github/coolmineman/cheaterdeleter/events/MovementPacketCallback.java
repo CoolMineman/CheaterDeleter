@@ -9,9 +9,9 @@ import net.minecraft.util.ActionResult;
 
 public interface MovementPacketCallback {
     Event<MovementPacketCallback> EVENT = EventFactory.createArrayBacked(MovementPacketCallback.class,
-        listeners -> (player, packet) -> {
+        listeners -> (player, packet, cause) -> {
             for (MovementPacketCallback listener : listeners) {
-                listener.onMovementPacket(player, packet);
+                listener.onMovementPacket(player, packet, cause);
             }
         if (packet.isChangePosition()) player.tickRollback(packet.getX(), packet.getY(), packet.getZ(), false);
     });
@@ -19,12 +19,21 @@ public interface MovementPacketCallback {
     public static void init() {
         PacketCallback.EVENT.register((player, packet) -> {
                 if (packet instanceof PlayerMoveC2SPacket) {
-                    MovementPacketCallback.EVENT.invoker().onMovementPacket(player, (PlayerMoveC2SPacketView)packet);
+                    MovementPacketCallback.EVENT.invoker().onMovementPacket(player, (PlayerMoveC2SPacketView)packet, MoveCause.OTHER);
                 }
                 return ActionResult.PASS;
             }
         );
     }
 
-    void onMovementPacket(CDPlayer player, PlayerMoveC2SPacketView packet);
+    public enum MoveCause {
+        TELEPORT,
+        OTHER;
+
+        public boolean isTeleport() {
+            return this == TELEPORT;
+        }
+    }
+
+    void onMovementPacket(CDPlayer player, PlayerMoveC2SPacketView packet, MoveCause cause);
 }

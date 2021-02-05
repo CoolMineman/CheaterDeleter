@@ -16,7 +16,7 @@ public class OnGroundVerticalCheck extends CDModule implements MovementPacketCal
 
     // TODO: Boats and Shulker
     @Override
-    public void onMovementPacket(CDPlayer player, PlayerMoveC2SPacketView packet) {
+    public void onMovementPacket(CDPlayer player, PlayerMoveC2SPacketView packet, MoveCause cause) {
         if (!enabledFor(player)) return;
         float stepHeight = player.getStepHeight();
         if (packet.isChangePosition() &&

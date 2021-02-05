@@ -19,7 +19,7 @@ public class GlideCheck extends CDModule implements MovementPacketCallback, Play
     }
 
     @Override
-    public void onMovementPacket(CDPlayer player, PlayerMoveC2SPacketView packet) {
+    public void onMovementPacket(CDPlayer player, PlayerMoveC2SPacketView packet, MoveCause cause) {
         if (!enabledFor(player)) return;
         GlideCheckData data = player.getOrCreateData(GlideCheckData.class, GlideCheckData::new);
         if (!packet.isOnGround() && packet.isChangePosition() && !player.isFallFlying()) {

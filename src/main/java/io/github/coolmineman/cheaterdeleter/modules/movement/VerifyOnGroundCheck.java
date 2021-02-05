@@ -5,7 +5,6 @@ import io.github.coolmineman.cheaterdeleter.modules.CDModule;
 import io.github.coolmineman.cheaterdeleter.objects.PlayerMoveC2SPacketView;
 import io.github.coolmineman.cheaterdeleter.objects.entity.CDPlayer;
 import io.github.coolmineman.cheaterdeleter.util.CollisionUtil;
-import net.minecraft.util.ActionResult;
 import net.minecraft.util.math.Box;
 
 //TODO: Enforce fall damage ourselves
@@ -17,7 +16,7 @@ public class VerifyOnGroundCheck extends CDModule implements MovementPacketCallb
     }
 
     @Override
-    public void onMovementPacket(CDPlayer player, PlayerMoveC2SPacketView packet) {
+    public void onMovementPacket(CDPlayer player, PlayerMoveC2SPacketView packet, MoveCause cause) {
         if (!enabledFor(player)) return;
         if (packet.isChangePosition()) {
             if (packet.isOnGround()) {

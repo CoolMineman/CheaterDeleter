@@ -12,7 +12,6 @@ import io.github.coolmineman.cheaterdeleter.objects.entity.CDPlayer;
 import io.github.coolmineman.cheaterdeleter.trackers.Trackers;
 import io.github.coolmineman.cheaterdeleter.util.BlockCollisionUtil;
 import io.github.coolmineman.cheaterdeleter.util.MathUtil;
-import net.minecraft.util.ActionResult;
 import net.minecraft.util.math.Box;
 
 //TODO This is garbage
@@ -29,7 +28,7 @@ public class SpeedCheck extends CDModule
     }
 
     @Override
-    public void onMovementPacket(CDPlayer player, PlayerMoveC2SPacketView packet) {
+    public void onMovementPacket(CDPlayer player, PlayerMoveC2SPacketView packet, MoveCause cause) {
         if (!enabledFor(player) || player.isFallFlying()) return;
         if (packet.isChangePosition() &&
             !(player.asMcPlayer().isCreative() || System.currentTimeMillis() - player.getTracked(Trackers.PLAYER_LAST_TELEPORT_TRACKER).lastTeleport < 100 || BlockCollisionUtil.isNearby(player, 2, 4, BlockCollisionUtil.SPLIPPERY))

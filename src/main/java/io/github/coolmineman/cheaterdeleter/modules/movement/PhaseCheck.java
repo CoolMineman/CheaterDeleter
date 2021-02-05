@@ -8,7 +8,6 @@ import io.github.coolmineman.cheaterdeleter.trackers.Trackers;
 import io.github.coolmineman.cheaterdeleter.trackers.data.PlayerLastTeleportData;
 import io.github.coolmineman.cheaterdeleter.util.BlockCollisionUtil;
 import io.github.coolmineman.cheaterdeleter.util.MathUtil;
-import net.minecraft.util.ActionResult;
 import net.minecraft.util.math.Box;
 import net.minecraft.world.World;
 
@@ -23,7 +22,7 @@ public class PhaseCheck extends CDModule implements MovementPacketCallback {
     }
 
     @Override
-    public void onMovementPacket(CDPlayer player, PlayerMoveC2SPacketView packet) {
+    public void onMovementPacket(CDPlayer player, PlayerMoveC2SPacketView packet, MoveCause cause) {
         if (!enabledFor(player)) return;
         if (packet.isChangePosition()) {
             World world = player.getWorld();
@@ -37,7 +36,7 @@ public class PhaseCheck extends CDModule implements MovementPacketCallback {
             Box box = player.getBoxForPosition(packet.getX(), packet.getY(), packet.getZ()).expand(-0.1);
             if (assertOrFlag(!BlockCollisionUtil.isTouching(box, world, Trackers.PHASE_BYPASS_TRACKER.isNotBypassed(player).and(BlockCollisionUtil.touchingNonSteppablePredicate(player.getStepHeight(), box, player.getY(), packet.getY()))), player, FlagSeverity.MAJOR, "Failed Phase Check1")) return;
             PlayerLastTeleportData playerLastTeleportData = player.getTracked(Trackers.PLAYER_LAST_TELEPORT_TRACKER);
-            if (System.currentTimeMillis() - playerLastTeleportData.lastTeleport < 1000 && MathUtil.getDistanceSquared(playerLastTeleportData.lastTeleportX, playerLastTeleportData.lastTeleportY, playerLastTeleportData.lastTeleportZ, packet.getX(), packet.getY(), packet.getZ()) < 0.1) return; 
+            // if (System.currentTimeMillis() - playerLastTeleportData.lastTeleport < 1000 && MathUtil.getDistanceSquared(playerLastTeleportData.lastTeleportX, playerLastTeleportData.lastTeleportY, playerLastTeleportData.lastTeleportZ, packet.getX(), packet.getY(), packet.getZ()) < 0.1) return; 
             double currentX = player.getX();
             double currentY = player.getY();
             double currentZ = player.getZ();
@@ -109,7 +108,8 @@ public class PhaseCheck extends CDModule implements MovementPacketCallback {
 
     @Override
     public boolean flag(CDPlayer player, FlagSeverity severity, String message) {
-        if (super.flag(player, severity, message)) player.rollback();
+        super.flag(player, severity, message);
+        player.rollback();
         return false;
     }
 }

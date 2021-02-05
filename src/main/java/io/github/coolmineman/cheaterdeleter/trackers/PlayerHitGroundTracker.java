@@ -15,7 +15,7 @@ public class PlayerHitGroundTracker extends Tracker<PlayerHitGroundData> impleme
     }
 
     @Override
-    public void onMovementPacket(CDPlayer player, PlayerMoveC2SPacketView packet) {
+    public void onMovementPacket(CDPlayer player, PlayerMoveC2SPacketView packet, MoveCause cause) {
         if (!packet.isOnGround()) {
             get(player).lastInAir.set(System.currentTimeMillis());
         }

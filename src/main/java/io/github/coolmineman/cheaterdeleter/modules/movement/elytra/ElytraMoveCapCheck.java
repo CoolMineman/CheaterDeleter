@@ -34,7 +34,7 @@ public class ElytraMoveCapCheck extends CDModule implements ClientCommandC2SPack
     }
 
     @Override
-    public void onMovementPacket(CDPlayer player, PlayerMoveC2SPacketView packet) {
+    public void onMovementPacket(CDPlayer player, PlayerMoveC2SPacketView packet, MoveCause cause) {
         ElytraMoveCapCheckData data = player.getData(ElytraMoveCapCheckData.class);
         if (data != null) {
             if (data.isActive && !player.isFallFlying()) {
