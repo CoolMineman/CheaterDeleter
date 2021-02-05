@@ -3,6 +3,7 @@
 ## Currently Detected Hacks
 
 * Timer/Extra Movement Packets
+* Timer While on Entity
 * Glide
 * Fly While Not On An Entity
 * VClip
@@ -18,6 +19,7 @@
 * Poorly Written Water Walk Cheats
 * Vehicle High Jump
 * Boat Fly
+* Elytra Fly Height
 
 ## Supported Mods
 

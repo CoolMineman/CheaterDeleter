@@ -18,7 +18,7 @@ import net.minecraft.network.packet.c2s.play.VehicleMoveC2SPacket;
 public class EntityTimerCheck extends CDModule
         implements VehicleMoveListener, PlayerEndTickCallback, TeleportConfirmListener {
     private static final int CHECK_PERIOD = 5;
-    private static final int MAX_PACKETS = 21 * CHECK_PERIOD; // 20 is target give some wiggle room
+    private static final int MAX_PACKETS_PER_SEC = 21; // 20 is target give some wiggle room
 
     public EntityTimerCheck() {
         super("entity_timer_check");
@@ -52,9 +52,9 @@ public class EntityTimerCheck extends CDModule
             if (timediff > 1000 * CHECK_PERIOD) {
                 int movementPackets = info.packets.getAndSet(0);
                 info.time = System.currentTimeMillis();
-                if (movementPackets > MAX_PACKETS && player.getVehicleCd() != null) {
-                    if (flag(player, FlagSeverity.MINOR, "Failed Entity Timer Check"))
-                        player.rollback();
+                double expected = MAX_PACKETS_PER_SEC * timediff * 0.001;
+                if (movementPackets > expected && player.getVehicleCd() != null) {
+                    if (flag(player, FlagSeverity.MINOR, "Failed Entity Timer Check")) player.rollback();
                 }
             }
         }

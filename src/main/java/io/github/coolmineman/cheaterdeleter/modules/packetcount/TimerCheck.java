@@ -12,7 +12,7 @@ import io.github.coolmineman.cheaterdeleter.objects.entity.CDPlayer;
 //TODO: Fails when player "moved" by something like a piston
 public class TimerCheck extends CDModule implements PlayerMovementListener, PlayerEndTickCallback {
     private static final int CHECK_PERIOD = 5;
-    private static final int MAX_PACKETS = 21 * CHECK_PERIOD; // 20 is target give some wiggle room
+    private static final int MAX_PACKETS_PER_SEC = 21; // 20 is target give some wiggle room
 
     public TimerCheck() {
         super("timer_check");
@@ -41,8 +41,9 @@ public class TimerCheck extends CDModule implements PlayerMovementListener, Play
             if (timediff > 1000 * CHECK_PERIOD) {
                 int movementPackets = info.movementPackets.getAndSet(0);
                 info.time = System.currentTimeMillis();
-                if (movementPackets > MAX_PACKETS) {
-                    if (flag(player, FlagSeverity.MINOR, "Failed Timer Check " + (movementPackets - MAX_PACKETS))) player.rollback();
+                double expected = MAX_PACKETS_PER_SEC * timediff * 0.001;
+                if (movementPackets > expected) {
+                    if (flag(player, FlagSeverity.MINOR, "Failed Timer Check " + (movementPackets - expected))) player.rollback();
                 }
             }
         }
