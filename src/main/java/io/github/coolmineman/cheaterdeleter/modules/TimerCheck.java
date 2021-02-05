@@ -4,15 +4,12 @@ import java.util.concurrent.atomic.AtomicInteger;
 
 import io.github.coolmineman.cheaterdeleter.events.PlayerMovementListener;
 import io.github.coolmineman.cheaterdeleter.events.PlayerEndTickCallback;
-import io.github.coolmineman.cheaterdeleter.events.TeleportConfirmListener;
 import io.github.coolmineman.cheaterdeleter.objects.PlayerMoveC2SPacketView;
 import io.github.coolmineman.cheaterdeleter.objects.entity.CDPlayer;
-import net.minecraft.network.packet.c2s.play.TeleportConfirmC2SPacket;
-import net.minecraft.util.ActionResult;
 
 //TODO: Fails when walking into a glitched boat
 //TODO: Fails when player "moved" by something like a piston
-public class TimerCheck extends CDModule implements PlayerMovementListener, PlayerEndTickCallback, TeleportConfirmListener {
+public class TimerCheck extends CDModule implements PlayerMovementListener, PlayerEndTickCallback {
     private static final int CHECK_PERIOD = 5;
     private static final int MAX_PACKETS = 21 * CHECK_PERIOD; // 20 is target give some wiggle room
 
@@ -20,7 +17,6 @@ public class TimerCheck extends CDModule implements PlayerMovementListener, Play
         super("timer_check");
         PlayerMovementListener.EVENT.register(this);
         PlayerEndTickCallback.EVENT.register(this);
-        TeleportConfirmListener.EVENT.register(this);
     }
 
     private class PlayerTimerInfo {
@@ -30,7 +26,7 @@ public class TimerCheck extends CDModule implements PlayerMovementListener, Play
 
     @Override
     public void onMovement(CDPlayer player, PlayerMoveC2SPacketView packet, MoveCause cause) {
-        if (!enabledFor(player)) return;
+        if (!enabledFor(player) || cause.isTeleport() || player.getVehicleCd() != null) return;
         PlayerTimerInfo info = player.getOrCreateData(PlayerTimerInfo.class, PlayerTimerInfo::new);
         info.movementPackets.addAndGet(1);
     }
@@ -45,15 +41,9 @@ public class TimerCheck extends CDModule implements PlayerMovementListener, Play
                 int movementPackets = info.movementPackets.getAndSet(0);
                 info.time = System.currentTimeMillis();
                 if (movementPackets > MAX_PACKETS) {
-                    if (flag(player, FlagSeverity.MINOR, "Failed Timer Check")) player.rollback();
+                    if (flag(player, FlagSeverity.MINOR, "Failed Timer Check " + (movementPackets - MAX_PACKETS))) player.rollback();
                 }
             }
         }
-    }
-
-    @Override
-    public void onTeleportConfirm(CDPlayer player, TeleportConfirmC2SPacket teleportConfirmC2SPacket, PlayerMoveC2SPacketView playerMoveC2SPacketView) {
-        PlayerTimerInfo info = player.getOrCreateData(PlayerTimerInfo.class, PlayerTimerInfo::new);
-        info.movementPackets.decrementAndGet();
     }
 }

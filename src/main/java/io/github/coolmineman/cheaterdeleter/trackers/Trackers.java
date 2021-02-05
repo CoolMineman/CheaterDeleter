@@ -8,7 +8,7 @@ public class Trackers {
     public static final PlayerLastTeleportTracker PLAYER_LAST_TELEPORT_TRACKER = registerTracker(new PlayerLastTeleportTracker());
     public static final VehicleMovePacketsTracker VEHICLE_MOVE_PACKETS_TRACKER = registerTracker(new VehicleMovePacketsTracker());
     public static final PhaseBypassTracker PHASE_BYPASS_TRACKER = registerTracker(new PhaseBypassTracker());
-    public static final TeleportConfirmTracker TELEPORT_CONFIRM_TRACKER = registerTracker(new TeleportConfirmTracker());
+    public static final PlayerMoveTracker PLAYER_MOVE_TRACKER = registerTracker(new PlayerMoveTracker());
 
     public static void init() {
         //Static Init
