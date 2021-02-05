@@ -6,6 +6,7 @@ import io.github.coolmineman.cheaterdeleter.events.PacketCallback;
 import io.github.coolmineman.cheaterdeleter.events.PlayerMovementListener;
 import io.github.coolmineman.cheaterdeleter.events.TeleportConfirmListener;
 import io.github.coolmineman.cheaterdeleter.events.PlayerMovementListener.MoveCause;
+import io.github.coolmineman.cheaterdeleter.mixin.ServerPlayNetworkHandlerAccessor;
 import io.github.coolmineman.cheaterdeleter.objects.PlayerMoveC2SPacketView;
 import io.github.coolmineman.cheaterdeleter.objects.entity.CDEntity;
 import io.github.coolmineman.cheaterdeleter.objects.entity.CDPlayer;
@@ -34,6 +35,7 @@ public class PlayerMoveTracker extends Tracker<PlayerMoveData> implements Packet
         if (packet instanceof TeleportConfirmC2SPacket) {
             teleportConfirmData.teleportConfirmC2SPacket = (TeleportConfirmC2SPacket)packet;
             if (teleportConfirmData.lastWasTeleportConfirm) player.kick(new LiteralText("Illegal TeleportConfirmC2SPacket"));
+            checkTeleportConfirmId(player, teleportConfirmData, teleportConfirmData.teleportConfirmC2SPacket.getTeleportId());
             teleportConfirmData.lastWasTeleportConfirm = true;
         } else {
             if (teleportConfirmData.lastWasTeleportConfirm) {
@@ -58,4 +60,17 @@ public class PlayerMoveTracker extends Tracker<PlayerMoveData> implements Packet
         return ActionResult.PASS;
     }
     
+    private void checkTeleportConfirmId(CDPlayer player, PlayerMoveData data, int id) {
+        if (id != data.expectedTeleportId) player.kick(new LiteralText("Illegal TeleportConfirmC2SPacket 2 " + id + " " + data.expectedTeleportId));
+        int max = ((ServerPlayNetworkHandlerAccessor)player.getNetworkHandler()).getRequestedTeleportId();
+        if (id > max && max > data.expectedTeleportId) {
+            player.kick(new LiteralText("Illegal TeleportConfirmC2SPacket 3"));
+        }
+        if (id < 0) {
+            player.kick(new LiteralText("Illegal TeleportConfirmC2SPacket 4"));
+        }
+        if (++data.expectedTeleportId == Integer.MAX_VALUE) {
+            data.expectedTeleportId = 0;
+        }
+    }
 }
