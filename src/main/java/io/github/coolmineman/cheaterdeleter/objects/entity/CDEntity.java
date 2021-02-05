@@ -1,6 +1,7 @@
 package io.github.coolmineman.cheaterdeleter.objects.entity;
 
 import java.util.UUID;
+import java.util.concurrent.ConcurrentHashMap;
 import java.util.function.Supplier;
 
 import org.jetbrains.annotations.Nullable;
@@ -22,6 +23,10 @@ public interface CDEntity {
     <T> T getData(Class<T> clazz);
 
     <T> T getOrCreateData(Class<T> clazz, Supplier<T> supplier);
+
+    ConcurrentHashMap<Class<?>, Object> _getMap();
+
+    void _setMap(ConcurrentHashMap<Class<?>, Object> map);
 
     default <T extends Data> T getTracked(Tracker<T> tracker) {
         return tracker.get(this);

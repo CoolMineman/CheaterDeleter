@@ -37,6 +37,16 @@ public class EntityMixin implements CDEntity {
     }
 
     @Override
+    public ConcurrentHashMap<Class<?>, Object> _getMap() {
+        return storedData;
+    }
+
+    @Override
+    public void _setMap(ConcurrentHashMap<Class<?>, Object> map) {
+        storedData = map;
+    }
+
+    @Override
     public <T> @Nullable T getData(Class<T> clazz) {
         return clazz.cast(storedData.get(clazz));
     }

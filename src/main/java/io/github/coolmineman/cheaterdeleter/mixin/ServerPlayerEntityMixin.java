@@ -30,4 +30,9 @@ public abstract class ServerPlayerEntityMixin implements CDPlayer {
     public void onCloseScreenHandler(CallbackInfo cb) {
         this.setHasCurrentPlayerScreenHandler(false);
     }
+
+    @Inject(method = "copyFrom", at = @At("HEAD"))
+    public void copyFrom(ServerPlayerEntity oldPlayer, boolean alive, CallbackInfo cb) {
+        _setMap(CDPlayer.of(oldPlayer)._getMap());
+    }
 }

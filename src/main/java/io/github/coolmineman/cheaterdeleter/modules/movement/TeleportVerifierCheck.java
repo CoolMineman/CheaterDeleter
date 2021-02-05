@@ -64,7 +64,7 @@ public class TeleportVerifierCheck extends CDModule implements TeleportConfirmLi
         TeleportInfo teleport = player.getData(TeleportVerifierCheckData.class).teleports.get(teleportConfirmC2SPacket.getTeleportId());
         player.getData(TeleportVerifierCheckData.class).teleports.remove(teleportConfirmC2SPacket.getTeleportId());
         if (enabledFor(player)) {
-            Objects.requireNonNull(teleport, "If this is null you should panic");
+            Objects.requireNonNull(teleport, "If this is null and player is not cheating you should panic");
             assertAxis(player, "x", teleport.exactX, playerMoveC2SPacketView.getX(), teleport.x);
             assertAxis(player, "y", teleport.exactY, playerMoveC2SPacketView.getY(), teleport.y);
             assertAxis(player, "z", teleport.exactZ, playerMoveC2SPacketView.getZ(), teleport.z);
