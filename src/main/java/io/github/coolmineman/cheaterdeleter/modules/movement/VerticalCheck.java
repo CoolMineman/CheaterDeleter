@@ -19,12 +19,12 @@ public class VerticalCheck extends CDModule implements MovementPacketCallback, P
 
     //TODO: Smarter Bounce Handling
     @Override
-    public ActionResult onMovementPacket(CDPlayer player, PlayerMoveC2SPacketView packet) {
-        if (!enabledFor(player) || !packet.isChangePosition()) return ActionResult.PASS;
+    public void onMovementPacket(CDPlayer player, PlayerMoveC2SPacketView packet) {
+        if (!enabledFor(player) || !packet.isChangePosition()) return;
         VerticalCheckData verticalCheckData = player.getOrCreateData(VerticalCheckData.class, VerticalCheckData::new);
         if (player.asMcPlayer().isCreative() || player.asMcPlayer().isSwimming() || player.asMcPlayer().isClimbing() || player.isFallFlying() || BlockCollisionUtil.isNearby(player, 2.0, 4.0, BlockCollisionUtil.NON_SOLID_COLLISION)) {
             verticalCheckData.isActive = false;
-            return ActionResult.PASS;
+            return;
         }
         if (player.isOnGround() && !packet.isOnGround() && player.getVelocity().getY() < 0.45) {
             verticalCheckData.maxY = player.getY() + player.getMaxJumpHeight();
@@ -43,7 +43,6 @@ public class VerticalCheck extends CDModule implements MovementPacketCallback, P
             }
 
         }
-        return ActionResult.PASS;
     }
 
     private class VerticalCheckData {

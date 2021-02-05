@@ -7,6 +7,7 @@ import io.github.coolmineman.cheaterdeleter.config.GlobalConfig;
 import io.github.coolmineman.cheaterdeleter.modules.debug.DebugModuleManager;
 import io.github.coolmineman.cheaterdeleter.modules.exploit.ExploitModuleMangaer;
 import io.github.coolmineman.cheaterdeleter.modules.movement.MovementModuleManager;
+import io.github.coolmineman.cheaterdeleter.modules.packetcount.PacketCountModuleManager;
 
 public class ModuleManager {
     private ModuleManager() { }
@@ -14,7 +15,7 @@ public class ModuleManager {
     private static final ArrayList<CDModule> MODULES = new ArrayList<>();
 
     public static void init() {
-        registerModule(new PacketLimiterCheck());
+        PacketCountModuleManager.init();
         if (GlobalConfig.getDebugMode() >= 2) {
             DebugModuleManager.init();
         }

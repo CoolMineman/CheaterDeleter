@@ -29,10 +29,10 @@ public class InventoryMoveCheck extends CDModule
 
     // TODO Damage
     @Override
-    public ActionResult onMovementPacket(CDPlayer player, PlayerMoveC2SPacketView packet) {
+    public void onMovementPacket(CDPlayer player, PlayerMoveC2SPacketView packet) {
         if (!enabledFor(player) || player.isFallFlying()
                 || BlockCollisionUtil.isNearby(player, 2, 4, BlockCollisionUtil.NON_SOLID_COLLISION))
-            return ActionResult.PASS;
+            return;
         InventoryMoveCheckData data = player.getOrCreateData(InventoryMoveCheckData.class, InventoryMoveCheckData::new);
         if (packet.isChangePosition() && player.getCurrentScreenHandler() != null) {
             if (!data.wasOpen) {
@@ -47,7 +47,6 @@ public class InventoryMoveCheck extends CDModule
             data.lastDeltaZ = Double.MAX_VALUE;
             data.wasOpen = false;
         }
-        return ActionResult.PASS;
     }
 
     private boolean invalidateMove(CDPlayer player, PlayerMoveC2SPacketView packet) {

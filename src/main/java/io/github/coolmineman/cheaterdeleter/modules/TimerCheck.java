@@ -29,11 +29,10 @@ public class TimerCheck extends CDModule implements MovementPacketCallback, Play
     }
 
     @Override
-    public ActionResult onMovementPacket(CDPlayer player, PlayerMoveC2SPacketView packet) {
-        if (!enabledFor(player)) return ActionResult.PASS;
+    public void onMovementPacket(CDPlayer player, PlayerMoveC2SPacketView packet) {
+        if (!enabledFor(player)) return;
         PlayerTimerInfo info = player.getOrCreateData(PlayerTimerInfo.class, PlayerTimerInfo::new);
         info.movementPackets.addAndGet(1);
-        return ActionResult.PASS;
     }
 
     @Override

@@ -1,4 +1,4 @@
-package io.github.coolmineman.cheaterdeleter.modules.movement.entity;
+package io.github.coolmineman.cheaterdeleter.modules.packetcount;
 
 import java.util.concurrent.atomic.AtomicInteger;
 

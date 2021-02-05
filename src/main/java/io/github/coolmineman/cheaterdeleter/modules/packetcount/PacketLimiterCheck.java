@@ -1,6 +1,7 @@
-package io.github.coolmineman.cheaterdeleter.modules;
+package io.github.coolmineman.cheaterdeleter.modules.packetcount;
 
 import io.github.coolmineman.cheaterdeleter.events.PacketCallback;
+import io.github.coolmineman.cheaterdeleter.modules.CDModule;
 import io.github.coolmineman.cheaterdeleter.objects.entity.CDPlayer;
 import net.minecraft.network.Packet;
 import net.minecraft.network.listener.ServerPlayPacketListener;

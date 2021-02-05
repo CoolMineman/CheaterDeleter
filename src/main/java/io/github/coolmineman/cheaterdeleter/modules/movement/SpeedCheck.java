@@ -29,9 +29,8 @@ public class SpeedCheck extends CDModule
     }
 
     @Override
-    public ActionResult onMovementPacket(CDPlayer player, PlayerMoveC2SPacketView packet) {
-        if (!enabledFor(player) || player.isFallFlying())
-            return ActionResult.PASS;
+    public void onMovementPacket(CDPlayer player, PlayerMoveC2SPacketView packet) {
+        if (!enabledFor(player) || player.isFallFlying()) return;
         if (packet.isChangePosition() &&
             !(player.asMcPlayer().isCreative() || System.currentTimeMillis() - player.getTracked(Trackers.PLAYER_LAST_TELEPORT_TRACKER).lastTeleport < 100 || BlockCollisionUtil.isNearby(player, 2, 4, BlockCollisionUtil.SPLIPPERY))
         ) {
@@ -43,7 +42,6 @@ public class SpeedCheck extends CDModule
             if (!BlockCollisionUtil.isTouching(box, player.getWorld(), BlockCollisionUtil.touchingPredicate(box)))
                 player.getOrCreateData(SpeedCheckData.class, SpeedCheckData::new).distance.addAndGet(distance); // Bruh
         }
-        return ActionResult.PASS;
     }
 
     public static class SpeedCheckData {

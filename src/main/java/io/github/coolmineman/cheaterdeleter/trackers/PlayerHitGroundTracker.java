@@ -7,7 +7,6 @@ import io.github.coolmineman.cheaterdeleter.objects.PlayerMoveC2SPacketView;
 import io.github.coolmineman.cheaterdeleter.objects.entity.CDEntity;
 import io.github.coolmineman.cheaterdeleter.objects.entity.CDPlayer;
 import io.github.coolmineman.cheaterdeleter.trackers.data.PlayerHitGroundData;
-import net.minecraft.util.ActionResult;
 
 public class PlayerHitGroundTracker extends Tracker<PlayerHitGroundData> implements MovementPacketCallback {
     PlayerHitGroundTracker() {
@@ -16,11 +15,10 @@ public class PlayerHitGroundTracker extends Tracker<PlayerHitGroundData> impleme
     }
 
     @Override
-    public ActionResult onMovementPacket(CDPlayer player, PlayerMoveC2SPacketView packet) {
+    public void onMovementPacket(CDPlayer player, PlayerMoveC2SPacketView packet) {
         if (!packet.isOnGround()) {
             get(player).lastInAir.set(System.currentTimeMillis());
         }
-        return ActionResult.PASS;
     }
 
     @Override

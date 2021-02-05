@@ -11,21 +11,20 @@ public interface MovementPacketCallback {
     Event<MovementPacketCallback> EVENT = EventFactory.createArrayBacked(MovementPacketCallback.class,
         listeners -> (player, packet) -> {
             for (MovementPacketCallback listener : listeners) {
-                ActionResult result = listener.onMovementPacket(player, packet);
-
-                if(result != ActionResult.PASS) {
-                    return result;
-                }
+                listener.onMovementPacket(player, packet);
             }
         if (packet.isChangePosition()) player.tickRollback(packet.getX(), packet.getY(), packet.getZ(), false);
-        return ActionResult.PASS;
     });
 
     public static void init() {
-        PacketCallback.EVENT.register((player, packet) -> 
-            packet instanceof PlayerMoveC2SPacket ? MovementPacketCallback.EVENT.invoker().onMovementPacket(player, (PlayerMoveC2SPacketView)packet) : ActionResult.PASS
+        PacketCallback.EVENT.register((player, packet) -> {
+                if (packet instanceof PlayerMoveC2SPacket) {
+                    MovementPacketCallback.EVENT.invoker().onMovementPacket(player, (PlayerMoveC2SPacketView)packet);
+                }
+                return ActionResult.PASS;
+            }
         );
     }
 
-    ActionResult onMovementPacket(CDPlayer player, PlayerMoveC2SPacketView packet);
+    void onMovementPacket(CDPlayer player, PlayerMoveC2SPacketView packet);
 }

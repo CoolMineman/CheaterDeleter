@@ -17,8 +17,8 @@ public class VerifyOnGroundCheck extends CDModule implements MovementPacketCallb
     }
 
     @Override
-    public ActionResult onMovementPacket(CDPlayer player, PlayerMoveC2SPacketView packet) {
-        if (!enabledFor(player)) return ActionResult.PASS;
+    public void onMovementPacket(CDPlayer player, PlayerMoveC2SPacketView packet) {
+        if (!enabledFor(player)) return;
         if (packet.isChangePosition()) {
             if (packet.isOnGround()) {
                 Box playerBox = player.getBoxForPosition(packet.getX(), packet.getY(), packet.getZ()).expand(0.6); //Fences
@@ -37,6 +37,5 @@ public class VerifyOnGroundCheck extends CDModule implements MovementPacketCallb
             // Not having a smaller feetbox shouldn't matter unless head is in a block lol
             assertOrFlag(CollisionUtil.isTouching(player, playerBox, player.getWorld(), CollisionUtil.touchingRigidTopPredicates(playerBox)), player, FlagSeverity.MAJOR, "Spoofed onGround true (Check 2)");
         }
-        return ActionResult.PASS;
     }
 }
