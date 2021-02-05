@@ -7,11 +7,11 @@ import net.fabricmc.fabric.api.event.EventFactory;
 import net.minecraft.network.packet.c2s.play.PlayerMoveC2SPacket;
 import net.minecraft.util.ActionResult;
 
-public interface MovementPacketCallback {
-    Event<MovementPacketCallback> EVENT = EventFactory.createArrayBacked(MovementPacketCallback.class,
+public interface PlayerMovementListener {
+    Event<PlayerMovementListener> EVENT = EventFactory.createArrayBacked(PlayerMovementListener.class,
         listeners -> (player, packet, cause) -> {
-            for (MovementPacketCallback listener : listeners) {
-                listener.onMovementPacket(player, packet, cause);
+            for (PlayerMovementListener listener : listeners) {
+                listener.onMovement(player, packet, cause);
             }
         if (packet.isChangePosition()) player.tickRollback(packet.getX(), packet.getY(), packet.getZ(), false);
     });
@@ -19,7 +19,7 @@ public interface MovementPacketCallback {
     public static void init() {
         PacketCallback.EVENT.register((player, packet) -> {
                 if (packet instanceof PlayerMoveC2SPacket) {
-                    MovementPacketCallback.EVENT.invoker().onMovementPacket(player, (PlayerMoveC2SPacketView)packet, MoveCause.OTHER);
+                    PlayerMovementListener.EVENT.invoker().onMovement(player, (PlayerMoveC2SPacketView)packet, MoveCause.OTHER);
                 }
                 return ActionResult.PASS;
             }
@@ -35,5 +35,5 @@ public interface MovementPacketCallback {
         }
     }
 
-    void onMovementPacket(CDPlayer player, PlayerMoveC2SPacketView packet, MoveCause cause);
+    void onMovement(CDPlayer player, PlayerMoveC2SPacketView packet, MoveCause cause);
 }

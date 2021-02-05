@@ -1,6 +1,6 @@
 package io.github.coolmineman.cheaterdeleter.modules.movement;
 
-import io.github.coolmineman.cheaterdeleter.events.MovementPacketCallback;
+import io.github.coolmineman.cheaterdeleter.events.PlayerMovementListener;
 import io.github.coolmineman.cheaterdeleter.events.PacketCallback;
 import io.github.coolmineman.cheaterdeleter.events.PlayerDamageListener;
 import io.github.coolmineman.cheaterdeleter.modules.CDModule;
@@ -14,10 +14,10 @@ import net.minecraft.network.packet.c2s.play.CloseHandledScreenC2SPacket;
 import net.minecraft.util.ActionResult;
 
 public class InventoryMoveCheck extends CDModule
-        implements MovementPacketCallback, PacketCallback, PlayerDamageListener {
+        implements PlayerMovementListener, PacketCallback, PlayerDamageListener {
     public InventoryMoveCheck() {
         super("inventorymove_check");
-        MovementPacketCallback.EVENT.register(this);
+        PlayerMovementListener.EVENT.register(this);
         PacketCallback.EVENT.register(this);
         PlayerDamageListener.EVENT.register(this);
     }
@@ -29,7 +29,7 @@ public class InventoryMoveCheck extends CDModule
 
     // TODO Damage
     @Override
-    public void onMovementPacket(CDPlayer player, PlayerMoveC2SPacketView packet, MoveCause cause) {
+    public void onMovement(CDPlayer player, PlayerMoveC2SPacketView packet, MoveCause cause) {
         if (!enabledFor(player) || player.isFallFlying()
                 || BlockCollisionUtil.isNearby(player, 2, 4, BlockCollisionUtil.NON_SOLID_COLLISION))
             return;

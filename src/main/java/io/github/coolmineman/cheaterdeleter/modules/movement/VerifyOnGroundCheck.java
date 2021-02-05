@@ -1,6 +1,6 @@
 package io.github.coolmineman.cheaterdeleter.modules.movement;
 
-import io.github.coolmineman.cheaterdeleter.events.MovementPacketCallback;
+import io.github.coolmineman.cheaterdeleter.events.PlayerMovementListener;
 import io.github.coolmineman.cheaterdeleter.modules.CDModule;
 import io.github.coolmineman.cheaterdeleter.objects.PlayerMoveC2SPacketView;
 import io.github.coolmineman.cheaterdeleter.objects.entity.CDPlayer;
@@ -9,14 +9,14 @@ import net.minecraft.util.math.Box;
 
 //TODO: Enforce fall damage ourselves
 //TODO: Edge case where player lands on a block that used to exist (common with pistons)
-public class VerifyOnGroundCheck extends CDModule implements MovementPacketCallback {
+public class VerifyOnGroundCheck extends CDModule implements PlayerMovementListener {
     public VerifyOnGroundCheck() {
         super("verify_on_ground_check");
-        MovementPacketCallback.EVENT.register(this);
+        PlayerMovementListener.EVENT.register(this);
     }
 
     @Override
-    public void onMovementPacket(CDPlayer player, PlayerMoveC2SPacketView packet, MoveCause cause) {
+    public void onMovement(CDPlayer player, PlayerMoveC2SPacketView packet, MoveCause cause) {
         if (!enabledFor(player)) return;
         if (packet.isChangePosition()) {
             if (packet.isOnGround()) {

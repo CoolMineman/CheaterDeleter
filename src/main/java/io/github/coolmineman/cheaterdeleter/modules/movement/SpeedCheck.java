@@ -2,7 +2,7 @@ package io.github.coolmineman.cheaterdeleter.modules.movement;
 
 import com.google.common.util.concurrent.AtomicDouble;
 
-import io.github.coolmineman.cheaterdeleter.events.MovementPacketCallback;
+import io.github.coolmineman.cheaterdeleter.events.PlayerMovementListener;
 import io.github.coolmineman.cheaterdeleter.events.OutgoingTeleportListener;
 import io.github.coolmineman.cheaterdeleter.events.PlayerEndTickCallback;
 import io.github.coolmineman.cheaterdeleter.modules.CDModule;
@@ -19,16 +19,16 @@ import net.minecraft.util.math.Box;
 //TODO Velocity/Inertia (not the mod)
 //TODO Block on head 
 public class SpeedCheck extends CDModule
-        implements MovementPacketCallback, PlayerEndTickCallback, OutgoingTeleportListener {
+        implements PlayerMovementListener, PlayerEndTickCallback, OutgoingTeleportListener {
     public SpeedCheck() {
         super("speed_check");
-        MovementPacketCallback.EVENT.register(this);
+        PlayerMovementListener.EVENT.register(this);
         PlayerEndTickCallback.EVENT.register(this);
         OutgoingTeleportListener.EVENT.register(this);
     }
 
     @Override
-    public void onMovementPacket(CDPlayer player, PlayerMoveC2SPacketView packet, MoveCause cause) {
+    public void onMovement(CDPlayer player, PlayerMoveC2SPacketView packet, MoveCause cause) {
         if (!enabledFor(player) || player.isFallFlying()) return;
         if (packet.isChangePosition() &&
             !(player.asMcPlayer().isCreative() || System.currentTimeMillis() - player.getTracked(Trackers.PLAYER_LAST_TELEPORT_TRACKER).lastTeleport < 100 || BlockCollisionUtil.isNearby(player, 2, 4, BlockCollisionUtil.SPLIPPERY))

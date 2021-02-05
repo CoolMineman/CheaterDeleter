@@ -2,7 +2,7 @@ package io.github.coolmineman.cheaterdeleter.modules.movement;
 
 import java.util.concurrent.atomic.AtomicInteger;
 
-import io.github.coolmineman.cheaterdeleter.events.MovementPacketCallback;
+import io.github.coolmineman.cheaterdeleter.events.PlayerMovementListener;
 import io.github.coolmineman.cheaterdeleter.events.PlayerDamageListener;
 import io.github.coolmineman.cheaterdeleter.modules.CDModule;
 import io.github.coolmineman.cheaterdeleter.objects.PlayerMoveC2SPacketView;
@@ -11,15 +11,15 @@ import io.github.coolmineman.cheaterdeleter.util.PunishUtil;
 import net.minecraft.entity.damage.DamageSource;
 
 //TODO false flags with slime block pistons
-public class GlideCheck extends CDModule implements MovementPacketCallback, PlayerDamageListener {
+public class GlideCheck extends CDModule implements PlayerMovementListener, PlayerDamageListener {
     public GlideCheck() {
         super("glide_check");
-        MovementPacketCallback.EVENT.register(this);
+        PlayerMovementListener.EVENT.register(this);
         PlayerDamageListener.EVENT.register(this);
     }
 
     @Override
-    public void onMovementPacket(CDPlayer player, PlayerMoveC2SPacketView packet, MoveCause cause) {
+    public void onMovement(CDPlayer player, PlayerMoveC2SPacketView packet, MoveCause cause) {
         if (!enabledFor(player)) return;
         GlideCheckData data = player.getOrCreateData(GlideCheckData.class, GlideCheckData::new);
         if (!packet.isOnGround() && packet.isChangePosition() && !player.isFallFlying()) {

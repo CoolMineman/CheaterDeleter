@@ -1,6 +1,6 @@
 package io.github.coolmineman.cheaterdeleter.modules.movement;
 
-import io.github.coolmineman.cheaterdeleter.events.MovementPacketCallback;
+import io.github.coolmineman.cheaterdeleter.events.PlayerMovementListener;
 import io.github.coolmineman.cheaterdeleter.events.PlayerDamageListener;
 import io.github.coolmineman.cheaterdeleter.modules.CDModule;
 import io.github.coolmineman.cheaterdeleter.objects.PlayerMoveC2SPacketView;
@@ -10,16 +10,16 @@ import io.github.coolmineman.cheaterdeleter.util.PunishUtil;
 import net.minecraft.entity.damage.DamageSource;
 import net.minecraft.util.ActionResult;
 
-public class VerticalCheck extends CDModule implements MovementPacketCallback, PlayerDamageListener {
+public class VerticalCheck extends CDModule implements PlayerMovementListener, PlayerDamageListener {
     public VerticalCheck() {
         super("vertical_check");
-        MovementPacketCallback.EVENT.register(this);
+        PlayerMovementListener.EVENT.register(this);
         PlayerDamageListener.EVENT.register(this);
     }
 
     //TODO: Smarter Bounce Handling
     @Override
-    public void onMovementPacket(CDPlayer player, PlayerMoveC2SPacketView packet, MoveCause cause) {
+    public void onMovement(CDPlayer player, PlayerMoveC2SPacketView packet, MoveCause cause) {
         if (!enabledFor(player) || !packet.isChangePosition()) return;
         VerticalCheckData verticalCheckData = player.getOrCreateData(VerticalCheckData.class, VerticalCheckData::new);
         if (player.asMcPlayer().isCreative() || player.asMcPlayer().isSwimming() || player.asMcPlayer().isClimbing() || player.isFallFlying() || BlockCollisionUtil.isNearby(player, 2.0, 4.0, BlockCollisionUtil.NON_SOLID_COLLISION)) {

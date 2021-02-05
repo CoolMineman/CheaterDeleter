@@ -2,7 +2,7 @@ package io.github.coolmineman.cheaterdeleter.modules.movement.elytra;
 
 import io.github.coolmineman.cheaterdeleter.events.ClientCommandC2SPacketListener;
 import io.github.coolmineman.cheaterdeleter.events.InteractItemListener;
-import io.github.coolmineman.cheaterdeleter.events.MovementPacketCallback;
+import io.github.coolmineman.cheaterdeleter.events.PlayerMovementListener;
 import io.github.coolmineman.cheaterdeleter.modules.CDModule;
 import io.github.coolmineman.cheaterdeleter.objects.PlayerMoveC2SPacketView;
 import io.github.coolmineman.cheaterdeleter.objects.entity.CDPlayer;
@@ -19,11 +19,11 @@ import net.minecraft.util.Hand;
  * Simple cap so cheats can't pull too many shenanigans
  * TODO: Water
  */
-public class ElytraMoveCapCheck extends CDModule implements ClientCommandC2SPacketListener, MovementPacketCallback, InteractItemListener {
+public class ElytraMoveCapCheck extends CDModule implements ClientCommandC2SPacketListener, PlayerMovementListener, InteractItemListener {
     public ElytraMoveCapCheck() {
         super("elytra_move_cap");
         ClientCommandC2SPacketListener.EVENT.register(this);
-        MovementPacketCallback.EVENT.register(this);
+        PlayerMovementListener.EVENT.register(this);
         InteractItemListener.EVENT.register(this);
     }
 
@@ -34,7 +34,7 @@ public class ElytraMoveCapCheck extends CDModule implements ClientCommandC2SPack
     }
 
     @Override
-    public void onMovementPacket(CDPlayer player, PlayerMoveC2SPacketView packet, MoveCause cause) {
+    public void onMovement(CDPlayer player, PlayerMoveC2SPacketView packet, MoveCause cause) {
         ElytraMoveCapCheckData data = player.getData(ElytraMoveCapCheckData.class);
         if (data != null) {
             if (data.isActive && !player.isFallFlying()) {

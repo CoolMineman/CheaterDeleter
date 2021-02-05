@@ -1,6 +1,6 @@
 package io.github.coolmineman.cheaterdeleter.modules.movement;
 
-import io.github.coolmineman.cheaterdeleter.events.MovementPacketCallback;
+import io.github.coolmineman.cheaterdeleter.events.PlayerMovementListener;
 import io.github.coolmineman.cheaterdeleter.modules.CDModule;
 import io.github.coolmineman.cheaterdeleter.objects.PlayerMoveC2SPacketView;
 import io.github.coolmineman.cheaterdeleter.objects.entity.CDPlayer;
@@ -13,16 +13,16 @@ import net.minecraft.world.World;
 
 //TODO Teleports Request Confirms
 
-public class PhaseCheck extends CDModule implements MovementPacketCallback {
+public class PhaseCheck extends CDModule implements PlayerMovementListener {
     private static final double INTERP = 0.7;
 
     public PhaseCheck() {
         super("phase_check");
-        MovementPacketCallback.EVENT.register(this);
+        PlayerMovementListener.EVENT.register(this);
     }
 
     @Override
-    public void onMovementPacket(CDPlayer player, PlayerMoveC2SPacketView packet, MoveCause cause) {
+    public void onMovement(CDPlayer player, PlayerMoveC2SPacketView packet, MoveCause cause) {
         if (!enabledFor(player)) return;
         if (packet.isChangePosition()) {
             World world = player.getWorld();

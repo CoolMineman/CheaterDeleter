@@ -1,6 +1,6 @@
 package io.github.coolmineman.cheaterdeleter.modules.movement;
 
-import io.github.coolmineman.cheaterdeleter.events.MovementPacketCallback;
+import io.github.coolmineman.cheaterdeleter.events.PlayerMovementListener;
 import io.github.coolmineman.cheaterdeleter.modules.CDModule;
 import io.github.coolmineman.cheaterdeleter.objects.PlayerMoveC2SPacketView;
 import io.github.coolmineman.cheaterdeleter.objects.entity.CDPlayer;
@@ -8,15 +8,15 @@ import io.github.coolmineman.cheaterdeleter.trackers.Trackers;
 import io.github.coolmineman.cheaterdeleter.util.BlockCollisionUtil;
 import io.github.coolmineman.cheaterdeleter.util.CollisionUtil;
 
-public class OnGroundVerticalCheck extends CDModule implements MovementPacketCallback {
+public class OnGroundVerticalCheck extends CDModule implements PlayerMovementListener {
     public OnGroundVerticalCheck() {
         super("onground_vertical_check");
-        MovementPacketCallback.EVENT.register(this);
+        PlayerMovementListener.EVENT.register(this);
     }
 
     // TODO: Boats and Shulker
     @Override
-    public void onMovementPacket(CDPlayer player, PlayerMoveC2SPacketView packet, MoveCause cause) {
+    public void onMovement(CDPlayer player, PlayerMoveC2SPacketView packet, MoveCause cause) {
         if (!enabledFor(player)) return;
         float stepHeight = player.getStepHeight();
         if (packet.isChangePosition() &&
