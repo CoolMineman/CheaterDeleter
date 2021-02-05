@@ -1,0 +1,14 @@
+double x
+double y
+double z
+float yaw
+float pitch
+Set<PlayerPositionLookS2CPacket.Flag> flags - Sent as byte
+    Flag.X - Sets x to be relative
+    Flag.Y - Sets y to be relative
+    Flag.Z - Sets z to be relative
+    Flag.Y_ROT - Sets yaw to be relative
+    Flag.X_ROT - Sets pitch to be relative
+varint teleportId - Incremental id used for TeleportConfirmC2SPacket
+
+Non-Relative moves along an axis cancels all velocity on that axis

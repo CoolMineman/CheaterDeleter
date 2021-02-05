@@ -42,10 +42,9 @@ public class EntitySpeedCheck extends CDModule implements VehicleMoveListener, P
             if (speed < 1) speed += (1 + speed) * (1 + speed) * 0.1f; // B r u h
             double magicNumber = distance / speed;
             if (magicNumber > 71) {
-                if (flag(player, FlagSeverity.MINOR, "Speed Check " + magicNumber))
+                if (flag(player, FlagSeverity.MINOR, "Entity Speed Check " + magicNumber + " " + entity.getSpeed()))
                     player.rollback();
             }
-            System.out.println(magicNumber + " " + entity.getSpeed());
         }
     }
 

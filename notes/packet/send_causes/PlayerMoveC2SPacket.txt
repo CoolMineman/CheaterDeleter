@@ -1,0 +1,14 @@
+ClientPlayerEntity.tick
+    if hasVehicle
+        PlayerMoveC2SPacket.LookOnly
+        PlayerInputC2SPacket
+        VehicleMoveC2SPacket
+    else:
+        ClientPlayerEntity.sendMovementPackets
+            One of:
+                Both, PositionOnly, LookOnly, OnGround
+            Only sent if position diffrent or ticks since last >= 20
+ClientPlayNetworkHandler.onPlayerPositionLook (Called When Recieved PlayerPositionLookS2CPacket (Teleport Request))
+    TeleportConfirmC2SPacket
+    Both
+        onGround is always false???????
