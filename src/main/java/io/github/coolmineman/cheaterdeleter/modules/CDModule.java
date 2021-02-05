@@ -52,6 +52,10 @@ public class CDModule {
         return false;
     }
 
+    public void assertOrKick(boolean condition, CDPlayer player, String message) {
+        if (!condition) player.kick(new LiteralText(message));
+    }
+
     public final BooleanConfigValue booleanConfig(String key, boolean defaultValue) {
         BooleanConfigValue result = new BooleanConfigValue(key, defaultValue);
         configValues.add(result);

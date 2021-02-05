@@ -8,6 +8,7 @@ import io.github.coolmineman.cheaterdeleter.compat.CompatManager;
 import io.github.coolmineman.cheaterdeleter.compat.LuckoPermissionsCompat;
 import io.github.coolmineman.cheaterdeleter.compat.StepHeightEntityAttributeCompat;
 import io.github.coolmineman.cheaterdeleter.modules.CDModule;
+import io.github.coolmineman.cheaterdeleter.objects.PlayerMoveC2SPacketView;
 import io.github.coolmineman.cheaterdeleter.config.GlobalConfig;
 import net.fabricmc.fabric.api.util.TriState;
 import net.minecraft.network.MessageType;
@@ -142,6 +143,27 @@ public interface CDPlayer extends CDEntity {
         } else {
             return compat.getStepHeightAddition(asMcPlayer()) + 0.6f;
         }
+    }
+
+    default void setPacketPos(PlayerMoveC2SPacketView packet) {
+        if (packet.isChangePosition()) {
+            CDPlayerEx ex = getData(CDPlayerEx.class);
+            ex.lastPacketX = packet.getX();
+            ex.lastPacketY = packet.getY();
+            ex.lastPacketZ = packet.getZ();
+        }
+    }
+
+    default double getPacketX() {
+        return getData(CDPlayerEx.class).lastPacketX;
+    }
+
+    default double getPacketY() {
+        return getData(CDPlayerEx.class).lastPacketY;
+    }
+
+    default double getPacketZ() {
+        return getData(CDPlayerEx.class).lastPacketZ;
     }
 
     /**

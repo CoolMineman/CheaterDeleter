@@ -44,6 +44,7 @@ public class PlayerMoveTracker extends Tracker<PlayerMoveData> implements Packet
                     if (playerMoveC2SPacketView.isChangePosition() && playerMoveC2SPacketView.isChangeLook()) {
                         TeleportConfirmListener.EVENT.invoker().onTeleportConfirm(player, teleportConfirmData.teleportConfirmC2SPacket, playerMoveC2SPacketView);
                         PlayerMovementListener.EVENT.invoker().onMovement(player, playerMoveC2SPacketView, MoveCause.TELEPORT);
+                        player.setPacketPos(playerMoveC2SPacketView);
                         teleportConfirmData.lastWasTeleportConfirm = false;
                         return ActionResult.PASS;
                     } else {
@@ -53,7 +54,9 @@ public class PlayerMoveTracker extends Tracker<PlayerMoveData> implements Packet
                     player.kick(new LiteralText("Expected PlayerMoveC2SPacket After TeleportConfirmC2SPacket"));
                 }
             } else if (packet instanceof PlayerMoveC2SPacketView) {
-                PlayerMovementListener.EVENT.invoker().onMovement(player, (PlayerMoveC2SPacketView)packet, MoveCause.OTHER);
+                PlayerMoveC2SPacketView playerMoveC2SPacketView = (PlayerMoveC2SPacketView)packet;
+                PlayerMovementListener.EVENT.invoker().onMovement(player, playerMoveC2SPacketView, MoveCause.OTHER);
+                player.setPacketPos(playerMoveC2SPacketView);
             }
             teleportConfirmData.lastWasTeleportConfirm = false;
         }

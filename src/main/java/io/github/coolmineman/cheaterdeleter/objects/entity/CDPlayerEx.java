@@ -22,6 +22,10 @@ import net.minecraft.util.ActionResult;
         this.lastGoodX = player.getX();
         this.lastGoodY = player.getY();
         this.lastGoodZ = player.getZ();
+
+        this.lastPacketX = player.getX();
+        this.lastPacketY = player.getY();
+        this.lastPacketZ = player.getZ();
     }
 
     public Object2LongOpenHashMap<CDModule> lastFlagsMap = new Object2LongOpenHashMap<>();
@@ -33,6 +37,10 @@ import net.minecraft.util.ActionResult;
     public double lastGoodY;
     public double lastGoodZ;
     public boolean hasLastGood = false;
+
+    public volatile double lastPacketX;
+    public volatile double lastPacketY;
+    public volatile double lastPacketZ;
 
     public boolean hasCurrentPlayerScreenHandler = false;
 }

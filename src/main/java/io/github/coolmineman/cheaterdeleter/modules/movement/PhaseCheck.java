@@ -5,7 +5,6 @@ import io.github.coolmineman.cheaterdeleter.modules.CDModule;
 import io.github.coolmineman.cheaterdeleter.objects.PlayerMoveC2SPacketView;
 import io.github.coolmineman.cheaterdeleter.objects.entity.CDPlayer;
 import io.github.coolmineman.cheaterdeleter.trackers.Trackers;
-import io.github.coolmineman.cheaterdeleter.trackers.data.PlayerLastTeleportData;
 import io.github.coolmineman.cheaterdeleter.util.BlockCollisionUtil;
 import io.github.coolmineman.cheaterdeleter.util.MathUtil;
 import net.minecraft.util.math.Box;
@@ -24,9 +23,9 @@ public class PhaseCheck extends CDModule implements PlayerMovementListener {
     @Override
     public void onMovement(CDPlayer player, PlayerMoveC2SPacketView packet, MoveCause cause) {
         if (!enabledFor(player) || cause.isTeleport()) return;
-        if (packet.isChangePosition()) {
+        if (packet.isChangePosition() && !cause.isTeleport()) {
             World world = player.getWorld();
-            if (world.getTime() - player.getPistonMovementTick() < 20 && Math.abs(player.getY() - packet.getY()) < 1.1 && MathUtil.getDistanceSquared(player.getX(), player.getZ(), packet.getX(), packet.getZ()) < 1.5) {
+            if (world.getTime() - player.getPistonMovementTick() < 20 && Math.abs(player.getPacketY() - packet.getY()) < 1.1 && MathUtil.getDistanceSquared(player.getPacketX(), player.getPacketZ(), packet.getX(), packet.getZ()) < 1.5) {
                 //Avoid stupid piston edge case when a player is pushed into an unobstructed 1m tall block in certain cases 
                 //mojank sets the stepheight to 1 server side causing desync occasionally
                 //TODO maybe modify Entity.move to not cause desync with pistons
@@ -34,24 +33,22 @@ public class PhaseCheck extends CDModule implements PlayerMovementListener {
                 return;
             }
             Box box = player.getBoxForPosition(packet.getX(), packet.getY(), packet.getZ()).expand(-0.1);
-            if (assertOrFlag(!BlockCollisionUtil.isTouching(box, world, Trackers.PHASE_BYPASS_TRACKER.isNotBypassed(player).and(BlockCollisionUtil.touchingNonSteppablePredicate(player.getStepHeight(), box, player.getY(), packet.getY()))), player, FlagSeverity.MAJOR, "Failed Phase Check1")) return;
-            PlayerLastTeleportData playerLastTeleportData = player.getTracked(Trackers.PLAYER_LAST_TELEPORT_TRACKER);
-            // if (System.currentTimeMillis() - playerLastTeleportData.lastTeleport < 1000 && MathUtil.getDistanceSquared(playerLastTeleportData.lastTeleportX, playerLastTeleportData.lastTeleportY, playerLastTeleportData.lastTeleportZ, packet.getX(), packet.getY(), packet.getZ()) < 0.1) return; 
-            double currentX = player.getX();
-            double currentY = player.getY();
-            double currentZ = player.getZ();
+            if (assertOrFlag(!BlockCollisionUtil.isTouching(box, world, Trackers.PHASE_BYPASS_TRACKER.isNotBypassed(player).and(BlockCollisionUtil.touchingNonSteppablePredicate(player.getStepHeight(), box, player.getPacketY(), packet.getY()))), player, FlagSeverity.MAJOR, "Failed Phase Check1")) return;
+            double currentX = player.getPacketX();
+            double currentY = player.getPacketY();
+            double currentZ = player.getPacketZ();
             double targetX = packet.getX();
-            boolean targetXPositive = targetX > player.getX();
+            boolean targetXPositive = targetX > player.getPacketX();
             boolean hitTargetX = false;
             double targetY = packet.getY();
-            boolean targetYPositive = targetY > player.getY();
+            boolean targetYPositive = targetY > player.getPacketY();
             boolean hitTargetY = false;
             double targetZ = packet.getZ();
-            boolean targetZPositive = targetZ > player.getZ();
+            boolean targetZPositive = targetZ > player.getPacketZ();
             boolean hitTargetZ = false;
             while (!(hitTargetX && hitTargetY && hitTargetZ)) {
                 box = player.getBoxForPosition(currentX, currentY, currentZ).expand(-0.1);
-                if (assertOrFlag(!BlockCollisionUtil.isTouching(box, world, Trackers.PHASE_BYPASS_TRACKER.isNotBypassed(player).and(BlockCollisionUtil.touchingNonSteppablePredicate(player.getStepHeight(), box, player.getY(), packet.getY()))), player, FlagSeverity.MAJOR, "Failed Phase Check2")) return;
+                if (assertOrFlag(!BlockCollisionUtil.isTouching(box, world, Trackers.PHASE_BYPASS_TRACKER.isNotBypassed(player).and(BlockCollisionUtil.touchingNonSteppablePredicate(player.getStepHeight(), box, player.getPacketY(), packet.getY()))), player, FlagSeverity.MAJOR, "Failed Phase Check2")) return;
                 if (!hitTargetX) {
                     if (targetXPositive) {
                         if (currentX + INTERP < targetX) {

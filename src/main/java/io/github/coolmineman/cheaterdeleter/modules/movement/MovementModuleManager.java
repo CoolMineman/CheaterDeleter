@@ -18,6 +18,7 @@ public class MovementModuleManager {
         ModuleManager.registerModule(new PhaseCheck());
         ModuleManager.registerModule(new SpeedCheck());
         ModuleManager.registerModule(new InventoryMoveCheck());
+        ModuleManager.registerModule(new TeleportVerifierCheck());
         //Entity
         ModuleManager.registerModule(new BoatFlyCheck());
         ModuleManager.registerModule(new EntityVerticalCheck());

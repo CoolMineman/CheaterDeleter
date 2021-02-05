@@ -8,7 +8,6 @@ import io.github.coolmineman.cheaterdeleter.objects.entity.CDPlayer;
 import io.github.coolmineman.cheaterdeleter.util.BlockCollisionUtil;
 import io.github.coolmineman.cheaterdeleter.util.PunishUtil;
 import net.minecraft.entity.damage.DamageSource;
-import net.minecraft.util.ActionResult;
 
 public class VerticalCheck extends CDModule implements PlayerMovementListener, PlayerDamageListener {
     public VerticalCheck() {
