@@ -10,17 +10,20 @@ import io.github.coolmineman.cheaterdeleter.events.PlayerEndTickCallback;
 import io.github.coolmineman.cheaterdeleter.events.PlayerSpawnListener;
 import io.github.coolmineman.cheaterdeleter.events.PlayerStartRidingListener;
 import io.github.coolmineman.cheaterdeleter.events.SetBlockStateListener;
+import io.github.coolmineman.cheaterdeleter.events.TeleportConfirmListener;
+import io.github.coolmineman.cheaterdeleter.objects.PlayerMoveC2SPacketView;
 import io.github.coolmineman.cheaterdeleter.objects.entity.CDEntity;
 import io.github.coolmineman.cheaterdeleter.objects.entity.CDPlayer;
 import io.github.coolmineman.cheaterdeleter.trackers.data.PhaseBypassData;
 import io.github.coolmineman.cheaterdeleter.util.MathUtil;
 import net.minecraft.block.BlockState;
+import net.minecraft.network.packet.c2s.play.TeleportConfirmC2SPacket;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
-public class PhaseBypassTracker extends Tracker<PhaseBypassData> implements SetBlockStateListener, PlayerEndTickCallback, PlayerSpawnListener, PlayerStartRidingListener {
+public class PhaseBypassTracker extends Tracker<PhaseBypassData> implements SetBlockStateListener, PlayerEndTickCallback, PlayerSpawnListener, PlayerStartRidingListener, TeleportConfirmListener {
 
     /**
      * True if not bypassed
@@ -34,6 +37,7 @@ public class PhaseBypassTracker extends Tracker<PhaseBypassData> implements SetB
         SetBlockStateListener.EVENT.register(this);
         PlayerEndTickCallback.EVENT.register(this);
         PlayerStartRidingListener.EVENT.register(this);
+        TeleportConfirmListener.EVENT.register(this);
     }
 
     @Override
@@ -75,12 +79,6 @@ public class PhaseBypassTracker extends Tracker<PhaseBypassData> implements SetB
         }
     }
 
-    public void onOutgoingTeleport(CDPlayer player, double x, double y, double z) {
-        PhaseBypassData data = get(player);
-        data.lastUpdated = System.currentTimeMillis();
-        BlockPos.stream(player.getBoxForPosition(x, y, z)).forEach(pos -> data.bypassPos.add(pos.asLong()));
-    }
-
     @Override
     public void onSpawn(CDPlayer player) {
         PhaseBypassData data = get(player);
@@ -94,5 +92,12 @@ public class PhaseBypassTracker extends Tracker<PhaseBypassData> implements SetB
         data.lastUpdated = System.currentTimeMillis();
         BlockPos.stream(vehicle.getBox().expand(-0.1)).forEach(pos -> data.bypassPos.add(pos.asLong()));
     }
+
+	@Override
+	public void onTeleportConfirm(CDPlayer player, TeleportConfirmC2SPacket teleportConfirmC2SPacket, PlayerMoveC2SPacketView playerMoveC2SPacketView) {
+		PhaseBypassData data = get(player);
+        data.lastUpdated = System.currentTimeMillis();
+        BlockPos.stream(player.getBoxForPosition(playerMoveC2SPacketView.getX(), playerMoveC2SPacketView.getY(), playerMoveC2SPacketView.getZ()).expand(-0.1)).forEach(pos -> data.bypassPos.add(pos.asLong()));
+	}
 
 }

@@ -1,14 +1,14 @@
 package io.github.coolmineman.cheaterdeleter.objects.entity;
 
 import io.github.coolmineman.cheaterdeleter.events.ClickSlotC2SPacketCallback;
-import io.github.coolmineman.cheaterdeleter.events.OutgoingTeleportListener;
+import io.github.coolmineman.cheaterdeleter.events.TeleportConfirmListener;
 import io.github.coolmineman.cheaterdeleter.modules.CDModule;
 import it.unimi.dsi.fastutil.objects.Object2LongOpenHashMap;
 import net.minecraft.util.ActionResult;
 
 /* Package Private */ class CDPlayerEx {
     static {
-        OutgoingTeleportListener.EVENT.register((player, packet) -> player.tickRollback(packet.getX(), packet.getY(), packet.getZ(), true));
+        TeleportConfirmListener.EVENT.register((player, teleportConfirmC2SPacket, packet) -> player.tickRollback(packet.getX(), packet.getY(), packet.getZ(), true));
 
         ClickSlotC2SPacketCallback.EVENT.register((player, packet) -> {
             if (packet.getSyncId() == 0 && player.asMcPlayer().currentScreenHandler == player.asMcPlayer().playerScreenHandler) {
