@@ -1,8 +1,9 @@
-package io.github.coolmineman.cheaterdeleter.modules;
+package io.github.coolmineman.cheaterdeleter.modules.packetcount;
 
 import java.util.concurrent.atomic.AtomicInteger;
 
 import io.github.coolmineman.cheaterdeleter.events.PlayerMovementListener;
+import io.github.coolmineman.cheaterdeleter.modules.CDModule;
 import io.github.coolmineman.cheaterdeleter.events.PlayerEndTickCallback;
 import io.github.coolmineman.cheaterdeleter.objects.PlayerMoveC2SPacketView;
 import io.github.coolmineman.cheaterdeleter.objects.entity.CDPlayer;

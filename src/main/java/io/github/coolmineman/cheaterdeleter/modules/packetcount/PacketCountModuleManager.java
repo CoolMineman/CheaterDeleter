@@ -8,5 +8,6 @@ public class PacketCountModuleManager {
     public static void init() {
         ModuleManager.registerModule(new PacketLimiterCheck());
         ModuleManager.registerModule(new EntityTimerCheck());
+        ModuleManager.registerModule(new TimerCheck());
     }
 }

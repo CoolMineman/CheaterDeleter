@@ -19,7 +19,6 @@ public class ModuleManager {
         if (GlobalConfig.getDebugMode() >= 2) {
             DebugModuleManager.init();
         }
-        registerModule(new TimerCheck());
         ExploitModuleMangaer.init();
         MovementModuleManager.init();
     }
