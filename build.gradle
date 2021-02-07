@@ -33,8 +33,8 @@ dependencies {
 	modImplementation("com.github.emilyploszaj:step-height-entity-attribute:8f33b4f9e73d8008fc6792dcdb7e27a4c9e70b7b") { transitive = false }
 	modImplementation("me.lucko:fabric-permissions-api:0.1-SNAPSHOT") { transitive = false }
 
-	modImplementation("io.github.coolmineman:nestedtext:0.2")
-	include("io.github.coolmineman:nestedtext:0.2")
+	modImplementation("io.github.coolmineman:nestedtext:0.3")
+	include("io.github.coolmineman:nestedtext:0.3")
 
 	// PSA: Some older mods, compiled on Loom 0.2.1, might have outdated Maven POMs.
 	// You may need to force-disable transitiveness on them.
