@@ -1,5 +1,9 @@
 # CheaterDeleter
 
+## Pre-Alpha Quality Note
+
+**This is currently pre-alpha quality. Expect problems.**
+
 ## Currently Detected Hacks
 
 * Timer/Extra Movement Packets

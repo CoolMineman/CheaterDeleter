@@ -8,8 +8,7 @@ import io.github.coolmineman.cheaterdeleter.events.PlayerEndTickCallback;
 import io.github.coolmineman.cheaterdeleter.objects.PlayerMoveC2SPacketView;
 import io.github.coolmineman.cheaterdeleter.objects.entity.CDPlayer;
 
-//TODO: Fails when walking into a glitched boat
-//TODO: Fails when player "moved" by something like a piston
+//TODO Laggy Connections
 public class TimerCheck extends CDModule implements PlayerMovementListener, PlayerEndTickCallback {
     private static final int CHECK_PERIOD = 5;
     private static final int MAX_PACKETS_PER_SEC = 21; // 20 is target give some wiggle room
