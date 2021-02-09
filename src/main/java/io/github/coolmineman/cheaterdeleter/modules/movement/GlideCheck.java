@@ -27,7 +27,7 @@ public class GlideCheck extends CDModule implements PlayerMovementListener, Play
                 //Violations should probably be double based not boolean based but this works for now
                 double velocity = player.getVelocity().getY();
                 if (velocity < -1) {
-                    boolean failedCheck = player.getY() - packet.getY() < 0.75;
+                    boolean failedCheck = player.getPacketY() - packet.getY() < 0.75;
                     if (failedCheck) {
                         data.violations.incrementAndGet();
                     } else {
@@ -35,7 +35,7 @@ public class GlideCheck extends CDModule implements PlayerMovementListener, Play
                     }
                     int violations = data.violations.get();
                     if (violations >= 4) {
-                        fail(player, player.getY() - packet.getY());
+                        fail(player, player.getPacketY() - packet.getY());
                         data.violations.set(0);
                     }
                     if (violations < 0) data.violations.getAndAdd(-1 * violations);

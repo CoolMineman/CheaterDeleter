@@ -33,7 +33,7 @@ public class SpeedCheck extends CDModule
         if (packet.isChangePosition() &&
             !(player.asMcPlayer().isCreative() || System.currentTimeMillis() - player.getTracked(Trackers.PLAYER_LAST_TELEPORT_TRACKER).lastTeleport < 100 || BlockCollisionUtil.isNearby(player, 2, 4, BlockCollisionUtil.SPLIPPERY))
         ) {
-            double distanceSquared = MathUtil.getDistanceSquared(player.getX(), player.getZ(), packet.getX(),
+            double distanceSquared = MathUtil.getDistanceSquared(player.getPacketX(), player.getPacketZ(), packet.getX(),
                     packet.getZ());
             double distance = Math.sqrt(distanceSquared);
             Box box = player.getBoxForPosition(packet.getX(), packet.getY(), packet.getZ()).expand(0.1, -0.1,

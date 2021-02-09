@@ -9,7 +9,7 @@
 * Timer/Extra Movement Packets
 * Timer While on Entity
 * Glide
-* Fly While Not On An Entity
+* Fly
 * VClip
 * HClip
 * Phase

@@ -26,7 +26,8 @@ public class OnGroundVerticalCheck extends CDModule implements PlayerMovementLis
             !BlockCollisionUtil.isNearby(player, 2.0, 4.0, BlockCollisionUtil.NON_SOLID_COLLISION) &&
             ((stepHeight > 1f) || !CollisionUtil.isNearby(player, packet.getX(), packet.getY(), packet.getZ(), 0.2, 0.5, CollisionUtil.steppablePredicates(stepHeight)))
         ) {
-            double ydelta = packet.getY() - player.getY();
+            double ydelta = packet.getY() - player.getPacketY();
+            if (ydelta > 0) System.out.println(ydelta);
             if (ydelta > (stepHeight < 1f ? 0.3 : stepHeight)) flagRollback(player, FlagSeverity.MAJOR, "Player Moved Vertically While onGround " + ydelta);
             if (ydelta < -0.9) flagRollback(player, FlagSeverity.MAJOR, "Player Moved Vertically While onGround " + ydelta);
         }

@@ -37,6 +37,7 @@ public class CheaterDeleterInit implements ModInitializer {
 		LOGGER.info("Loaded Compatability For {} Mods in {}ms", CompatManager.getCompatCount(), System.currentTimeMillis() - compatInitStart);
 		GlobalConfig.loadConfig();
 		GlobalConfig.saveConfig();
+		CheaterDeleterThread.INSTANCE.start();
 		LOGGER.info(EQUALS_LINE);
 		LOGGER.info("CheaterDeleter Anti-Cheat has Loaded Succesfully :)");
 		LOGGER.info(EQUALS_LINE);

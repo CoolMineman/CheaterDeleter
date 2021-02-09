@@ -29,8 +29,8 @@ public class BoatFlyCheck extends CDModule implements VehicleMoveListener {
     @Override
     public void onVehicleMove(CDPlayer player, CDEntity vehicle, PlayerMoveC2SPacketView playerLook, PlayerInputC2SPacket playerInput, VehicleMoveC2SPacket vehicleMoveC2SPacket, @Nullable VehicleMoveC2SPacket lastVehicleMoveC2SPacket) {
         if (!enabledFor(player)) return;
-        if (vehicle != null) {
-            double ydelta = vehicleMoveC2SPacket.getY() - vehicle.getY() - 0.001;
+        if (vehicle != null && lastVehicleMoveC2SPacket != null) {
+            double ydelta = vehicleMoveC2SPacket.getY() - lastVehicleMoveC2SPacket.getY() - 0.001;
             Box box = vehicle.getBoxForPosition(vehicleMoveC2SPacket.getX(), vehicleMoveC2SPacket.getY(), vehicleMoveC2SPacket.getZ());
             if (vehicle.getStepHeight() == 0 && ydelta > 0 && vehicle.getVelocity().getY() <= 0) {
                 if (assertOrFlag(BlockCollisionUtil.isTouching(box, player.getWorld(), BlockCollisionUtil.steppablePredicate(vehicle.getStepHeight()).or(BlockCollisionUtil.LIQUID)), player, FlagSeverity.MAJOR, "Boat Fly " + ydelta + " " + vehicle.getVelocity().getY()))
