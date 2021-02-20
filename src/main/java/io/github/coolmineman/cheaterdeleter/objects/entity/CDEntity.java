@@ -90,14 +90,17 @@ public interface CDEntity {
         return asMcEntity().stepHeight;
     }
 
+    @Deprecated
     default double getX() {
         return asMcEntity().getX();
     }
 
+    @Deprecated
     default double getY() {
         return asMcEntity().getY();
     }
 
+    @Deprecated
     default double getZ() {
         return asMcEntity().getZ();
     }

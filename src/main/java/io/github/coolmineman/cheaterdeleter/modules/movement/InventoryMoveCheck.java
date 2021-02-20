@@ -53,10 +53,10 @@ public class InventoryMoveCheck extends CDModule
         InventoryMoveCheckData data = player.getOrCreateData(InventoryMoveCheckData.class, InventoryMoveCheckData::new);
         if (System.currentTimeMillis() - data.openTime < 500)
             return false;
-        if (player.getVelocity().getY() < 0.0 && packet.getY() > player.getY())
+        if (player.getVelocity().getY() < 0.0 && packet.getY() > player.getPacketY())
             return true;
-        double delaX = Math.abs(packet.getX() - player.getX());
-        double delaZ = Math.abs(packet.getZ() - player.getZ());
+        double delaX = Math.abs(packet.getX() - player.getPacketX());
+        double delaZ = Math.abs(packet.getZ() - player.getPacketZ());
         if (player.getVelocity().getX() == 0.0 && delaX > 0.0 && delaX > data.lastDeltaX)
             return true;
         if (player.getVelocity().getX() != 0.0) {
@@ -77,7 +77,7 @@ public class InventoryMoveCheck extends CDModule
     public static class InventoryMoveCheckData {
         volatile double lastDeltaX = Double.MAX_VALUE;
         volatile double lastDeltaZ = Double.MAX_VALUE;
-        boolean wasOpen = false;
+        volatile boolean wasOpen = false;
         volatile long openTime = 0;
     }
 

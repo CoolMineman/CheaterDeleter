@@ -23,7 +23,7 @@ public class EntityMixin implements CDEntity {
     private long pistonMovementTick;
 
     @Unique
-    private ConcurrentHashMap<Class<?>, Object> storedData = new ConcurrentHashMap<>();
+    private final ConcurrentHashMap<Class<?>, Object> storedData = new ConcurrentHashMap<>();
 
     @Override
     public <T> void putData(Class<T> clazz, T data) {
@@ -43,7 +43,7 @@ public class EntityMixin implements CDEntity {
 
     @Override
     public void _setMap(ConcurrentHashMap<Class<?>, Object> map) {
-        storedData = map;
+        storedData.putAll(map);
     }
 
     @Override

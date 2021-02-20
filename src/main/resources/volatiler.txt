@@ -1,0 +1,9 @@
+class_1297	field_22467	Lnet/minecraft/class_243	Entity.pos
+class_1297	field_6031	F	Entity.yaw
+class_1297	field_5965	F	Entity.pitch
+class_1297	field_18276	Lnet/minecraft/class_243;	Entity.velocity
+class_1297	field_5952	Z	Entity.onGround
+class_1297	field_6002	Lnet/minecraft/class_1937;	Entity.world
+class_1297	field_6021	Ljava/util/UUID;
+class_1297	field_6013	F	Entity.stepHeight
+class_1297	field_5996	J	Entity.pistonMovementTick

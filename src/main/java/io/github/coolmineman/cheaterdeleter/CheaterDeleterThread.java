@@ -17,6 +17,7 @@ public class CheaterDeleterThread extends Thread {
 
     static {
         INSTANCE.setName("CheaterDeleter");
+        INSTANCE.setDaemon(true);
     }
 
     @Override

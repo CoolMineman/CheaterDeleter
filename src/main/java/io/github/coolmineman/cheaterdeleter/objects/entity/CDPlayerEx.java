@@ -2,6 +2,8 @@ package io.github.coolmineman.cheaterdeleter.objects.entity;
 
 import io.github.coolmineman.cheaterdeleter.events.ClickSlotC2SPacketCallback;
 import io.github.coolmineman.cheaterdeleter.modules.CDModule;
+import it.unimi.dsi.fastutil.objects.Object2LongMap;
+import it.unimi.dsi.fastutil.objects.Object2LongMaps;
 import it.unimi.dsi.fastutil.objects.Object2LongOpenHashMap;
 import net.minecraft.util.ActionResult;
 
@@ -25,7 +27,7 @@ import net.minecraft.util.ActionResult;
         this.lastPacketZ = player.getZ();
     }
 
-    public Object2LongOpenHashMap<CDModule> lastFlagsMap = new Object2LongOpenHashMap<>();
+    public final Object2LongMap<CDModule> lastFlagsMap = Object2LongMaps.synchronize(new Object2LongOpenHashMap<>());
 
     public volatile double flags = 0.0;
     public volatile long lastFlag = 0;
@@ -39,5 +41,5 @@ import net.minecraft.util.ActionResult;
     public volatile double lastPacketY;
     public volatile double lastPacketZ;
 
-    public boolean hasCurrentPlayerScreenHandler = false;
+    public volatile boolean hasCurrentPlayerScreenHandler = false;
 }
