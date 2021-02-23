@@ -5,6 +5,7 @@ import io.github.coolmineman.cheaterdeleter.modules.CDModule;
 import io.github.coolmineman.cheaterdeleter.objects.entity.CDPlayer;
 import net.minecraft.network.Packet;
 import net.minecraft.network.listener.ServerPlayPacketListener;
+import net.minecraft.network.packet.c2s.play.CraftRequestC2SPacket;
 import net.minecraft.text.LiteralText;
 import net.minecraft.util.ActionResult;
 
@@ -22,20 +23,23 @@ public class PacketLimiterCheck extends CDModule implements PacketCallback {
         if (!enabledFor(player)) return ActionResult.PASS;
         PacketVolumeData data = player.getOrCreateData(PacketVolumeData.class, PacketVolumeData::new);
 
-        if (packet.getClass().getName().equals("net.minecraft.class_2840")) {
-            if (data.craftingCount != 0 ) {
-                if (System.currentTimeMillis() - data.lastCraft < 125) {
+        if (packet instanceof CraftRequestC2SPacket) {
+            if (data.craftingCount == 0) {
+                data.craftingCount++;
+                data.startCraft = System.currentTimeMillis();
+                return ActionResult.PASS;
+            } else if (data.craftingCount >= 4) {
+                if (System.currentTimeMillis() - data.startCraft < 150) {
                     player.getNetworkHandler().disconnect(new LiteralText("Too Many Crafting Packets")); //No Bypass Even In Testing
                     return ActionResult.FAIL;
                 } else {
                     data.craftingCount = 0;
-                    data.lastCraft = System.currentTimeMillis();
                     return ActionResult.PASS;
                 }
+            } else {
+                data.craftingCount++;
+                return ActionResult.PASS;
             }
-            data.craftingCount++;
-            data.lastCraft = System.currentTimeMillis();
-            return ActionResult.PASS;
         }
         data.packetCount++;
         if (data.packetCount > MAX_PACKETS_PER_SECOND * INTERVAL) {
@@ -52,6 +56,6 @@ public class PacketLimiterCheck extends CDModule implements PacketCallback {
         public long packetCount = 0;
         public long craftingCount = 0;
         public long lastCheck = System.currentTimeMillis();
-        public long lastCraft = System.currentTimeMillis();
+        public long startCraft = System.currentTimeMillis();
     }
 }
