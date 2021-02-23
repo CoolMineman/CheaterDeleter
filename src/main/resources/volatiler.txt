@@ -7,3 +7,4 @@ class_1297	field_6002	Lnet/minecraft/class_1937;	Entity.world
 class_1297	field_6021	Ljava/util/UUID;
 class_1297	field_6013	F	Entity.stepHeight
 class_1297	field_5996	J	Entity.pistonMovementTick
+class_1309	field_6287	F	LivingEntity.movementSpeed
