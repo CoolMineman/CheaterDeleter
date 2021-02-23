@@ -21,6 +21,22 @@ public class PacketLimiterCheck extends CDModule implements PacketCallback {
     public ActionResult onPacket(CDPlayer player, Packet<ServerPlayPacketListener> packet) {
         if (!enabledFor(player)) return ActionResult.PASS;
         PacketVolumeData data = player.getOrCreateData(PacketVolumeData.class, PacketVolumeData::new);
+
+        if (packet.getClass().getName().equals("net.minecraft.class_2840")) {
+            if (data.craftingCount != 0 ) {
+                if (System.currentTimeMillis() - data.lastCraft < 125) {
+                    player.getNetworkHandler().disconnect(new LiteralText("Too Many Crafting Packets")); //No Bypass Even In Testing
+                    return ActionResult.FAIL;
+                } else {
+                    data.craftingCount = 0;
+                    data.lastCraft = System.currentTimeMillis();
+                    return ActionResult.PASS;
+                }
+            }
+            data.craftingCount++;
+            data.lastCraft = System.currentTimeMillis();
+            return ActionResult.PASS;
+        }
         data.packetCount++;
         if (data.packetCount > MAX_PACKETS_PER_SECOND * INTERVAL) {
             player.getNetworkHandler().disconnect(new LiteralText("Too Many Packets")); //No Bypass Even In Testing
@@ -34,6 +50,8 @@ public class PacketLimiterCheck extends CDModule implements PacketCallback {
 
     public static class PacketVolumeData {
         public long packetCount = 0;
+        public long craftingCount = 0;
         public long lastCheck = System.currentTimeMillis();
+        public long lastCraft = System.currentTimeMillis();
     }
 }
