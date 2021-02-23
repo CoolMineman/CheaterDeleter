@@ -24,8 +24,8 @@ public class CraftRequestC2SPacketLimiterModule extends CDModule implements Pack
         PacketVolumeData data = player.getOrCreateData(PacketVolumeData.class, PacketVolumeData::new);
         data.packetCount++;
         if (data.packetCount > MAX_PACKETS_PER_SECOND * INTERVAL) {
-            player.getNetworkHandler().disconnect(new LiteralText("Too Many CraftRequestC2SPacketLimiter Packets"));
-            player.getNetworkHandler().connection.disconnect(new LiteralText("Too Many CraftRequestC2SPacketLimiter Packets")); // Why is this needed?
+            player.getNetworkHandler().disconnect(new LiteralText("Too Many CraftRequestC2SPacket Packets"));
+            player.getNetworkHandler().connection.disconnect(new LiteralText("Too Many CraftRequestC2SPacket Packets")); // Why is this needed?
             return ActionResult.FAIL;
         } else if (System.currentTimeMillis() - data.lastCheck >= INTERVAL * 1000) {
             data.packetCount = 0;
