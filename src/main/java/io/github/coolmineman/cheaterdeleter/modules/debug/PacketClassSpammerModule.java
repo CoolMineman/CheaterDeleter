@@ -1,6 +1,6 @@
 package io.github.coolmineman.cheaterdeleter.modules.debug;
 
-import io.github.coolmineman.cheaterdeleter.CheaterDeleterInit;
+import io.github.coolmineman.cheaterdeleter.LoggerThread;
 import io.github.coolmineman.cheaterdeleter.config.GlobalConfig;
 import io.github.coolmineman.cheaterdeleter.events.PacketCallback;
 import io.github.coolmineman.cheaterdeleter.modules.CDModule;
@@ -21,7 +21,7 @@ public class PacketClassSpammerModule extends CDModule implements PacketCallback
     public ActionResult onPacket(CDPlayer player, Packet<ServerPlayPacketListener> packet) {
         if (!enabledFor(player) || GlobalConfig.getDebugMode() < 3) return ActionResult.PASS;
         if (!(packet instanceof PlayerMoveC2SPacket))
-            CheaterDeleterInit.GLOBAL_LOGGER.info(packet.getClass().getSimpleName());
+            LoggerThread.info(packet.getClass().getSimpleName());
         return ActionResult.PASS;
     }
     

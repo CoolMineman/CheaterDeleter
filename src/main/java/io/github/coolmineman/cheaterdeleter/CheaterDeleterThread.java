@@ -1,7 +1,7 @@
 package io.github.coolmineman.cheaterdeleter;
 
-import java.util.concurrent.BlockingQueue;
-import java.util.concurrent.LinkedBlockingQueue;
+import java.util.Queue;
+import java.util.concurrent.ConcurrentLinkedQueue;
 
 import com.mojang.datafixers.util.Pair;
 
@@ -13,7 +13,7 @@ import net.minecraft.text.LiteralText;
 
 public class CheaterDeleterThread extends Thread {
     public static final CheaterDeleterThread INSTANCE = new CheaterDeleterThread();
-    public static final BlockingQueue<Pair<CDPlayer, Packet<ServerPlayPacketListener>>> PACKET_QUEUE = new LinkedBlockingQueue<>();
+    public static final Queue<Pair<CDPlayer, Packet<ServerPlayPacketListener>>> PACKET_QUEUE = new ConcurrentLinkedQueue<>();
 
     static {
         INSTANCE.setName("CheaterDeleter");

@@ -41,7 +41,7 @@ public class GlobalConfig {
     public static void loadConfig() {
         Path config = getConfigPath();
         if (Files.isRegularFile(config)) {
-            CheaterDeleterInit.GLOBAL_LOGGER.info("Found Config File, Loading...");
+            CheaterDeleterInit.LOGGER.info("Found Config File, Loading...");
             long loadConfigStart = System.currentTimeMillis();
             try {
                 try (BufferedReader reader = Files.newBufferedReader(config)) {
@@ -61,12 +61,12 @@ public class GlobalConfig {
             } catch (IOException e) {
                 throw new UncheckedIOException(e);
             }
-            CheaterDeleterInit.GLOBAL_LOGGER.info("Loaded Config File in {}ms", System.currentTimeMillis() - loadConfigStart);
+            CheaterDeleterInit.LOGGER.info("Loaded Config File in {}ms", System.currentTimeMillis() - loadConfigStart);
         }
     }
 
     public static void saveConfig() {
-        CheaterDeleterInit.GLOBAL_LOGGER.info("Saving Config File...");
+        CheaterDeleterInit.LOGGER.info("Saving Config File...");
         long saveConfigStart = System.currentTimeMillis();
         Path config = getConfigPath();
         Map<String, NestedTextNode> root = new LinkedHashMap<>();
@@ -87,6 +87,6 @@ public class GlobalConfig {
         } catch (IOException e) {
             throw new UncheckedIOException(e);
         }
-        CheaterDeleterInit.GLOBAL_LOGGER.info("Saved Config File in {}ms", System.currentTimeMillis() - saveConfigStart);
+        CheaterDeleterInit.LOGGER.info("Saved Config File in {}ms", System.currentTimeMillis() - saveConfigStart);
     }
 }

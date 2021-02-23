@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import io.github.coolmineman.cheaterdeleter.CheaterDeleterInit;
+import io.github.coolmineman.cheaterdeleter.LoggerThread;
 import io.github.coolmineman.cheaterdeleter.config.BooleanConfigValue;
 import io.github.coolmineman.cheaterdeleter.config.ConfigValue;
 import io.github.coolmineman.cheaterdeleter.config.GlobalConfig;
@@ -28,13 +29,13 @@ public class CDModule {
             player.asMcPlayer().sendMessage(new LiteralText("Flagged: " + message), true);
         }
         if (severity == FlagSeverity.MAJOR) {
-            CheaterDeleterInit.GLOBAL_LOGGER.warn("{} Was Major Flagged: {}", player.asString(), message);
+            LoggerThread.warn(player.asString() + " Was Major Flagged: " + message);
             player.asMcPlayer().getServer().getPlayerManager().getPlayerList().forEach(player1 -> {
                 CDPlayer player2 = CDPlayer.of(player1);
                 if (player2.shouldSendMajorFlags()) player2.asMcPlayer().sendMessage(new LiteralText(player.asMcPlayer().getGameProfile().getName() + " was major flagged: " + message), false);
             });
         } else {
-            CheaterDeleterInit.GLOBAL_LOGGER.info("{} Was Minor Flagged: {}", player.asString(), message);
+            LoggerThread.info(player.asString() + " Was Minor Flagged: " + message);
             player.asMcPlayer().getServer().getPlayerManager().getPlayerList().forEach(player1 -> {
                 CDPlayer player2 = CDPlayer.of(player1);
                 if (player2.shouldSendMinorFlags()) player2.asMcPlayer().sendMessage(new LiteralText(player.asMcPlayer().getGameProfile().getName() + " was minor flagged: " + message), false);

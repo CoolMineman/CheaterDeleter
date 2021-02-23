@@ -28,11 +28,7 @@ public class ClientConnectionMixin {
     @Inject(method = "channelRead0", at = @At("HEAD"), cancellable = true)
     protected void channelRead0(ChannelHandlerContext channelHandlerContext, Packet packet, CallbackInfo cb) {
         if (packetListener instanceof ServerPlayNetworkHandler) {
-            try {
-				CheaterDeleterThread.PACKET_QUEUE.put(new Pair<>(CDPlayer.of(((ServerPlayNetworkHandler)packetListener).player), packet));
-			} catch (InterruptedException e) {
-				e.printStackTrace();
-			}
+            CheaterDeleterThread.PACKET_QUEUE.add(new Pair<>(CDPlayer.of(((ServerPlayNetworkHandler)packetListener).player), packet));
         }
     }
 

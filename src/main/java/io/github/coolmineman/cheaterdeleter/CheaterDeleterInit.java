@@ -11,8 +11,7 @@ import io.github.coolmineman.cheaterdeleter.trackers.Trackers;
 import net.fabricmc.api.ModInitializer;
 
 public class CheaterDeleterInit implements ModInitializer {
-	public static final Logger GLOBAL_LOGGER = LogManager.getLogger("CheaterDeleter");
-	private static final Logger LOGGER = LogManager.getLogger("CheaterDeleter-Init");
+	public static final Logger LOGGER = LogManager.getLogger("CheaterDeleter-Init");
 	private static final String EQUALS_LINE = "========================================";
 
 	@Override
@@ -37,6 +36,7 @@ public class CheaterDeleterInit implements ModInitializer {
 		LOGGER.info("Loaded Compatability For {} Mods in {}ms", CompatManager.getCompatCount(), System.currentTimeMillis() - compatInitStart);
 		GlobalConfig.loadConfig();
 		GlobalConfig.saveConfig();
+		LoggerThread.INSTANCE.start();
 		CheaterDeleterThread.INSTANCE.start();
 		LOGGER.info(EQUALS_LINE);
 		LOGGER.info("CheaterDeleter Anti-Cheat has Loaded Succesfully :)");
