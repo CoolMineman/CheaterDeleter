@@ -29,7 +29,10 @@ public class PhaseBypassTracker extends Tracker<PhaseBypassData> implements SetB
      * True if not bypassed
      */
     public BiPredicate<World, BlockPos> isNotBypassed(CDPlayer player) {
-        return (world, blockpos) -> get(player).bypassPos.indexOf(blockpos.asLong()) == -1;
+        PhaseBypassData data = get(player);
+        synchronized(data.bypassPos) {
+            return (world, blockpos) -> data.bypassPos.indexOf(blockpos.asLong()) == -1;
+        }
     }
 
     protected PhaseBypassTracker() {
@@ -56,7 +59,9 @@ public class PhaseBypassTracker extends Tracker<PhaseBypassData> implements SetB
             CDPlayer player = CDPlayer.of(player1);
             if (pos.getSquaredDistance(player.getX(), player.getY(), player.getZ(), true) < getMaxBypassDistanceSquared(player)) {
                 PhaseBypassData data = get(player);
-                data.bypassPos.add(pos.asLong());
+                synchronized(data.bypassPos) {
+                    data.bypassPos.add(pos.asLong());
+                }
             }
         }
     }
@@ -75,7 +80,9 @@ public class PhaseBypassTracker extends Tracker<PhaseBypassData> implements SetB
         PhaseBypassData data = get(player);
         if (System.currentTimeMillis() - data.lastUpdated > 1000) {
             //Do some clean up
-            data.bypassPos.removeIf(distanceFilter(player));
+            synchronized(data.bypassPos) {
+                data.bypassPos.removeIf(distanceFilter(player));
+            }
         }
     }
 
@@ -83,21 +90,27 @@ public class PhaseBypassTracker extends Tracker<PhaseBypassData> implements SetB
     public void onSpawn(CDPlayer player) {
         PhaseBypassData data = get(player);
         data.lastUpdated = System.currentTimeMillis();
-        BlockPos.stream(player.getBox().expand(-0.1)).forEach(pos -> data.bypassPos.add(pos.asLong()));
+        synchronized(data.bypassPos) {
+            BlockPos.stream(player.getBox().expand(-0.1)).forEach(pos -> data.bypassPos.add(pos.asLong()));
+        }
     }
 
     @Override
     public void onStartRiding(CDPlayer player, CDEntity vehicle) {
         PhaseBypassData data = get(player);
         data.lastUpdated = System.currentTimeMillis();
-        BlockPos.stream(vehicle.getBox().expand(-0.1)).forEach(pos -> data.bypassPos.add(pos.asLong()));
+        synchronized(data.bypassPos) {
+            BlockPos.stream(vehicle.getBox().expand(-0.1)).forEach(pos -> data.bypassPos.add(pos.asLong()));
+        }
     }
 
 	@Override
 	public void onTeleportConfirm(CDPlayer player, TeleportConfirmC2SPacket teleportConfirmC2SPacket, PlayerMoveC2SPacketView playerMoveC2SPacketView) {
 		PhaseBypassData data = get(player);
         data.lastUpdated = System.currentTimeMillis();
-        BlockPos.stream(player.getBoxForPosition(playerMoveC2SPacketView.getX(), playerMoveC2SPacketView.getY(), playerMoveC2SPacketView.getZ()).expand(-0.1)).forEach(pos -> data.bypassPos.add(pos.asLong()));
+        synchronized(data.bypassPos) {
+            BlockPos.stream(player.getBoxForPosition(playerMoveC2SPacketView.getX(), playerMoveC2SPacketView.getY(), playerMoveC2SPacketView.getZ()).expand(-0.1)).forEach(pos -> data.bypassPos.add(pos.asLong()));
+        }
 	}
 
 }

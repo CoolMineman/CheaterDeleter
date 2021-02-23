@@ -5,6 +5,6 @@ import it.unimi.dsi.fastutil.longs.LongList;
 import it.unimi.dsi.fastutil.longs.LongLists;
 
 public class PhaseBypassData implements Data {
-    public volatile LongList bypassPos = LongLists.synchronize(new LongArrayList());
+    public final LongList bypassPos = LongLists.synchronize(new LongArrayList());
     public volatile long lastUpdated = System.currentTimeMillis();
 }
