@@ -1,4 +1,8 @@
+[![build](https://github.com/CoolMineman/CheaterDeleter/actions/workflows/build.yml/badge.svg)](https://github.com/CoolMineman/CheaterDeleter/actions/workflows/build.yml)
+![GitHub](https://img.shields.io/github/license/CoolMineman/CheaterDeleter)
 # CheaterDeleter
+
+A Minecraft Server-side Anti-Cheat for Fabric Servers. Detects and prevents many packet exploits and movement cheats.
 
 ## Pre-Alpha Quality Note
 
