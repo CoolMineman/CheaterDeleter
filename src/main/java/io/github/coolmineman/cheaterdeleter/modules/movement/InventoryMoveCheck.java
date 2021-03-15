@@ -30,9 +30,14 @@ public class InventoryMoveCheck extends CDModule
     // TODO Damage
     @Override
     public void onMovement(CDPlayer player, PlayerMoveC2SPacketView packet, MoveCause cause) {
-        if (!enabledFor(player) || player.isFallFlying()
-                || BlockCollisionUtil.isNearby(player, 2, 4, BlockCollisionUtil.NON_SOLID_COLLISION))
+        if (
+            !enabledFor(player) ||
+            player.isFallFlying() ||
+            player.isSpectator() ||
+            BlockCollisionUtil.isNearby(player, 2, 4, BlockCollisionUtil.NON_SOLID_COLLISION)
+        ) {
             return;
+        }
         InventoryMoveCheckData data = player.getOrCreateData(InventoryMoveCheckData.class, InventoryMoveCheckData::new);
         if (packet.isChangePosition() && player.getCurrentScreenHandler() != null) {
             if (!data.wasOpen) {

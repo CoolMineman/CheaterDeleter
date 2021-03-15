@@ -29,9 +29,9 @@ public class SpeedCheck extends CDModule
 
     @Override
     public void onMovement(CDPlayer player, PlayerMoveC2SPacketView packet, MoveCause cause) {
-        if (!enabledFor(player) || player.isFallFlying()) return;
+        if (!enabledFor(player) || player.isFallFlying() || player.isSpectator()) return;
         if (packet.isChangePosition() &&
-            !(player.asMcPlayer().isCreative() || System.currentTimeMillis() - player.getTracked(Trackers.PLAYER_LAST_TELEPORT_TRACKER).lastTeleport < 100 || BlockCollisionUtil.isNearby(player, 2, 4, BlockCollisionUtil.SPLIPPERY))
+            !(player.isCreative() || System.currentTimeMillis() - player.getTracked(Trackers.PLAYER_LAST_TELEPORT_TRACKER).lastTeleport < 100 || BlockCollisionUtil.isNearby(player, 2, 4, BlockCollisionUtil.SPLIPPERY))
         ) {
             double distanceSquared = MathUtil.getDistanceSquared(player.getPacketX(), player.getPacketZ(), packet.getX(),
                     packet.getZ());

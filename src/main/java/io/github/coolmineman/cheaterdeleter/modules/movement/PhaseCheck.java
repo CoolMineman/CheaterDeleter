@@ -22,7 +22,7 @@ public class PhaseCheck extends CDModule implements PlayerMovementListener {
 
     @Override
     public void onMovement(CDPlayer player, PlayerMoveC2SPacketView packet, MoveCause cause) {
-        if (!enabledFor(player) || cause.isTeleport()) return;
+        if (!enabledFor(player) || cause.isTeleport() || player.isSpectator()) return;
         if (packet.isChangePosition() && !cause.isTeleport()) {
             World world = player.getWorld();
             if (world.getTime() - player.getPistonMovementTick() < 20 && Math.abs(player.getPacketY() - packet.getY()) < 1.1 && MathUtil.getDistanceSquared(player.getPacketX(), player.getPacketZ(), packet.getX(), packet.getZ()) < 1.5) {

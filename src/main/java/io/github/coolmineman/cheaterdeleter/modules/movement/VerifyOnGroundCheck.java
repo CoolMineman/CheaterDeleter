@@ -17,7 +17,7 @@ public class VerifyOnGroundCheck extends CDModule implements PlayerMovementListe
 
     @Override
     public void onMovement(CDPlayer player, PlayerMoveC2SPacketView packet, MoveCause cause) {
-        if (!enabledFor(player) || cause.isTeleport()) return;
+        if (!enabledFor(player) || cause.isTeleport() || player.isSpectator()) return;
         if (packet.isChangePosition()) {
             if (packet.isOnGround()) {
                 Box playerBox = player.getBoxForPosition(packet.getX(), packet.getY(), packet.getZ()).expand(0.6); //Fences

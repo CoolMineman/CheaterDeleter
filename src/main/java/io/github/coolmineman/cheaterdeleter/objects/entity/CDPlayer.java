@@ -192,6 +192,14 @@ public interface CDPlayer extends CDEntity {
         }
     }
 
+    default boolean isCreative() {
+        return asMcPlayer().isCreative();
+    }
+
+    default boolean isSpectator() {
+        return asMcPlayer().isSpectator();
+    }
+
     default String asString() {
         return String.format(Locale.ROOT, "Player['%s'/%s, w='%s', x=%.2f, y=%.2f, z=%.2f]", asMcPlayer().getName().asString(), this.getUuid().toString(), this.getWorld() == null ? "~NULL~" : this.getWorld().getRegistryKey().getValue().toString(), this.getX(), this.getY(), this.getZ());
     }

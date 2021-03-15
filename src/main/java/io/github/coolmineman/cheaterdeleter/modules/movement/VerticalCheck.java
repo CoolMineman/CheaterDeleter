@@ -19,9 +19,9 @@ public class VerticalCheck extends CDModule implements PlayerMovementListener, P
     //TODO: Smarter Bounce Handling
     @Override
     public void onMovement(CDPlayer player, PlayerMoveC2SPacketView packet, MoveCause cause) {
-        if (!enabledFor(player) || !packet.isChangePosition()) return;
+        if (!enabledFor(player) || !packet.isChangePosition() || player.isSpectator()) return;
         VerticalCheckData verticalCheckData = player.getOrCreateData(VerticalCheckData.class, VerticalCheckData::new);
-        if (player.asMcPlayer().isCreative() || player.asMcPlayer().isSwimming() || player.asMcPlayer().isClimbing() || player.isFallFlying() || BlockCollisionUtil.isNearby(player, 2.0, 4.0, BlockCollisionUtil.NON_SOLID_COLLISION)) {
+        if (player.isCreative() || player.asMcPlayer().isSwimming() || player.asMcPlayer().isClimbing() || player.isFallFlying() || BlockCollisionUtil.isNearby(player, 2.0, 4.0, BlockCollisionUtil.NON_SOLID_COLLISION)) {
             verticalCheckData.isActive = false;
             return;
         }
