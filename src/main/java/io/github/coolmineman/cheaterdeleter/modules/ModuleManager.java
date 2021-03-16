@@ -8,6 +8,7 @@ import io.github.coolmineman.cheaterdeleter.modules.debug.DebugModuleManager;
 import io.github.coolmineman.cheaterdeleter.modules.exploit.ExploitModuleMangaer;
 import io.github.coolmineman.cheaterdeleter.modules.movement.MovementModuleManager;
 import io.github.coolmineman.cheaterdeleter.modules.packetcount.PacketCountModuleManager;
+import io.github.coolmineman.cheaterdeleter.modules.rotation.RotationModuleManager;
 
 public class ModuleManager {
     private ModuleManager() { }
@@ -21,6 +22,7 @@ public class ModuleManager {
         }
         ExploitModuleMangaer.init();
         MovementModuleManager.init();
+        RotationModuleManager.init();
     }
 
     public static void registerModule(CDModule check) {

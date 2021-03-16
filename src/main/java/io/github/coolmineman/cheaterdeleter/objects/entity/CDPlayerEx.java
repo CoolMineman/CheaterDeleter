@@ -25,6 +25,9 @@ import net.minecraft.util.ActionResult;
         this.lastPacketX = player.getX();
         this.lastPacketY = player.getY();
         this.lastPacketZ = player.getZ();
+
+        this.lastPacketYaw = player.getYaw();
+        this.lastPacketPitch = player.getPitch();
     }
 
     public final Object2LongMap<CDModule> lastFlagsMap = Object2LongMaps.synchronize(new Object2LongOpenHashMap<>());
@@ -40,6 +43,8 @@ import net.minecraft.util.ActionResult;
     public volatile double lastPacketX;
     public volatile double lastPacketY;
     public volatile double lastPacketZ;
+    public volatile float lastPacketYaw;
+    public volatile float lastPacketPitch;
 
     public volatile boolean hasCurrentPlayerScreenHandler = false;
 }

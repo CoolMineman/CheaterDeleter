@@ -1,10 +1,10 @@
 package io.github.coolmineman.cheaterdeleter.objects.entity;
 
+import java.util.Date;
 import java.util.Locale;
 
 import org.jetbrains.annotations.Nullable;
 
-import io.github.coolmineman.cheaterdeleter.CheaterDeleterInit;
 import io.github.coolmineman.cheaterdeleter.LoggerThread;
 import io.github.coolmineman.cheaterdeleter.compat.CompatManager;
 import io.github.coolmineman.cheaterdeleter.compat.LuckoPermissionsCompat;
@@ -15,10 +15,13 @@ import io.github.coolmineman.cheaterdeleter.config.GlobalConfig;
 import net.fabricmc.fabric.api.util.TriState;
 import net.minecraft.network.MessageType;
 import net.minecraft.screen.ScreenHandler;
+import net.minecraft.server.BannedPlayerEntry;
+import net.minecraft.server.BannedPlayerList;
 import net.minecraft.server.network.ServerPlayNetworkHandler;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.text.LiteralText;
 import net.minecraft.text.Text;
+import net.minecraft.text.TranslatableText;
 import net.minecraft.util.Util;
 
 public interface CDPlayer extends CDEntity {
@@ -151,11 +154,15 @@ public interface CDPlayer extends CDEntity {
     }
 
     default void setPacketPos(PlayerMoveC2SPacketView packet) {
+        CDPlayerEx ex = getData(CDPlayerEx.class);
         if (packet.isChangePosition()) {
-            CDPlayerEx ex = getData(CDPlayerEx.class);
             ex.lastPacketX = packet.getX();
             ex.lastPacketY = packet.getY();
             ex.lastPacketZ = packet.getZ();
+        }
+        if (packet.isChangeLook()) {
+            ex.lastPacketYaw = packet.getYaw();
+            ex.lastPacketPitch = packet.getPitch();
         }
     }
 
@@ -169,6 +176,14 @@ public interface CDPlayer extends CDEntity {
 
     default double getPacketZ() {
         return getData(CDPlayerEx.class).lastPacketZ;
+    }
+
+    default float getPacketYaw() {
+        return getData(CDPlayerEx.class).lastPacketYaw;
+    }
+
+    default float getPacketPitch() {
+        return getData(CDPlayerEx.class).lastPacketPitch;
     }
 
     /**
@@ -189,6 +204,27 @@ public interface CDPlayer extends CDEntity {
             ex.flags = 0;
         } else {
             asMcPlayer().networkHandler.disconnect(text);
+        }
+    }
+
+    default void ban(int hours, String reason) {
+        if (GlobalConfig.getDebugMode() >= 2) {
+            asMcPlayer().sendMessage(new LiteralText("Banned: " + reason), MessageType.SYSTEM, Util.NIL_UUID);
+            CDPlayerEx ex = getData(CDPlayerEx.class);
+            ex.flags = 0;
+        } else {
+            BannedPlayerList bannedPlayerList = asMcPlayer().server.getPlayerManager().getUserBanList();
+            BannedPlayerEntry entry;
+            long now = System.currentTimeMillis();
+            
+            if (hours > 0) {
+                entry = new BannedPlayerEntry(asMcPlayer().getGameProfile(), new Date(now), "CheaterDeleter", new Date(now + (hours * 60 * 60 * 1000)), reason);
+            } else {
+                entry = new BannedPlayerEntry(asMcPlayer().getGameProfile(), new Date(now), "CheaterDeleter", null, reason);
+            }
+
+            bannedPlayerList.add(entry);
+            asMcPlayer().networkHandler.disconnect(new TranslatableText("multiplayer.disconnect.banned"));
         }
     }
 

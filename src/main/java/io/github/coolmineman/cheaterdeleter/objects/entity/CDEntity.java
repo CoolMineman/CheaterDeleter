@@ -105,10 +105,12 @@ public interface CDEntity {
         return asMcEntity().getZ();
     }
 
+    @Deprecated
     default float getYaw() {
         return asMcEntity().yaw;
     }
 
+    @Deprecated
     default float getPitch() {
         return asMcEntity().pitch;
     }

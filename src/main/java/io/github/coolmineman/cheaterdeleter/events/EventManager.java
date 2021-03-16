@@ -9,5 +9,6 @@ public class EventManager {
         ClickSlotC2SPacketCallback.init();
         ClientCommandC2SPacketListener.init();
         InteractItemListener.init();
+        PlayerRotationListener.init();
     }
 }
