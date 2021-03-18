@@ -7,5 +7,6 @@ public class DebugModuleManager {
 
     public static void init() {
         ModuleManager.registerModule(new PacketClassSpammerModule());
+        ModuleManager.registerModule(new RotationSpammerModule());
     }
 }

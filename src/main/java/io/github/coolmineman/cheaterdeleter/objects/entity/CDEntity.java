@@ -8,13 +8,17 @@ import org.jetbrains.annotations.Nullable;
 
 import io.github.coolmineman.cheaterdeleter.trackers.Tracker;
 import io.github.coolmineman.cheaterdeleter.trackers.data.Data;
+import io.github.coolmineman.cheaterdeleter.util.MathUtil;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.effect.StatusEffects;
 import net.minecraft.entity.vehicle.BoatEntity;
 import net.minecraft.server.world.ServerWorld;
+import net.minecraft.util.hit.HitResult;
 import net.minecraft.util.math.Box;
+import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.Vec3d;
+import net.minecraft.world.RaycastContext;
 
 public interface CDEntity {
     <T> void putData(Class<T> clazz, T data);
@@ -79,6 +83,10 @@ public interface CDEntity {
     @Nullable
     default CDEntity getVehicleCd() {
         return CDEntity.of(asMcEntity().getVehicle());
+    }
+
+    default HitResult raycast(float yaw, float pitch, double maxDistance, RaycastContext.FluidHandling fluidHandling) {
+        return MathUtil.raycastInDirection(this, MathUtil.getRotationVector(MathHelper.wrapDegrees(pitch), MathHelper.wrapDegrees(yaw)), maxDistance, fluidHandling);
     }
 
     /**

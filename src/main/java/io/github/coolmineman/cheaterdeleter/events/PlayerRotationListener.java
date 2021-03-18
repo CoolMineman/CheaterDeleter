@@ -15,7 +15,7 @@ public interface PlayerRotationListener {
 
     public static void init() {
         PlayerMovementListener.EVENT.register((player, packet, cause) -> {
-            if (packet.isChangeLook()) {
+            if (packet.isChangeLook() && !cause.isTeleport()) {
                 float yawDelta = packet.getYaw() - player.getPacketYaw();
                 float pitchDelta = player.getPacketPitch() - packet.getPitch();
                 double move = Math.sqrt((yawDelta * yawDelta) + (pitchDelta * pitchDelta));
