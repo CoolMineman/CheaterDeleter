@@ -2,32 +2,39 @@
 ![GitHub](https://img.shields.io/github/license/CoolMineman/CheaterDeleter)
 # CheaterDeleter
 
-A Minecraft Server-side Anti-Cheat for Fabric Servers. Detects and prevents many packet exploits and movement cheats.
+A Minecraft Server-side Anti-Cheat for Fabric Servers. Detects and prevents many packet exploits, movement cheats, and other unwanted cheat mods.
 
 ## Pre-Alpha Quality Note
 
 **This is currently pre-alpha quality. Expect problems.**
 
-## Currently Detected Hacks
+## Currently Includes Detection/Prevention for:
 
-* Timer/Extra Movement Packets
-* Timer While on Entity
-* Glide
-* Fly
-* VClip
-* HClip
-* Phase
-* Step (Even "legit" In Some Clients)
-* Packet Limiter Stops Some Lag Exploits
-* No Fall
-* Speed (Mostly)
-* Teleport Finder
-* XCary and Inventory Move
-* Poorly Written Inventory Item Movement Cheats (AutoTotem, AutoMlg if bucket not in hotbar)
-* Poorly Written Water Walk Cheats
-* Vehicle High Jump
-* Boat Fly
-* Elytra Fly Height
+* Movement
+    * Glide
+    * Fly
+    * VClip
+    * HClip
+    * Phase
+    * Step (Even "legit" In Some Clients)
+    * No Fall
+    * Speed
+    * XCarry and Inventory Move
+    * Vehicle High Jump
+    * Boat Fly
+    * Poorly Written Inventory Item Movement Cheats (AutoTotem, AutoMlg if Bucket not in Hotbar)
+    * Poorly Written Water Walk Cheats (Basically all the Public Ones)
+    * Elytra Fly
+* Packet Exploits
+    * Timer/Extra Movement Packets
+    * Timer While on Entity
+    * Packet Limiter Stops Various DoS attacks
+    * Crafting Packet Crash Exploit
+    * Teleport Finder (Gives Fake Data Instead)
+* Rotations
+    * Spoofed Rotations (1 tick head snaps)
+    * Lock on Entity (Used in KillAura Stay)
+    * Clamped Yaw Spoof (lol)
 
 ## Supported Mods
 
@@ -55,4 +62,4 @@ For setup instructions please see the [fabric wiki page](https://fabricmc.net/wi
 
 ## License
 
-This template is available under the CC0 license. Feel free to learn from it and incorporate it in your own projects.
+This anti-cheat mod is available under the CC0 license.
