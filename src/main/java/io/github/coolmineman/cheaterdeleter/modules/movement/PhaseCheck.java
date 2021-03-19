@@ -10,8 +10,6 @@ import io.github.coolmineman.cheaterdeleter.util.MathUtil;
 import net.minecraft.util.math.Box;
 import net.minecraft.world.World;
 
-//TODO Teleports Request Confirms
-
 public class PhaseCheck extends CDModule implements PlayerMovementListener {
     private static final double INTERP = 0.7;
 

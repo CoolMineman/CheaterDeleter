@@ -8,5 +8,6 @@ public class RotationModuleManager {
     public static void init() {
         ModuleManager.registerModule(new CyberNuke());
         ModuleManager.registerModule(new LockDetector());
+        ModuleManager.registerModule(new RotationSpoof());
     }
 }
