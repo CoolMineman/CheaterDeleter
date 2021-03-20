@@ -21,7 +21,10 @@ public class LockDetector extends CDModule implements PlayerRotationListener {
     @Override
     public void onRotate(CDPlayer player, float yawDelta, float pitchDelta, double move, PlayerMoveC2SPacketView packet) {
         if (!enabledFor(player)) return;
-        HitResult result = player.raycast(packet.getYaw(), packet.getPitch(), 6, FluidHandling.NONE);
+        double x = packet.isChangePosition() ? packet.getX() : player.getPacketX();
+        double y = packet.isChangePosition() ? packet.getY() : player.getPacketY();
+        double z = packet.isChangePosition() ? packet.getZ() : player.getPacketZ();
+        HitResult result = player.raycast(x, y, z, packet.getYaw(), packet.getPitch(), 6, FluidHandling.NONE);
 
         if (result.getType() == Type.ENTITY) {
             EntityHitResult entityHitResult = (EntityHitResult)result;

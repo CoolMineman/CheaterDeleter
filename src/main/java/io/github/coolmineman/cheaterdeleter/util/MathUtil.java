@@ -44,17 +44,17 @@ public class MathUtil {
         return new Vec3d((double)(i * j), (double)(-k), (double)(h * j));
     }
 
-    public static HitResult raycastInDirection(CDEntity entity, Vec3d direction, double maxDistance, RaycastContext.FluidHandling fluidHandling) {
-        HitResult target = raycast(entity.asMcEntity(), maxDistance, fluidHandling, direction);
+    public static HitResult raycastInDirection(CDEntity entity, double x, double y, double z, Vec3d direction, double maxDistance, RaycastContext.FluidHandling fluidHandling) {
+        HitResult target = raycast(entity.asMcEntity(), x, y, z, maxDistance, fluidHandling, direction);
      
-        Vec3d cameraPos = entity.asMcEntity().getCameraPosVec(1);
+        Vec3d cameraPos = new Vec3d(x, y + entity.asMcEntity().getStandingEyeHeight(), z);
      
         double extendedReach = maxDistance * maxDistance;
         if (target != null && target.getType() != HitResult.Type.MISS) {
             extendedReach = target.getPos().squaredDistanceTo(cameraPos);
         }
      
-        Vec3d vec3d3 = cameraPos.add(direction.multiply(maxDistance));
+        Vec3d endPos = cameraPos.add(direction.multiply(maxDistance));
         Box box = entity
                 .getBox()
                 .stretch(entity.asMcEntity().getRotationVec(1.0F).multiply(maxDistance))
@@ -62,7 +62,7 @@ public class MathUtil {
         EntityHitResult entityHitResult = projectileUtilRaycast(
                 entity.asMcEntity(),
                 cameraPos,
-                vec3d3,
+                endPos,
                 box,
                 entityx -> !entityx.isSpectator() && entityx.collides(),
                 extendedReach
@@ -81,64 +81,66 @@ public class MathUtil {
         return target;
     }
 
-    private static EntityHitResult projectileUtilRaycast(Entity entity, Vec3d vec3d, Vec3d vec3d2, Box box, Predicate<Entity> predicate, double d) {
+    private static EntityHitResult projectileUtilRaycast(Entity entity, Vec3d startPos, Vec3d endPos, Box box, Predicate<Entity> predicate, double maxDistance) {
         World world = entity.world;
-        double e = d;
-        Entity entity2 = null;
-        Vec3d vec3d3 = null;
-        Iterator<Entity> var12 = world.getOtherEntities(entity, box, predicate).iterator();
-
-        while(true) {
-            while(var12.hasNext()) {
-                Entity entity3 = var12.next();
-                Box box2 = entity3.getBoundingBox().expand((double)entity3.getTargetingMargin());
-                Optional<Vec3d> optional = box2.raycast(vec3d, vec3d2);
-                if (box2.contains(vec3d)) {
-                if (e >= 0.0D) {
-                    entity2 = entity3;
-                    vec3d3 = optional.orElse(vec3d);
-                    e = 0.0D;
+        double searchDistance = maxDistance;
+        Entity resultEntity = null;
+        Vec3d resultPos = null;
+        for (Entity other : world.getOtherEntities(entity, box, predicate)) {
+            Box otherBox = other.getBoundingBox().expand((double)other.getTargetingMargin());
+            Optional<Vec3d> oOtherBoxHit = otherBox.raycast(startPos, endPos);
+            if (otherBox.contains(startPos)) {
+                if (searchDistance >= 0.0D) {
+                    resultEntity = other;
+                    resultPos = oOtherBoxHit.orElse(startPos);
+                    searchDistance = 0.0D;
                 }
-                } else if (optional.isPresent()) {
-                Vec3d vec3d4 = optional.get();
-                double f = vec3d.squaredDistanceTo(vec3d4);
-                if (f < e || e == 0.0D) {
-                    if (entity3.getRootVehicle() == entity.getRootVehicle()) {
-                        if (e == 0.0D) {
-                            entity2 = entity3;
-                            vec3d3 = vec3d4;
+            } else if (oOtherBoxHit.isPresent()) {
+                Vec3d otherBoxHit = oOtherBoxHit.get();
+                double otherBoxHitDistance = startPos.squaredDistanceTo(otherBoxHit);
+                if (otherBoxHitDistance < searchDistance || searchDistance == 0.0D) {
+                    if (other.getRootVehicle() == entity.getRootVehicle()) {
+                        if (searchDistance == 0.0D) {
+                            resultEntity = other;
+                            resultPos = otherBoxHit;
                         }
                     } else {
-                        entity2 = entity3;
-                        vec3d3 = vec3d4;
-                        e = f;
+                        resultEntity = other;
+                        resultPos = otherBoxHit;
+                        searchDistance = otherBoxHitDistance;
                     }
                 }
-                }
             }
-
-            if (entity2 == null) {
-                return null;
-            }
-
-            return new EntityHitResult(entity2, vec3d3);
         }
+
+        if (resultEntity == null) {
+            return null;
+        }
+
+        return new EntityHitResult(resultEntity, resultPos);
     }
      
     private static HitResult raycast(
             Entity entity,
+            double x,
+            double y,
+            double z,
             double maxDistance,
             RaycastContext.FluidHandling fluidHandling,
             Vec3d direction
     ) {
-        Vec3d end = entity.getCameraPosVec(1).add(direction.multiply(maxDistance));
+        Vec3d end = offsetInDirection(x, y + entity.getStandingEyeHeight(), z, direction, maxDistance);
         return entity.world.raycast(new RaycastContext(
-                entity.getCameraPosVec(1),
+                new Vec3d(x, y + entity.getStandingEyeHeight(), z),
                 end,
                 RaycastContext.ShapeType.COLLIDER,
                 fluidHandling,
                 entity
         ));
+    }
+
+    public static Vec3d offsetInDirection(double x, double y, double z, Vec3d direction, double distance) {
+        return new Vec3d((direction.x * distance) + x, (direction.y * distance) + y, (direction.z * distance) + z);
     }
 
     private static double round(double d) {

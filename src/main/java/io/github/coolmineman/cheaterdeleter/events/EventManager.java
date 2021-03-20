@@ -10,5 +10,6 @@ public class EventManager {
         ClientCommandC2SPacketListener.init();
         InteractItemListener.init();
         PlayerRotationListener.init();
+        PlayerAttackListener.init();
     }
 }

@@ -64,7 +64,6 @@ public class PlayerMoveTracker extends Tracker<PlayerMoveData> implements Packet
     }
     
     private void checkTeleportConfirmId(CDPlayer player, PlayerMoveData data, int id) {
-        // if (id != data.expectedTeleportId) player.kick(new LiteralText("Illegal TeleportConfirmC2SPacket 2 " + id + " " + data.expectedTeleportId)); The client sends teleport confirms out of order wat
         int max = ((ServerPlayNetworkHandlerAccessor)player.getNetworkHandler()).getRequestedTeleportId();
         if (id > max && max > data.expectedTeleportId) {
             player.kick(new LiteralText("Illegal TeleportConfirmC2SPacket 3"));

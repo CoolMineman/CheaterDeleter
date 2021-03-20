@@ -85,8 +85,8 @@ public interface CDEntity {
         return CDEntity.of(asMcEntity().getVehicle());
     }
 
-    default HitResult raycast(float yaw, float pitch, double maxDistance, RaycastContext.FluidHandling fluidHandling) {
-        return MathUtil.raycastInDirection(this, MathUtil.getRotationVector(MathHelper.wrapDegrees(pitch), MathHelper.wrapDegrees(yaw)), maxDistance, fluidHandling);
+    default HitResult raycast(double x, double y, double z, float yaw, float pitch, double maxDistance, RaycastContext.FluidHandling fluidHandling) {
+        return MathUtil.raycastInDirection(this, x, y, z, MathUtil.getRotationVector(MathHelper.wrapDegrees(pitch), MathHelper.wrapDegrees(yaw)), maxDistance, fluidHandling);
     }
 
     /**

@@ -34,7 +34,9 @@ A Minecraft Server-side Anti-Cheat for Fabric Servers. Detects and prevents many
 * Rotations
     * Spoofed Rotations (1 tick head snaps)
     * Lock on Entity (Used in KillAura Stay)
-    * Clamped Yaw Spoof (lol)
+    * Clamped Yaw (lol)
+* Combat
+    * Attacking mobs not facing (No rotation/not enough rotation KillAura)
 
 ## Supported Mods
 

@@ -11,6 +11,7 @@ import net.minecraft.block.BlockState;
 import net.minecraft.block.SlimeBlock;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Box;
+import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.shape.VoxelShape;
 import net.minecraft.world.World;
 
@@ -137,6 +138,24 @@ public class BlockCollisionUtil {
     }
 
     public static boolean isTouching(Box box, World world, BiPredicate<World, BlockPos> predicate) {
-        return BlockPos.stream(box).anyMatch(pos -> predicate.test(world, pos));
+        int minX = MathHelper.floor(box.minX);
+        int minY = MathHelper.floor(box.minY);
+        int minZ = MathHelper.floor(box.minZ);
+        int maxX = MathHelper.floor(box.maxX);
+        int maxY = MathHelper.floor(box.maxY);
+        int maxZ = MathHelper.floor(box.maxZ);
+
+        BlockPos.Mutable pos = new BlockPos.Mutable();
+
+        for (int i = minX; i <= maxX; i++) {
+            for (int j = minY; j <= maxY; j++) {
+                for (int k = minZ; k <= maxZ; k++) {
+                    pos.set(i, j, k);
+                    if (predicate.test(world, pos)) return true;
+                }
+            }
+        }
+
+        return false;
     }
 }

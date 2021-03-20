@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import io.github.coolmineman.cheaterdeleter.config.GlobalConfig;
+import io.github.coolmineman.cheaterdeleter.modules.combat.CombatModuleManager;
 import io.github.coolmineman.cheaterdeleter.modules.debug.DebugModuleManager;
 import io.github.coolmineman.cheaterdeleter.modules.exploit.ExploitModuleMangaer;
 import io.github.coolmineman.cheaterdeleter.modules.movement.MovementModuleManager;
@@ -23,6 +24,7 @@ public class ModuleManager {
         ExploitModuleMangaer.init();
         MovementModuleManager.init();
         RotationModuleManager.init();
+        CombatModuleManager.init();
     }
 
     public static void registerModule(CDModule check) {
