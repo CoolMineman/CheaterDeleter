@@ -39,7 +39,7 @@ public class LockDetector extends CDModule implements PlayerRotationListener {
                 data.target = entityHitResult.getEntity().getUuid();
             } else {
                 double distance = MathUtil.getDistanceSquared(offsetx, offsetz, data.offsetx, data.offsetz);
-                if (move > 2 && distance < 0.001) {
+                if (move > 2 && pitchDelta > 0.01 && distance < 0.001) {
                     ++data.lock;
                     if (data.lock > 3) {
                         flag(player, FlagSeverity.MAJOR, "Entity Lock (Killaura)");

@@ -3,7 +3,6 @@ package io.github.coolmineman.cheaterdeleter.modules;
 import java.util.ArrayList;
 import java.util.List;
 
-import io.github.coolmineman.cheaterdeleter.CheaterDeleterInit;
 import io.github.coolmineman.cheaterdeleter.LoggerThread;
 import io.github.coolmineman.cheaterdeleter.config.BooleanConfigValue;
 import io.github.coolmineman.cheaterdeleter.config.ConfigValue;

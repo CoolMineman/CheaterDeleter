@@ -44,6 +44,10 @@ public class MathUtil {
         return new Vec3d((double)(i * j), (double)(-k), (double)(h * j));
     }
 
+    public static boolean intersects(Box b, Vec3d from, Vec3d to) {
+        return b.intersects(Math.min(from.x, to.x), Math.min(from.y, to.y), Math.min(from.z, to.z), Math.max(from.x, to.x), Math.max(from.y, to.y), Math.max(from.z, to.z));
+    }
+
     public static HitResult raycastInDirection(CDEntity entity, double x, double y, double z, Vec3d direction, double maxDistance, RaycastContext.FluidHandling fluidHandling) {
         HitResult target = raycast(entity.asMcEntity(), x, y, z, maxDistance, fluidHandling, direction);
      

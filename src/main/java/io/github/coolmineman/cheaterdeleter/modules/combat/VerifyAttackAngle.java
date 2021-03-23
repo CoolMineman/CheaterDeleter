@@ -28,10 +28,10 @@ public class VerifyAttackAngle extends CDModule implements PlayerAttackListener 
         float yaw = player.getPacketYaw();
         float pitch = player.getPacketPitch();
         Vec3d packetRot = MathUtil.getRotationVector(MathHelper.wrapDegrees(pitch), MathHelper.wrapDegrees(yaw));
-        Vec3d headPos = new Vec3d(x, y + player.asMcPlayer().getEyeHeight(player.asMcPlayer().getPose()), z);
+        Vec3d headPos = new Vec3d(x, y + player.asMcPlayer().getStandingEyeHeight(), z); //TODO better eye height
         Vec3d endPos = MathUtil.offsetInDirection(headPos.x, headPos.y, headPos.z, packetRot, 60);
         Box targetBox = target.getBox().expand(0.5); // Network Delay n stuff
-        if (!targetBox.intersects(headPos, endPos)) flag(player, FlagSeverity.MAJOR, "Bad Attack Angle");
+        if (!MathUtil.intersects(targetBox, headPos, endPos)) flag(player, FlagSeverity.MAJOR, "Bad Attack Angle");
     }
     
 }
