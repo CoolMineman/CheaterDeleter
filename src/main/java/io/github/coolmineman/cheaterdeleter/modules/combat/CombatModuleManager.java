@@ -7,6 +7,7 @@ public class CombatModuleManager {
 
     public static void init() {
         ModuleManager.registerModule(new VerifyAttackAngle());
+        ModuleManager.registerModule(new SpaceRockAlways());
     }
     
 }
