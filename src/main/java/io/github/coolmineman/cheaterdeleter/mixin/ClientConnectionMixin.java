@@ -2,7 +2,10 @@ package io.github.coolmineman.cheaterdeleter.mixin;
 
 import com.mojang.datafixers.util.Pair;
 
+import org.apache.commons.lang3.exception.ExceptionUtils;
+import org.apache.logging.log4j.Logger;
 import org.jetbrains.annotations.Nullable;
+import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
@@ -24,6 +27,9 @@ import net.minecraft.server.network.ServerPlayNetworkHandler;
 public class ClientConnectionMixin {
     @Shadow
     private PacketListener packetListener;
+    @Shadow
+    @Final
+    private static Logger LOGGER;
 
     @Inject(method = "channelRead0", at = @At("HEAD"), cancellable = true)
     protected void channelRead0(ChannelHandlerContext channelHandlerContext, Packet packet, CallbackInfo cb) {
@@ -37,5 +43,10 @@ public class ClientConnectionMixin {
         if (packetListener instanceof ServerPlayNetworkHandler) {
             OutgoingPacketListener.EVENT.invoker().onOutgoingPacket(CDPlayer.of(((ServerPlayNetworkHandler)packetListener).player), packet);
         }
+    }
+
+    @Inject(method = "exceptionCaught", at = @At("HEAD"))
+    public void exceptionCaught(ChannelHandlerContext channelHandlerContext, Throwable throwable, CallbackInfo cb) {
+        LOGGER.warn(ExceptionUtils.getStackTrace(throwable));
     }
 }
