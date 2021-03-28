@@ -31,12 +31,14 @@ A Minecraft Server-side Anti-Cheat for Fabric Servers. Detects and prevents many
     * Packet Limiter Stops Various DoS attacks
     * Crafting Packet Crash Exploit
     * Teleport Finder (Gives Fake Data Instead)
+    * Illegal Book and Quill Page Length (Used in dupe)
 * Rotations
     * Spoofed Rotations (1 tick head snaps)
     * Lock on Entity (Used in KillAura Stay)
     * Clamped Yaw (lol)
 * Combat
     * Attacking mobs not facing (No rotation/not enough rotation KillAura)
+    * Bad Attack Angle (KillAura)
 
 ## Supported Mods
 

@@ -8,7 +8,10 @@ import org.apache.commons.lang3.mutable.MutableDouble;
 import io.github.coolmineman.cheaterdeleter.objects.entity.CDPlayer;
 import net.minecraft.block.BedBlock;
 import net.minecraft.block.BlockState;
+import net.minecraft.block.Blocks;
 import net.minecraft.block.SlimeBlock;
+import net.minecraft.block.entity.BlockEntity;
+import net.minecraft.block.entity.PistonBlockEntity;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Box;
 import net.minecraft.util.math.MathHelper;
@@ -21,13 +24,19 @@ import net.minecraft.world.World;
 public class BlockCollisionUtil {
     private BlockCollisionUtil() { }
 
+    public static final BiPredicate<World, BlockPos> BOUNCY = (world, pos) -> {
+        BlockState state = world.getBlockState(pos);
+        if (state.getBlock() instanceof SlimeBlock) return true;
+        if (state.getBlock() instanceof BedBlock) return true;
+        if (state.isOf(Blocks.MOVING_PISTON)) return true;
+        return false;
+    };
+
     public static final BiPredicate<World, BlockPos> NON_SOLID_COLLISION = (world, pos) -> {
         BlockState state = world.getBlockState(pos);
         if (!state.getFluidState().isEmpty()) return true;
         if (state.getMaterial().isLiquid()) return true;
-        if (state.getBlock() instanceof SlimeBlock) return true;
-        if (state.getBlock() instanceof BedBlock) return true;
-        return false;
+        return BOUNCY.test(world, pos);
     };
 
     public static final BiPredicate<World, BlockPos> LIQUID = (world, pos) -> {
@@ -130,7 +139,7 @@ public class BlockCollisionUtil {
     }
 
     public static boolean isNearby(CDPlayer player, double expandHorizontal, double expandVertical, BiPredicate<World, BlockPos> predicate) {
-        return isTouching(player.asMcPlayer().getBoundingBox().expand(expandHorizontal, expandVertical, expandHorizontal), player.getWorld(), predicate);
+        return isTouching(player.getBox().expand(expandHorizontal, expandVertical, expandHorizontal), player.getWorld(), predicate);
     }
 
     public static boolean isNearby(CDPlayer player, double posx, double posy, double posz, double expandHorizontal, double expandVertical, BiPredicate<World, BlockPos> predicate) {

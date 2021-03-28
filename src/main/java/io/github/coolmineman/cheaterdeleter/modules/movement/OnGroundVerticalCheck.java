@@ -14,7 +14,6 @@ public class OnGroundVerticalCheck extends CDModule implements PlayerMovementLis
         PlayerMovementListener.EVENT.register(this);
     }
 
-    // TODO: Boats and Shulker
     @Override
     public void onMovement(CDPlayer player, PlayerMoveC2SPacketView packet, MoveCause cause) {
         if (!enabledFor(player) || player.isSpectator()) return;
@@ -27,7 +26,6 @@ public class OnGroundVerticalCheck extends CDModule implements PlayerMovementLis
             ((stepHeight > 1f) || !CollisionUtil.isNearby(player, packet.getX(), packet.getY(), packet.getZ(), 0.2, 0.5, CollisionUtil.steppablePredicates(stepHeight)))
         ) {
             double ydelta = packet.getY() - player.getPacketY();
-            if (ydelta > 0) System.out.println(ydelta);
             if (ydelta > (stepHeight < 1f ? 0.3 : stepHeight)) flagRollback(player, FlagSeverity.MAJOR, "Player Moved Vertically While onGround " + ydelta);
             if (ydelta < -0.9) flagRollback(player, FlagSeverity.MAJOR, "Player Moved Vertically While onGround " + ydelta);
         }

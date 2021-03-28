@@ -7,6 +7,7 @@ import io.github.coolmineman.cheaterdeleter.events.PlayerDamageListener;
 import io.github.coolmineman.cheaterdeleter.modules.CDModule;
 import io.github.coolmineman.cheaterdeleter.objects.PlayerMoveC2SPacketView;
 import io.github.coolmineman.cheaterdeleter.objects.entity.CDPlayer;
+import io.github.coolmineman.cheaterdeleter.util.BlockCollisionUtil;
 import io.github.coolmineman.cheaterdeleter.util.PunishUtil;
 import net.minecraft.entity.damage.DamageSource;
 
@@ -23,9 +24,13 @@ public class GlideCheck extends CDModule implements PlayerMovementListener, Play
         if (!enabledFor(player) || player.isSpectator()) return;
         GlideCheckData data = player.getOrCreateData(GlideCheckData.class, GlideCheckData::new);
         if (!packet.isOnGround() && packet.isChangePosition() && !player.isFallFlying()) {
-            if (data.isActive) {
+            if (BlockCollisionUtil.isNearby(player, 5, 5, BlockCollisionUtil.BOUNCY)) {
+                data.enableAfter = System.currentTimeMillis() + 10000;
+            }
+            if (data.isActive && System.currentTimeMillis() > data.enableAfter) {
                 //Violations should probably be double based not boolean based but this works for now
                 double velocity = player.getVelocity().getY();
+                
                 if (velocity < -1) {
                     boolean failedCheck = player.getPacketY() - packet.getY() < 0.75;
                     if (failedCheck) {
@@ -71,6 +76,7 @@ public class GlideCheck extends CDModule implements PlayerMovementListener, Play
     private class GlideCheckData {
         AtomicInteger violations = new AtomicInteger(0);
         boolean isActive = false;
+        long enableAfter = 0;
     }
 
 }

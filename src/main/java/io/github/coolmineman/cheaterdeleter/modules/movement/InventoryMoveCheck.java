@@ -27,7 +27,6 @@ public class InventoryMoveCheck extends CDModule
         return 100;
     }
 
-    // TODO Damage
     @Override
     public void onMovement(CDPlayer player, PlayerMoveC2SPacketView packet, MoveCause cause) {
         if (

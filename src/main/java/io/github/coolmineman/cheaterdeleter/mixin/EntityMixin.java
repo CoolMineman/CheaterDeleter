@@ -16,11 +16,16 @@ import io.github.coolmineman.cheaterdeleter.events.PlayerStartRidingListener;
 import io.github.coolmineman.cheaterdeleter.objects.entity.CDEntity;
 import io.github.coolmineman.cheaterdeleter.objects.entity.CDPlayer;
 import net.minecraft.entity.Entity;
+import net.minecraft.entity.EntityDimensions;
+import net.minecraft.entity.EntityPose;
 
 @Mixin(Entity.class)
 public class EntityMixin implements CDEntity {
     @Shadow
     private long pistonMovementTick;
+
+    @Shadow
+    protected float getEyeHeight(EntityPose pose, EntityDimensions dimensions) { throw new UnsupportedOperationException();}
 
     @Unique
     private final ConcurrentHashMap<Class<?>, Object> storedData = new ConcurrentHashMap<>();
@@ -66,5 +71,10 @@ public class EntityMixin implements CDEntity {
         if (cb.getReturnValueZ() && this instanceof CDPlayer) {
             PlayerStartRidingListener.EVENT.invoker().onStartRiding((CDPlayer) this, (CDEntity) entity);
         }
+    }
+
+    @Override
+    public float _getEyeHeight(EntityPose pose, EntityDimensions dimensions) {
+        return getEyeHeight(pose, dimensions);
     }
 }

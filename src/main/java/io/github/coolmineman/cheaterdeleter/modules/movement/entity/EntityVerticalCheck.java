@@ -14,6 +14,7 @@ import net.minecraft.network.packet.c2s.play.PlayerInputC2SPacket;
 import net.minecraft.network.packet.c2s.play.VehicleMoveC2SPacket;
 import net.minecraft.util.math.Box;
 
+//TODO Slime support
 public class EntityVerticalCheck extends CDModule implements VehicleMoveListener {
     public EntityVerticalCheck() {
         super("entity_vertical_check");

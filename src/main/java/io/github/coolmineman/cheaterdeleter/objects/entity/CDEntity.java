@@ -10,6 +10,8 @@ import io.github.coolmineman.cheaterdeleter.trackers.Tracker;
 import io.github.coolmineman.cheaterdeleter.trackers.data.Data;
 import io.github.coolmineman.cheaterdeleter.util.MathUtil;
 import net.minecraft.entity.Entity;
+import net.minecraft.entity.EntityDimensions;
+import net.minecraft.entity.EntityPose;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.effect.StatusEffects;
 import net.minecraft.entity.vehicle.BoatEntity;
@@ -87,6 +89,16 @@ public interface CDEntity {
 
     default HitResult raycast(double x, double y, double z, float yaw, float pitch, double maxDistance, RaycastContext.FluidHandling fluidHandling) {
         return MathUtil.raycastInDirection(this, x, y, z, MathUtil.getRotationVector(MathHelper.wrapDegrees(pitch), MathHelper.wrapDegrees(yaw)), maxDistance, fluidHandling);
+    }
+
+    float _getEyeHeight(EntityPose pose, EntityDimensions dimensions);
+
+    default float getEyeHeight(EntityPose pose) {
+        return _getEyeHeight(pose, asMcEntity().getDimensions(pose));
+    }
+
+    default float getEyeHeight() {
+        return getEyeHeight(asMcEntity().getPose());
     }
 
     /**
