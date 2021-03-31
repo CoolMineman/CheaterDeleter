@@ -14,7 +14,6 @@ import net.minecraft.network.packet.c2s.play.PlayerInputC2SPacket;
 import net.minecraft.network.packet.c2s.play.VehicleMoveC2SPacket;
 import net.minecraft.util.math.Box;
 
-//TODO Slime support
 public class EntityVerticalCheck extends CDModule implements VehicleMoveListener {
     public EntityVerticalCheck() {
         super("entity_vertical_check");
@@ -46,7 +45,10 @@ public class EntityVerticalCheck extends CDModule implements VehicleMoveListener
             Box scanBox = vehicleBox.expand(0.6);
             boolean vehicleOnGround = CollisionUtil.isTouching(new CDEntity[] { player, vehicle }, scanBox,
                     vehicle.getWorld(), CollisionUtil.touchingRigidTopPredicates(vehicleBox));
-            if (vehicle.isOnGround() && !vehicleOnGround && vehicle.getVelocity().getY() < 0.45) {
+            if (player.getWorld().getTime() - vehicle.getPistonMovementTick() < 1000) {
+                verticalCheckData.isActive = false;
+            }
+            else if (vehicle.isOnGround() && !vehicleOnGround && vehicle.getVelocity().getY() < 0.45) {
                 verticalCheckData.maxY = vehicle.getY() + vehicle.getMaxJumpHeight();
                 verticalCheckData.isActive = true;
             } else if (vehicleOnGround) {

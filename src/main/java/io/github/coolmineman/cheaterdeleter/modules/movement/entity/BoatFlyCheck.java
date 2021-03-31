@@ -24,7 +24,6 @@ public class BoatFlyCheck extends CDModule implements VehicleMoveListener {
         return 100;
     }
 
-    // TODO: Slime Support
     @Override
     public void onVehicleMove(CDPlayer player, CDEntity vehicle, PlayerMoveC2SPacketView playerLook, PlayerInputC2SPacket playerInput, VehicleMoveC2SPacket vehicleMoveC2SPacket, @Nullable VehicleMoveC2SPacket lastVehicleMoveC2SPacket) {
         if (!enabledFor(player)) return;
@@ -32,7 +31,7 @@ public class BoatFlyCheck extends CDModule implements VehicleMoveListener {
             double ydelta = vehicleMoveC2SPacket.getY() - lastVehicleMoveC2SPacket.getY() - 0.001;
             Box box = vehicle.getBoxForPosition(vehicleMoveC2SPacket.getX(), vehicleMoveC2SPacket.getY(), vehicleMoveC2SPacket.getZ());
             if (vehicle.getStepHeight() == 0 && ydelta > 0 && vehicle.getVelocity().getY() <= 0) {
-                if (assertOrFlag(player.getWorld().getTime() - vehicle.getPistonMovementTick() < 100 || BlockCollisionUtil.isTouching(box, player.getWorld(), BlockCollisionUtil.LIQUID), player, FlagSeverity.MAJOR, "Boat Fly " + ydelta + " " + vehicle.getVelocity().getY()))
+                if (assertOrFlag(player.getWorld().getTime() - vehicle.getPistonMovementTick() < 1000 || BlockCollisionUtil.isTouching(box, player.getWorld(), BlockCollisionUtil.LIQUID), player, FlagSeverity.MAJOR, "Boat Fly " + ydelta + " " + vehicle.getVelocity().getY()))
                     PunishUtil.groundBoat(player, vehicle);
             }
         }
