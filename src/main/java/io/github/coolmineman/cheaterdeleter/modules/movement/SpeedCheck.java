@@ -54,8 +54,8 @@ public class SpeedCheck extends CDModule
         if (player.getWorld().getTime() % 40 == 0) {
             SpeedCheckData data = player.getOrCreateData(SpeedCheckData.class, SpeedCheckData::new);
             double distance = data.distance.getAndSet(0.0);
-            double magicNumber = distance * (1 + (player.getSpeed() * 1.2)); // TODO Lmao what is this
-            if (magicNumber > 13) {
+            double magicNumber = 1 + (player.getSpeed() * 1.2); // TODO Lmao what is this
+            if (magicNumber > 25) {
                 if (flag(player, FlagSeverity.MINOR, "Speed Check " + magicNumber))
                     player.rollback();
             }
