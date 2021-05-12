@@ -7,6 +7,7 @@ import io.github.coolmineman.cheaterdeleter.LoggerThread;
 import io.github.coolmineman.cheaterdeleter.config.BooleanConfigValue;
 import io.github.coolmineman.cheaterdeleter.config.ConfigValue;
 import io.github.coolmineman.cheaterdeleter.config.GlobalConfig;
+import io.github.coolmineman.cheaterdeleter.config.IntConfigValue;
 import io.github.coolmineman.cheaterdeleter.objects.entity.CDPlayer;
 import net.minecraft.text.LiteralText;
 
@@ -58,6 +59,12 @@ public class CDModule {
 
     public final BooleanConfigValue booleanConfig(String key, boolean defaultValue) {
         BooleanConfigValue result = new BooleanConfigValue(key, defaultValue);
+        configValues.add(result);
+        return result;
+    }
+
+    public final IntConfigValue intConfig(String key, int defaultValue) {
+        IntConfigValue result = new IntConfigValue(key, defaultValue);
         configValues.add(result);
         return result;
     }

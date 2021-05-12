@@ -20,7 +20,7 @@ public class LockDetector extends CDModule implements PlayerRotationListener {
 
     @Override
     public void onRotate(CDPlayer player, float yawDelta, float pitchDelta, double move, PlayerMoveC2SPacketView packet) {
-        if (!enabledFor(player)) return;
+        if (!enabledFor(player) || player.getVehicleCd() != null) return;
         double x = packet.isChangePosition() ? packet.getX() : player.getPacketX();
         double y = packet.isChangePosition() ? packet.getY() : player.getPacketY();
         double z = packet.isChangePosition() ? packet.getZ() : player.getPacketZ();

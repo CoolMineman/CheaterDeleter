@@ -37,7 +37,8 @@ public class VehicleMovePacketsTracker extends Tracker<VehicleMovePacketsData> i
         VehicleMovePacketsData data = get(player);
         if (packet instanceof PlayerMoveC2SPacketView) {
             PlayerMoveC2SPacketView playerLook = (PlayerMoveC2SPacketView) packet;
-            if ((data.magic == -1 || data.magic == 0) && playerLook.isChangeLook() && !playerLook.isChangePosition()) {
+            CDEntity vehicle = player.getVehicleCd();
+            if ((data.magic == -1 || data.magic == 0 || (vehicle != null && vehicle.asMcEntity().isLogicalSideForUpdatingMovement() && data.magic == 1)) && playerLook.isChangeLook() && !playerLook.isChangePosition()) {
                 data.magic = 0;
                 data.playerLook = playerLook;
             }

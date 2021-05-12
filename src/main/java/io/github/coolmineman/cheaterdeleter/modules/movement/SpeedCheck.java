@@ -3,6 +3,7 @@ package io.github.coolmineman.cheaterdeleter.modules.movement;
 import com.google.common.util.concurrent.AtomicDouble;
 
 import io.github.coolmineman.cheaterdeleter.events.PlayerMovementListener;
+import io.github.coolmineman.cheaterdeleter.config.IntConfigValue;
 import io.github.coolmineman.cheaterdeleter.events.OutgoingTeleportListener;
 import io.github.coolmineman.cheaterdeleter.events.PlayerEndTickCallback;
 import io.github.coolmineman.cheaterdeleter.modules.CDModule;
@@ -18,8 +19,9 @@ import net.minecraft.util.math.Box;
 //TODO Ice
 //TODO Velocity/Inertia (not the mod)
 //TODO Block on head 
-public class SpeedCheck extends CDModule
-        implements PlayerMovementListener, PlayerEndTickCallback, OutgoingTeleportListener {
+public class SpeedCheck extends CDModule implements PlayerMovementListener, PlayerEndTickCallback, OutgoingTeleportListener {
+    private IntConfigValue maxSpeedMagicNumber = intConfig("max_speed_magic_number", 13);
+
     public SpeedCheck() {
         super("speed_check");
         PlayerMovementListener.EVENT.register(this);
@@ -45,20 +47,27 @@ public class SpeedCheck extends CDModule
 
     public static class SpeedCheckData {
         AtomicDouble distance = new AtomicDouble(0.0);
+        long time = System.currentTimeMillis();
+    }
+
+    @Override
+    public long getFlagCoolDownMs() {
+        return 0;
     }
 
     @Override
     public void onPlayerEndTick(CDPlayer player) {
         if (!enabledFor(player))
             return;
-        if (player.getWorld().getTime() % 40 == 0) {
-            SpeedCheckData data = player.getOrCreateData(SpeedCheckData.class, SpeedCheckData::new);
+        SpeedCheckData data = player.getOrCreateData(SpeedCheckData.class, SpeedCheckData::new);
+        if (System.currentTimeMillis() - data.time >= 2000) {
             double distance = data.distance.getAndSet(0.0);
-            double magicNumber = distance / (1 + (player.getSpeed() * 1.2)); // TODO Lmao what is this
-            if (magicNumber > 13) {
+            double magicNumber = (distance / (1 + (player.getSpeed() * 1.2))) * (2000.0 / (System.currentTimeMillis() - data.time)); // TODO Lmao what is this
+            if (magicNumber > maxSpeedMagicNumber.get()) {
                 if (flag(player, FlagSeverity.MINOR, "Speed Check " + magicNumber))
                     player.rollback();
             }
+            data.time = System.currentTimeMillis();
         }
     }
 
