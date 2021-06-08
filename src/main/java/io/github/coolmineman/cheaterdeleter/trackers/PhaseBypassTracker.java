@@ -109,7 +109,7 @@ public class PhaseBypassTracker extends Tracker<PhaseBypassData> implements SetB
 		PhaseBypassData data = get(player);
         data.lastUpdated = System.currentTimeMillis();
         synchronized(data.bypassPos) {
-            BlockPos.stream(player.getBoxForPosition(playerMoveC2SPacketView.getX(), playerMoveC2SPacketView.getY(), playerMoveC2SPacketView.getZ()).expand(-0.1)).forEach(pos -> data.bypassPos.add(pos.asLong()));
+            BlockPos.stream(player.getBoxForPosition(playerMoveC2SPacketView.getX(), playerMoveC2SPacketView.getY(), playerMoveC2SPacketView.getZ())).forEach(pos -> data.bypassPos.add(pos.asLong()));
         }
 	}
 

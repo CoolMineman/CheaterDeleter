@@ -14,7 +14,8 @@
     "VehicleMoveS2CPacketMixin",
     "WorldChunkMixin",
     "ServerPlayNetworkHandlerAccessor",
-    "WritableBookItemMixin"
+    "WritableBookItemMixin",
+    "PlayerInteractEntityC2SPacketMixin"
   ],
   "client": [
   ],

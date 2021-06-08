@@ -127,12 +127,12 @@ public interface CDEntity {
 
     @Deprecated
     default float getYaw() {
-        return asMcEntity().yaw;
+        return asMcEntity().getYaw();
     }
 
     @Deprecated
     default float getPitch() {
-        return asMcEntity().pitch;
+        return asMcEntity().getPitch();
     }
 
     default Vec3d getVelocity() {

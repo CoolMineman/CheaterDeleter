@@ -43,7 +43,7 @@ public class SpaceRockAlways extends CDModule implements PacketCallback {
                 b.state = 0;
             }
         } else if (b.state == 3) {
-            if (packet instanceof PlayerMoveC2SPacket.LookOnly) {
+            if (packet instanceof PlayerMoveC2SPacket.LookAndOnGround) {
                 b.state = 4;
             } else if (packet instanceof PlayerInteractEntityC2SPacket) {
                 b.state = 5;

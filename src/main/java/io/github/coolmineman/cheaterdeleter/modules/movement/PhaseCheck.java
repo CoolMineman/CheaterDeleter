@@ -31,7 +31,7 @@ public class PhaseCheck extends CDModule implements PlayerMovementListener {
                 return;
             }
             Box box = player.getBoxForPosition(packet.getX(), packet.getY(), packet.getZ()).expand(-0.1);
-            if (assertOrFlag(!BlockCollisionUtil.isTouching(box, world, Trackers.PHASE_BYPASS_TRACKER.isNotBypassed(player).and(BlockCollisionUtil.touchingNonSteppablePredicate(player.getStepHeight(), box, player.getPacketY(), packet.getY()))), player, FlagSeverity.MAJOR, "Failed Phase Check1")) return;
+            if (assertOrFlag(!BlockCollisionUtil.isTouching(box, world, Trackers.PHASE_BYPASS_TRACKER.isNotBypassed(player).and(BlockCollisionUtil.touchingNonSteppablePredicate(player.getStepHeight(), box, player.getPacketY() + 0.01, packet.getY()))), player, FlagSeverity.MAJOR, "Failed Phase Check1")) return;
             double currentX = player.getPacketX();
             double currentY = player.getPacketY();
             double currentZ = player.getPacketZ();
@@ -46,7 +46,7 @@ public class PhaseCheck extends CDModule implements PlayerMovementListener {
             boolean hitTargetZ = false;
             while (!(hitTargetX && hitTargetY && hitTargetZ)) {
                 box = player.getBoxForPosition(currentX, currentY, currentZ).expand(-0.1);
-                if (assertOrFlag(!BlockCollisionUtil.isTouching(box, world, Trackers.PHASE_BYPASS_TRACKER.isNotBypassed(player).and(BlockCollisionUtil.touchingNonSteppablePredicate(player.getStepHeight(), box, player.getPacketY(), packet.getY()))), player, FlagSeverity.MAJOR, "Failed Phase Check2")) return;
+                if (assertOrFlag(!BlockCollisionUtil.isTouching(box, world, Trackers.PHASE_BYPASS_TRACKER.isNotBypassed(player).and(BlockCollisionUtil.touchingNonSteppablePredicate(player.getStepHeight(), box, player.getPacketY() + 0.01, packet.getY()))), player, FlagSeverity.MAJOR, "Failed Phase Check2")) return;
                 if (!hitTargetX) {
                     if (targetXPositive) {
                         if (currentX + INTERP < targetX) {
