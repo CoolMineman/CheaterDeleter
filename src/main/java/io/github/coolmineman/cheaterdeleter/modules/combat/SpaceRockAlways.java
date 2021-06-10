@@ -70,6 +70,6 @@ public class SpaceRockAlways extends CDModule implements PacketCallback {
             }
             b.state = 0;
         }
-        return null;
+        return ActionResult.PASS;
     }
 }

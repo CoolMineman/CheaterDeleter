@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import io.github.coolmineman.cheaterdeleter.config.GlobalConfig;
+import io.github.coolmineman.cheaterdeleter.modules.block.BlockModuleManager;
 import io.github.coolmineman.cheaterdeleter.modules.combat.CombatModuleManager;
 import io.github.coolmineman.cheaterdeleter.modules.debug.DebugModuleManager;
 import io.github.coolmineman.cheaterdeleter.modules.exploit.ExploitModuleMangaer;
@@ -21,6 +22,7 @@ public class ModuleManager {
         if (GlobalConfig.getDebugMode() >= 2) {
             DebugModuleManager.init();
         }
+        BlockModuleManager.init();
         ExploitModuleMangaer.init();
         MovementModuleManager.init();
         RotationModuleManager.init();

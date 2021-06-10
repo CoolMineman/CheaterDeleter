@@ -15,7 +15,8 @@
     "WorldChunkMixin",
     "ServerPlayNetworkHandlerAccessor",
     "WritableBookItemMixin",
-    "PlayerInteractEntityC2SPacketMixin"
+    "PlayerInteractEntityC2SPacketMixin",
+    "ServerPlayNetworkHandlerMixin"
   ],
   "client": [
   ],
