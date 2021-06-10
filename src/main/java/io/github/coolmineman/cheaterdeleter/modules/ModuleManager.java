@@ -7,7 +7,7 @@ import io.github.coolmineman.cheaterdeleter.config.GlobalConfig;
 import io.github.coolmineman.cheaterdeleter.modules.block.BlockModuleManager;
 import io.github.coolmineman.cheaterdeleter.modules.combat.CombatModuleManager;
 import io.github.coolmineman.cheaterdeleter.modules.debug.DebugModuleManager;
-import io.github.coolmineman.cheaterdeleter.modules.exploit.ExploitModuleMangaer;
+import io.github.coolmineman.cheaterdeleter.modules.exploit.ExploitModuleManager;
 import io.github.coolmineman.cheaterdeleter.modules.movement.MovementModuleManager;
 import io.github.coolmineman.cheaterdeleter.modules.packetcount.PacketCountModuleManager;
 import io.github.coolmineman.cheaterdeleter.modules.rotation.RotationModuleManager;
@@ -23,7 +23,7 @@ public class ModuleManager {
             DebugModuleManager.init();
         }
         BlockModuleManager.init();
-        ExploitModuleMangaer.init();
+        ExploitModuleManager.init();
         MovementModuleManager.init();
         RotationModuleManager.init();
         CombatModuleManager.init();
