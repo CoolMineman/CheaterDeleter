@@ -4,6 +4,8 @@
 
 A Minecraft Server-side Anti-Cheat for Fabric Servers. Detects and prevents many packet exploits, movement cheats, and other unwanted cheat mods.
 
+# ⚠️This project is WIP, don't use in production!⚠️
+
 ## Pre-Alpha Quality Note
 
 **This is currently pre-alpha quality. Expect problems.**
